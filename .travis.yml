@@ -1,0 +1,4 @@
+language: objective-c
+
+before_script: cd Eclosion
+after_script:  cd ..
