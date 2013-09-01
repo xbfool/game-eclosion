@@ -17,4 +17,13 @@
 	[scene addChild: layer];
 	return scene;
 }
+
+-(void) onEnter
+{
+	[super onEnter];
+    
+    // Set background
+    CC_CREATE_SPRITE_CENTER(background, @"bg_game.png", 0);
+}
+
 @end

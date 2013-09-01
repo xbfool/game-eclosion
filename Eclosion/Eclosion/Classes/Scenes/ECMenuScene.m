@@ -25,29 +25,34 @@
 {
 	[super onEnter];
     
-	// ask director for the window size
-	CGSize size = [[CCDirector sharedDirector] winSize];
+    // Set background
+    CC_CREATE_SPRITE_CENTER(background, @"bg_main.png", 0);
+
     
-	CCSprite *background;
-	
-	if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ) {
-		background = [CCSprite spriteWithFile:@"Default.png"];
-		background.rotation = 90;
-	} else {
-		background = [CCSprite spriteWithFile:@"Default-Landscape~ipad.png"];
-	}
-	background.position = ccp(size.width/2, size.height/2);
+    // Set menu
+    _playBtn = [CCMenuItemSprite itemWithNormalSprite:
+               [CCSprite spriteWithFile:@"btn_play_common.png"]
+                                      selectedSprite:nil
+                                      disabledSprite:nil
+                                              target:self selector:@selector(beginGame)];
+    _playBtn.position = ccp(WINSIZE.width/2, WINSIZE.height/2);
     
-	// add the label as a child to this Layer
-	[self addChild: background];
+    CCMenu * m = [CCMenu menuWithItems:_playBtn, nil];
+    m.position = CGPointZero;
+    [self addChild:m];
 	
 	// In one second transition to the new scene
-	[self scheduleOnce:@selector(makeTransition:) delay:1];
+	//[self scheduleOnce:@selector(makeTransition:) delay:1];
 }
 
--(void) makeTransition:(ccTime)dt
+-(void) makeTransition
 {
 	[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[ECGameScene scene] withColor:ccWHITE]];
 }
+
+-(void) beginGame {
+    [self makeTransition];
+}
+
 
 @end

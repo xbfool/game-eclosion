@@ -166,7 +166,10 @@
 #import "kazmath/kazmath.h"
 #import "kazmath/GL/matrix.h"
 
-
+//
+// eclosion
+//
+#import "ECMacros.h"
 
 // free functions
 NSString * cocos2dVersion(void);
