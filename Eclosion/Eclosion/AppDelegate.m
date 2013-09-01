@@ -9,7 +9,7 @@
 #import "cocos2d.h"
 
 #import "AppDelegate.h"
-#import "IntroLayer.h"
+#import "ECMenuScene.h"
 
 @implementation AppController
 
@@ -49,6 +49,7 @@
 	// 2D projection
 	[director_ setProjection:kCCDirectorProjection2D];
 //	[director setProjection:kCCDirectorProjection3D];
+    
 
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
 	if( ! [director_ enableRetinaDisplay:YES] )
@@ -73,7 +74,7 @@
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
 
 	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
-	[director_ pushScene: [IntroLayer scene]]; 
+	[director_ pushScene: [ECMenuScene scene]]; 
 
 	
 	// Create a Navigation Controller with the Director
@@ -93,7 +94,7 @@
 // Supported orientations: Landscape. Customize it for your own needs
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+    return NO;
 }
 
 
