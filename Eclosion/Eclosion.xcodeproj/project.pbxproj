@@ -964,6 +964,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0460;
+				TargetAttributes = {
+					DB83CD3717D31FBE00E79B93 = {
+						DevelopmentTeam = BGTUS47L4K;
+					};
+				};
 			};
 			buildConfigurationList = DB83CD3317D31FBE00E79B93 /* Build configuration list for PBXProject "Eclosion" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1175,6 +1180,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1194,6 +1200,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Eclosion/Prefix.pch;
