@@ -14,6 +14,8 @@
 		DB2035CC17D346F1005F4A84 /* bg_game.png in Resources */ = {isa = PBXBuildFile; fileRef = DB2035C817D346F1005F4A84 /* bg_game.png */; };
 		DB2035CD17D346F1005F4A84 /* bg_main-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB2035C917D346F1005F4A84 /* bg_main-hd.png */; };
 		DB2035CE17D346F1005F4A84 /* bg_main.png in Resources */ = {isa = PBXBuildFile; fileRef = DB2035CA17D346F1005F4A84 /* bg_main.png */; };
+		DB2035D117D78F26005F4A84 /* EGPauseScen.m in Sources */ = {isa = PBXBuildFile; fileRef = DB2035D017D78F26005F4A84 /* EGPauseScen.m */; };
+		DB2035D417D78F36005F4A84 /* EGLevelScene.m in Sources */ = {isa = PBXBuildFile; fileRef = DB2035D317D78F36005F4A84 /* EGLevelScene.m */; };
 		DB83CD3C17D31FBE00E79B93 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83CD3B17D31FBE00E79B93 /* QuartzCore.framework */; };
 		DB83CD3E17D31FBE00E79B93 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83CD3D17D31FBE00E79B93 /* OpenGLES.framework */; };
 		DB83CD4017D31FBE00E79B93 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83CD3F17D31FBE00E79B93 /* OpenAL.framework */; };
@@ -155,6 +157,10 @@
 		DB2035C817D346F1005F4A84 /* bg_game.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_game.png; sourceTree = "<group>"; };
 		DB2035C917D346F1005F4A84 /* bg_main-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_main-hd.png"; sourceTree = "<group>"; };
 		DB2035CA17D346F1005F4A84 /* bg_main.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_main.png; sourceTree = "<group>"; };
+		DB2035CF17D78F26005F4A84 /* EGPauseScen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGPauseScen.h; sourceTree = "<group>"; };
+		DB2035D017D78F26005F4A84 /* EGPauseScen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGPauseScen.m; sourceTree = "<group>"; };
+		DB2035D217D78F36005F4A84 /* EGLevelScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGLevelScene.h; sourceTree = "<group>"; };
+		DB2035D317D78F36005F4A84 /* EGLevelScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGLevelScene.m; sourceTree = "<group>"; };
 		DB83CD3817D31FBE00E79B93 /* Eclosion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eclosion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB83CD3B17D31FBE00E79B93 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DB83CD3D17D31FBE00E79B93 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -896,6 +902,10 @@
 				DB83CED617D3209200E79B93 /* ECGameScene.m */,
 				DB83CED717D3209200E79B93 /* ECMenuScene.h */,
 				DB83CED817D3209200E79B93 /* ECMenuScene.m */,
+				DB2035CF17D78F26005F4A84 /* EGPauseScen.h */,
+				DB2035D017D78F26005F4A84 /* EGPauseScen.m */,
+				DB2035D217D78F36005F4A84 /* EGLevelScene.h */,
+				DB2035D317D78F36005F4A84 /* EGLevelScene.m */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -1125,6 +1135,8 @@
 				DB83CED917D3209200E79B93 /* ECGameScene.m in Sources */,
 				DB83CEDA17D3209200E79B93 /* ECMenuScene.m in Sources */,
 				DB2035BD17D33AB3005F4A84 /* ECMacros.m in Sources */,
+				DB2035D117D78F26005F4A84 /* EGPauseScen.m in Sources */,
+				DB2035D417D78F36005F4A84 /* EGLevelScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
