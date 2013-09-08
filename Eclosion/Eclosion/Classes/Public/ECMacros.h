@@ -77,14 +77,20 @@ NSDictionary * __getDataFile(NSString *filename);
 
 // Translate Scene
 #define CC_TRANSLATE_SCENE( _scene_ ) \
-[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:_scene_ withColor:ccWHITE]];
+[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:_scene_ withColor:ccBLACK]];
 
 // Get CCMenuItemSprite
-#define CC_CREATE_MENUITEM( _name_, _file_, _action_ ) \
+#define CC_CREATE_MENUITEM( _name_, _file_, _hfile_, _action_ ) \
 CCMenuItemSprite * _name_ = [CCMenuItemSprite itemWithNormalSprite: \
-   [CCSprite spriteWithFile:_file_] selectedSprite:nil disabledSprite:nil \
+   [CCSprite spriteWithFile:_file_] selectedSprite:[CCSprite spriteWithFile:_hfile_] disabledSprite:nil \
     target:self selector:@selector(_action_)];
 
-
+#define CC_MENUITEM_ADD_ICON( _item_, _file_ ) \
+{ \
+CCSprite *sprite = [CCSprite spriteWithFile:_file_]; \
+CCSprite *itemSprite = (CCSprite *)_item_.normalImage; \
+sprite.position = ccp(itemSprite.contentSize.width/2, itemSprite.contentSize.height/2); \
+[_item_ addChild:sprite]; \
+}
 
 

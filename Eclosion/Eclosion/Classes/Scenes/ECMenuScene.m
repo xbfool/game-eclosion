@@ -8,6 +8,9 @@
 
 #import "ECMenuScene.h"
 #import "ECGameScene.h"
+#import "ECVolumeScene.h"
+#import "ECInfoScene.h"
+#import "ECHelpScene.h"
 
 
 @implementation ECMenuScene
@@ -30,27 +33,30 @@
 
     
     // Play button
-    CC_CREATE_MENUITEM(playBtn, @"roundbuttonoff.png", beginGame);
+    CC_CREATE_MENUITEM(playBtn, @"roundbuttonoff.png", @"roundbuttonon.png", beginGame);
     playBtn.position = ccp(WINSIZE.width/2, WINSIZE.height/2);
     
     // Volume button
-    CC_CREATE_MENUITEM(volumeBtn, @"roundbuttonsmalloff.png", gotoVolumeScene);
+    CC_CREATE_MENUITEM(volumeBtn, @"roundbuttonsmalloff.png",@"roundbuttonsmallon.png", gotoVolumeScene);
     volumeBtn.position = ccp(WINSIZE.width/2 - 90, WINSIZE.height/2 - 80);
+    CC_MENUITEM_ADD_ICON(volumeBtn, @"musicon.png");
     
     // Help button
-    CC_CREATE_MENUITEM(helpBtn, @"roundbuttonsmalloff.png", gotoHelpScene);
+    CC_CREATE_MENUITEM(helpBtn, @"roundbuttonsmalloff.png",@"roundbuttonsmallon.png", gotoHelpScene);
     helpBtn.position = ccp(WINSIZE.width/2, WINSIZE.height/2 - 80);
+    CC_MENUITEM_ADD_ICON(helpBtn, @"help.png");
     
     // Info button
-    CC_CREATE_MENUITEM(infoButton, @"roundbuttonsmallon.png", gotoInfoScene);
+    CC_CREATE_MENUITEM(infoButton, @"roundbuttonsmalloff.png",@"roundbuttonsmallon.png", gotoInfoScene);
     infoButton.position = ccp(WINSIZE.width/2 + 90, WINSIZE.height/2 - 80);
+    CC_MENUITEM_ADD_ICON(infoButton, @"credits.png");
     
     // Facebook button
-    CC_CREATE_MENUITEM(facebookButton, @"facebookon.png", gotoFacebook);
+    CC_CREATE_MENUITEM(facebookButton, @"facebookon.png", @"facebookon.png", gotoFacebook);
     facebookButton.position = ccp(WINSIZE.width - 40, 30);
     
     // Twitter button
-    CC_CREATE_MENUITEM(twitterButton, @"tweeteron.png", gotoTwitter);
+    CC_CREATE_MENUITEM(twitterButton, @"tweeteron.png", @"facebookon.png", gotoTwitter);
     twitterButton.position = ccp(WINSIZE.width - 90, 30);
     
     // Menu
@@ -66,15 +72,15 @@
 }
 
 -(void) gotoVolumeScene {
-    CC_TRANSLATE_SCENE([ECGameScene scene]);
+    CC_TRANSLATE_SCENE([ECVolumeScene scene]);
 }
 
 -(void) gotoHelpScene {
-    CC_TRANSLATE_SCENE([ECGameScene scene]);
+    CC_TRANSLATE_SCENE([ECHelpScene scene]);
 }
 
 -(void) gotoInfoScene {
-    CC_TRANSLATE_SCENE([ECGameScene scene]);
+    CC_TRANSLATE_SCENE([ECInfoScene scene]);
 }
 
 -(void) gotoFacebook {
