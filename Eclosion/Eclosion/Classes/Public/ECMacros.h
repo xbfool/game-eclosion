@@ -71,12 +71,19 @@ __screenLayer__.position = ccp(__position__.x, WINSIZE.height - __position__.y);
 // *********************************
 
 
-// get plist
+// Get plist
 NSDictionary * __getDataFile(NSString *filename);
 #define CC_GET_PLIST(__filename__) __getDataFile(__filename__)
 
+// Translate Scene
+#define CC_TRANSLATE_SCENE( _scene_ ) \
+[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:_scene_ withColor:ccWHITE]];
 
-
+// Get CCMenuItemSprite
+#define CC_CREATE_MENUITEM( _name_, _file_, _action_ ) \
+CCMenuItemSprite * _name_ = [CCMenuItemSprite itemWithNormalSprite: \
+   [CCSprite spriteWithFile:_file_] selectedSprite:nil disabledSprite:nil \
+    target:self selector:@selector(_action_)];
 
 
 

@@ -30,54 +30,57 @@
 
     
     // Play button
-    CCMenuItemSprite * playBtn = [CCMenuItemSprite itemWithNormalSprite:
-               [CCSprite spriteWithFile:@"roundbuttonoff.png"]
-                                      selectedSprite:nil
-                                      disabledSprite:nil
-                                 target:self selector:@selector(beginGame)];
+    CC_CREATE_MENUITEM(playBtn, @"roundbuttonoff.png", beginGame);
     playBtn.position = ccp(WINSIZE.width/2, WINSIZE.height/2);
-    [playBtn addChild:[CCSprite spriteWithFile:@""]];
     
     // Volume button
-    CCMenuItemSprite * volumeBtn = [CCMenuItemSprite itemWithNormalSprite:
-                                  [CCSprite spriteWithFile:@"roundbuttonsmalloff.png"]
-                                                         selectedSprite:nil
-                                                         disabledSprite:nil
-                                  target:self selector:@selector(beginGame)];
-  
+    CC_CREATE_MENUITEM(volumeBtn, @"roundbuttonsmalloff.png", gotoVolumeScene);
     volumeBtn.position = ccp(WINSIZE.width/2 - 90, WINSIZE.height/2 - 80);
     
     // Help button
-    CCMenuItemSprite * helpBtn = [CCMenuItemSprite itemWithNormalSprite:
-                                  [CCSprite spriteWithFile:@"roundbuttonsmalloff.png"]
-                                                         selectedSprite:nil
-                                                         disabledSprite:nil
-                                  target:self selector:@selector(beginGame)];
+    CC_CREATE_MENUITEM(helpBtn, @"roundbuttonsmalloff.png", gotoHelpScene);
     helpBtn.position = ccp(WINSIZE.width/2, WINSIZE.height/2 - 80);
     
     // Info button
-    CCMenuItemSprite * infoButton = [CCMenuItemSprite itemWithNormalSprite:
-                                  [CCSprite spriteWithFile:@"roundbuttonsmallon.png"]
-                                                         selectedSprite:nil
-                                                         disabledSprite:nil
-                                  target:self selector:@selector(beginGame)];
+    CC_CREATE_MENUITEM(infoButton, @"roundbuttonsmallon.png", gotoInfoScene);
     infoButton.position = ccp(WINSIZE.width/2 + 90, WINSIZE.height/2 - 80);
     
-    // 菜单
-    CCMenu * m = [CCMenu menuWithItems:playBtn, volumeBtn, helpBtn, infoButton, nil];
+    // Facebook button
+    CC_CREATE_MENUITEM(facebookButton, @"facebookon.png", gotoFacebook);
+    facebookButton.position = ccp(WINSIZE.width - 40, 30);
+    
+    // Twitter button
+    CC_CREATE_MENUITEM(twitterButton, @"tweeteron.png", gotoTwitter);
+    twitterButton.position = ccp(WINSIZE.width - 90, 30);
+    
+    // Menu
+    CCMenu * m = [CCMenu menuWithItems:playBtn, volumeBtn, helpBtn, infoButton,
+                  facebookButton, twitterButton, nil];
     m.position = CGPointZero;
     [self addChild:m];
 	
 }
 
--(void) makeTransition
-{
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[ECGameScene scene] withColor:ccWHITE]];
-}
-
 -(void) beginGame {
-    [self makeTransition];
+    CC_TRANSLATE_SCENE([ECGameScene scene]);
 }
 
+-(void) gotoVolumeScene {
+    CC_TRANSLATE_SCENE([ECGameScene scene]);
+}
+
+-(void) gotoHelpScene {
+    CC_TRANSLATE_SCENE([ECGameScene scene]);
+}
+
+-(void) gotoInfoScene {
+    CC_TRANSLATE_SCENE([ECGameScene scene]);
+}
+
+-(void) gotoFacebook {
+}
+
+-(void) gotoTwitter {
+}
 
 @end
