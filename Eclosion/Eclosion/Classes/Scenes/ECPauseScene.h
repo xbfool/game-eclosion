@@ -9,6 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
+@protocol ECPauseSceneDelegate <NSObject>
+@required
+-(void) resumeGame;
+-(void) restartGame;
+-(void) gotoLevelScene;
+-(void) gotoMenuScene;
+@end
+
 @interface ECPauseScene : CCSprite {
     
 }

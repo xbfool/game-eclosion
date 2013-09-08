@@ -55,19 +55,19 @@
 }
 
 -(void) resumeGame {
-
+    [self.delegate resumeGame];
 }
 
 -(void) restartGame {
-    
+    [self.delegate restartGame];
 }
 
 -(void) gotoLevelScene {
-    
+    [self.delegate gotoLevelScene];
 }
 
 -(void) gotoMenuScene {
-    
+    [self.delegate gotoMenuScene];
 }
 
 @end

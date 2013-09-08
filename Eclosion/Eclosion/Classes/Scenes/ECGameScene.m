@@ -2,12 +2,18 @@
 //  ECGameScene.m
 //  Blocks_Cocos
 //
-//  Created by Tsubasa on 13-9-1.
+//  Created by ; on 13-9-1.
 //  Copyright 2013年 __MyCompanyName__. All rights reserved.
 //
 
 #import "ECGameScene.h"
 #import "ECPauseScene.h"
+#import "ECLevelScene.h"
+#import "ECMenuScene.h"
+
+@interface ECGameScene()<ECPauseSceneDelegate>
+
+@end
 
 @implementation ECGameScene
 +(CCScene *) scene
@@ -37,8 +43,29 @@
 }
 
 -(void) pause {
-    CCScene *pauseScene = [ECPauseScene scene];
-    CC_TRANSLATE_SCENE(pauseScene);
+    if ( !_pauseScene ) {
+        _pauseScene = [[ECPauseScene alloc] init];
+        _pauseScene.delegate = self;
+    }
+    
+	[self addChild: _pauseScene];
+}
+
+#pragma PauseScene Delegate
+-(void) resumeGame {
+    [_pauseScene removeFromParentAndCleanup:NO];
+}
+
+-(void) restartGame {
+    [_pauseScene removeFromParentAndCleanup:NO];
+}
+
+-(void) gotoLevelScene {
+    CC_TRANSLATE_SCENE([ECLevelScene scene]);
+}
+
+-(void) gotoMenuScene {
+    CC_TRANSLATE_SCENE([ECMenuScene scene]);
 }
 
 @end
