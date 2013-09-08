@@ -11,8 +11,6 @@
 
 @interface ECMenuScene : CCSprite {
     
-    // 开始按钮
-    CCMenuItemSprite    *_playBtn;
 }
 
 +(CCScene *) scene;

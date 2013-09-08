@@ -9,8 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
+@class ECPauseScene;
 @interface ECGameScene : CCSprite {
-    
+    ECPauseScene *_pauseScene;
 }
+
 +(CCScene *) scene;
+
 @end
