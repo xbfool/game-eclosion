@@ -29,20 +29,45 @@
     CC_CREATE_SPRITE_CENTER(background, @"bg_main.png", 0);
 
     
-    // Set menu
-    _playBtn = [CCMenuItemSprite itemWithNormalSprite:
-               [CCSprite spriteWithFile:@"btn_play_common.png"]
+    // Play button
+    CCMenuItemSprite * playBtn = [CCMenuItemSprite itemWithNormalSprite:
+               [CCSprite spriteWithFile:@"roundbuttonoff.png"]
                                       selectedSprite:nil
                                       disabledSprite:nil
-                                              target:self selector:@selector(beginGame)];
-    _playBtn.position = ccp(WINSIZE.width/2, WINSIZE.height/2);
+                                 target:self selector:@selector(beginGame)];
+    playBtn.position = ccp(WINSIZE.width/2, WINSIZE.height/2);
+    [playBtn addChild:[CCSprite spriteWithFile:@""]];
     
-    CCMenu * m = [CCMenu menuWithItems:_playBtn, nil];
+    // Volume button
+    CCMenuItemSprite * volumeBtn = [CCMenuItemSprite itemWithNormalSprite:
+                                  [CCSprite spriteWithFile:@"roundbuttonsmalloff.png"]
+                                                         selectedSprite:nil
+                                                         disabledSprite:nil
+                                  target:self selector:@selector(beginGame)];
+  
+    volumeBtn.position = ccp(WINSIZE.width/2 - 90, WINSIZE.height/2 - 80);
+    
+    // Help button
+    CCMenuItemSprite * helpBtn = [CCMenuItemSprite itemWithNormalSprite:
+                                  [CCSprite spriteWithFile:@"roundbuttonsmalloff.png"]
+                                                         selectedSprite:nil
+                                                         disabledSprite:nil
+                                  target:self selector:@selector(beginGame)];
+    helpBtn.position = ccp(WINSIZE.width/2, WINSIZE.height/2 - 80);
+    
+    // Info button
+    CCMenuItemSprite * infoButton = [CCMenuItemSprite itemWithNormalSprite:
+                                  [CCSprite spriteWithFile:@"roundbuttonsmallon.png"]
+                                                         selectedSprite:nil
+                                                         disabledSprite:nil
+                                  target:self selector:@selector(beginGame)];
+    infoButton.position = ccp(WINSIZE.width/2 + 90, WINSIZE.height/2 - 80);
+    
+    // 菜单
+    CCMenu * m = [CCMenu menuWithItems:playBtn, volumeBtn, helpBtn, infoButton, nil];
     m.position = CGPointZero;
     [self addChild:m];
 	
-	// In one second transition to the new scene
-	//[self scheduleOnce:@selector(makeTransition:) delay:1];
 }
 
 -(void) makeTransition
