@@ -137,6 +137,7 @@
 		DB2036D717DCBA94005F4A84 /* ECVolumeScene.m in Sources */ = {isa = PBXBuildFile; fileRef = DB2036D617DCBA94005F4A84 /* ECVolumeScene.m */; };
 		DB2036DA17DCBB07005F4A84 /* ECInfoScene.m in Sources */ = {isa = PBXBuildFile; fileRef = DB2036D917DCBB07005F4A84 /* ECInfoScene.m */; };
 		DB2036DD17DCBBEC005F4A84 /* ECHelpScene.m in Sources */ = {isa = PBXBuildFile; fileRef = DB2036DC17DCBBEC005F4A84 /* ECHelpScene.m */; };
+		DB2036DF17DCD4B9005F4A84 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = DB2036DE17DCD4B9005F4A84 /* play.png */; };
 		DB83CD3C17D31FBE00E79B93 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83CD3B17D31FBE00E79B93 /* QuartzCore.framework */; };
 		DB83CD3E17D31FBE00E79B93 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83CD3D17D31FBE00E79B93 /* OpenGLES.framework */; };
 		DB83CD4017D31FBE00E79B93 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83CD3F17D31FBE00E79B93 /* OpenAL.framework */; };
@@ -397,14 +398,15 @@
 		DB20364F17DCA529005F4A84 /* unlockedon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockedon.png; sourceTree = "<group>"; };
 		DB20365017DCA529005F4A84 /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
 		DB20365117DCA529005F4A84 /* winstar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = winstar.png; sourceTree = "<group>"; };
-		DB2036D117DCA77A005F4A84 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		DB2036D317DCA77E005F4A84 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		DB2036D117DCA77A005F4A84 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		DB2036D317DCA77E005F4A84 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
 		DB2036D517DCBA94005F4A84 /* ECVolumeScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECVolumeScene.h; sourceTree = "<group>"; };
 		DB2036D617DCBA94005F4A84 /* ECVolumeScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECVolumeScene.m; sourceTree = "<group>"; };
 		DB2036D817DCBB07005F4A84 /* ECInfoScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECInfoScene.h; sourceTree = "<group>"; };
 		DB2036D917DCBB07005F4A84 /* ECInfoScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECInfoScene.m; sourceTree = "<group>"; };
 		DB2036DB17DCBBEC005F4A84 /* ECHelpScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECHelpScene.h; sourceTree = "<group>"; };
 		DB2036DC17DCBBEC005F4A84 /* ECHelpScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECHelpScene.m; sourceTree = "<group>"; };
+		DB2036DE17DCD4B9005F4A84 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
 		DB83CD3817D31FBE00E79B93 /* Eclosion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eclosion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB83CD3B17D31FBE00E79B93 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DB83CD3D17D31FBE00E79B93 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -791,8 +793,6 @@
 		DB83CD2F17D31FBE00E79B93 = {
 			isa = PBXGroup;
 			children = (
-				DB2036D317DCA77E005F4A84 /* Default@2x.png */,
-				DB2036D117DCA77A005F4A84 /* Default-568h@2x.png */,
 				DB83CED317D3209200E79B93 /* Classes */,
 				DB83CD4D17D31FBE00E79B93 /* Eclosion */,
 				DB83CD3A17D31FBE00E79B93 /* Frameworks */,
@@ -843,6 +843,8 @@
 		DB83CD4E17D31FBE00E79B93 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DB2036D317DCA77E005F4A84 /* Default@2x.png */,
+				DB2036D117DCA77A005F4A84 /* Default-568h@2x.png */,
 				DB2035C617D345A8005F4A84 /* Icons */,
 				DB83CEDE17D3297600E79B93 /* UI */,
 				DB83CD6517D31FBE00E79B93 /* Info.plist */,
@@ -1214,12 +1216,12 @@
 			children = (
 				DB83CED717D3209200E79B93 /* ECMenuScene.h */,
 				DB83CED817D3209200E79B93 /* ECMenuScene.m */,
+				DB2035D217D78F36005F4A84 /* ECLevelScene.h */,
+				DB2035D317D78F36005F4A84 /* ECLevelScene.m */,
 				DB83CED517D3209200E79B93 /* ECGameScene.h */,
 				DB83CED617D3209200E79B93 /* ECGameScene.m */,
 				DB2035CF17D78F26005F4A84 /* ECPauseScene.h */,
 				DB2035D017D78F26005F4A84 /* ECPauseScene.m */,
-				DB2035D217D78F36005F4A84 /* ECLevelScene.h */,
-				DB2035D317D78F36005F4A84 /* ECLevelScene.m */,
 				DB2036D517DCBA94005F4A84 /* ECVolumeScene.h */,
 				DB2036D617DCBA94005F4A84 /* ECVolumeScene.m */,
 				DB2036D817DCBB07005F4A84 /* ECInfoScene.h */,
@@ -1254,6 +1256,7 @@
 		DB83CEDE17D3297600E79B93 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				DB2036DE17DCD4B9005F4A84 /* play.png */,
 				DB2035D517DCA529005F4A84 /* awesome.png */,
 				DB2035D617DCA529005F4A84 /* back.png */,
 				DB2035D717DCA529005F4A84 /* bg_1.png */,
@@ -1533,6 +1536,7 @@
 				DB2036CA17DCA529005F4A84 /* winstar.png in Resources */,
 				DB2036D217DCA77A005F4A84 /* Default-568h@2x.png in Resources */,
 				DB2036D417DCA77E005F4A84 /* Default@2x.png in Resources */,
+				DB2036DF17DCD4B9005F4A84 /* play.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

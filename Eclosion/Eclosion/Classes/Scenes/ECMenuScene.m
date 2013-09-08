@@ -7,7 +7,7 @@
 //
 
 #import "ECMenuScene.h"
-#import "ECGameScene.h"
+#import "ECLevelScene.h"
 #import "ECVolumeScene.h"
 #import "ECInfoScene.h"
 #import "ECHelpScene.h"
@@ -35,6 +35,7 @@
     // Play button
     CC_CREATE_MENUITEM(playBtn, @"roundbuttonoff.png", @"roundbuttonon.png", beginGame);
     playBtn.position = ccp(WINSIZE.width/2, WINSIZE.height/2);
+    CC_MENUITEM_ADD_ICON(playBtn, @"play.png");
     
     // Volume button
     CC_CREATE_MENUITEM(volumeBtn, @"roundbuttonsmalloff.png",@"roundbuttonsmallon.png", gotoVolumeScene);
@@ -68,7 +69,7 @@
 }
 
 -(void) beginGame {
-    CC_TRANSLATE_SCENE([ECGameScene scene]);
+    CC_TRANSLATE_SCENE([ECLevelScene scene]);
 }
 
 -(void) gotoVolumeScene {
