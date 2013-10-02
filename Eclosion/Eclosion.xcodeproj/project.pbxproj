@@ -284,6 +284,10 @@
 		DB220FE817DE2604007B1295 /* unlockedon-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB220F5617DE2604007B1295 /* unlockedon-hd.png */; };
 		DB220FE917DE2604007B1295 /* up-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB220F5717DE2604007B1295 /* up-hd.png */; };
 		DB220FEA17DE2604007B1295 /* winstar-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB220F5817DE2604007B1295 /* winstar-hd.png */; };
+		DB825A7D17FBD24E0052DA3C /* level0.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB825A7C17FBD24E0052DA3C /* level0.plist */; };
+		DB825A8017FC02870052DA3C /* ECTile.m in Sources */ = {isa = PBXBuildFile; fileRef = DB825A7F17FC02870052DA3C /* ECTile.m */; };
+		DB825A8517FC029C0052DA3C /* BaseTile.m in Sources */ = {isa = PBXBuildFile; fileRef = DB825A8217FC029C0052DA3C /* BaseTile.m */; };
+		DB825A8617FC029C0052DA3C /* ECTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DB825A8417FC029C0052DA3C /* ECTileMap.m */; };
 		DB83CD3C17D31FBE00E79B93 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83CD3B17D31FBE00E79B93 /* QuartzCore.framework */; };
 		DB83CD3E17D31FBE00E79B93 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83CD3D17D31FBE00E79B93 /* OpenGLES.framework */; };
 		DB83CD4017D31FBE00E79B93 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83CD3F17D31FBE00E79B93 /* OpenAL.framework */; };
@@ -699,6 +703,13 @@
 		DB220F5617DE2604007B1295 /* unlockedon-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockedon-hd.png"; sourceTree = "<group>"; };
 		DB220F5717DE2604007B1295 /* up-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "up-hd.png"; sourceTree = "<group>"; };
 		DB220F5817DE2604007B1295 /* winstar-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "winstar-hd.png"; sourceTree = "<group>"; };
+		DB825A7C17FBD24E0052DA3C /* level0.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = level0.plist; sourceTree = "<group>"; };
+		DB825A7E17FC02870052DA3C /* ECTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ECTile.h; path = Tile/ECTile.h; sourceTree = "<group>"; };
+		DB825A7F17FC02870052DA3C /* ECTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ECTile.m; path = Tile/ECTile.m; sourceTree = "<group>"; };
+		DB825A8117FC029C0052DA3C /* BaseTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseTile.h; path = Tile/BaseTile.h; sourceTree = "<group>"; };
+		DB825A8217FC029C0052DA3C /* BaseTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseTile.m; path = Tile/BaseTile.m; sourceTree = "<group>"; };
+		DB825A8317FC029C0052DA3C /* ECTileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ECTileMap.h; path = Tile/ECTileMap.h; sourceTree = "<group>"; };
+		DB825A8417FC029C0052DA3C /* ECTileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ECTileMap.m; path = Tile/ECTileMap.m; sourceTree = "<group>"; };
 		DB83CD3817D31FBE00E79B93 /* Eclosion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eclosion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB83CD3B17D31FBE00E79B93 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DB83CD3D17D31FBE00E79B93 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1151,6 +1162,28 @@
 			path = numberssmall;
 			sourceTree = "<group>";
 		};
+		DB825A7417FBC4320052DA3C /* Tile */ = {
+			isa = PBXGroup;
+			children = (
+				DB825A8117FC029C0052DA3C /* BaseTile.h */,
+				DB825A8217FC029C0052DA3C /* BaseTile.m */,
+				DB825A8317FC029C0052DA3C /* ECTileMap.h */,
+				DB825A8417FC029C0052DA3C /* ECTileMap.m */,
+				DB825A7E17FC02870052DA3C /* ECTile.h */,
+				DB825A7F17FC02870052DA3C /* ECTile.m */,
+			);
+			name = Tile;
+			sourceTree = "<group>";
+		};
+		DB825A7B17FBD2410052DA3C /* Level */ = {
+			isa = PBXGroup;
+			children = (
+				DB825A7C17FBD24E0052DA3C /* level0.plist */,
+			);
+			name = Level;
+			path = Resources/Level;
+			sourceTree = "<group>";
+		};
 		DB83CD2F17D31FBE00E79B93 = {
 			isa = PBXGroup;
 			children = (
@@ -1207,6 +1240,7 @@
 				DB2036D317DCA77E005F4A84 /* Default@2x.png */,
 				DB2036D117DCA77A005F4A84 /* Default-568h@2x.png */,
 				DB2035C617D345A8005F4A84 /* Icons */,
+				DB825A7B17FBD2410052DA3C /* Level */,
 				DB83CEDE17D3297600E79B93 /* UI */,
 				DB83CD6517D31FBE00E79B93 /* Info.plist */,
 				DB83CD6617D31FBE00E79B93 /* iTunesArtwork */,
@@ -1566,6 +1600,7 @@
 				DB83CEDD17D320B000E79B93 /* Data */,
 				DB83CEDC17D320A400E79B93 /* Managers */,
 				DB83CEDB17D3209A00E79B93 /* Objects */,
+				DB825A7417FBC4320052DA3C /* Tile */,
 				DB83CED417D3209200E79B93 /* Scenes */,
 			);
 			name = Classes;
@@ -2153,6 +2188,7 @@
 				DB220FE817DE2604007B1295 /* unlockedon-hd.png in Resources */,
 				DB220FE917DE2604007B1295 /* up-hd.png in Resources */,
 				DB220FEA17DE2604007B1295 /* winstar-hd.png in Resources */,
+				DB825A7D17FBD24E0052DA3C /* level0.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2275,6 +2311,9 @@
 				DB2036D717DCBA94005F4A84 /* ECVolumeScene.m in Sources */,
 				DB2036DA17DCBB07005F4A84 /* ECInfoScene.m in Sources */,
 				DB2036DD17DCBBEC005F4A84 /* ECHelpScene.m in Sources */,
+				DB825A8017FC02870052DA3C /* ECTile.m in Sources */,
+				DB825A8517FC029C0052DA3C /* BaseTile.m in Sources */,
+				DB825A8617FC029C0052DA3C /* ECTileMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
