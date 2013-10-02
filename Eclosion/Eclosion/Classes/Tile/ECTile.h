@@ -22,6 +22,7 @@ typedef enum {
 @interface ECTileUtil : NSObject {
     
 }
+
 @property(nonatomic,retain) NSDictionary *classMapping;
 + (BaseTile *)getTileByIndex:(ECTileType)index;
 

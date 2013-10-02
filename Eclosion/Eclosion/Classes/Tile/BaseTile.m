@@ -13,4 +13,12 @@
 @synthesize tileHeight = _tileHeight;
 @synthesize tileWidth = _tileWidth;
 @synthesize prototype = _prototype;
+
+- (id)init {
+    if ( self = [super init]) {
+        self.anchorPoint = ccp(0,1);
+    }
+    return self;
+}
+
 @end

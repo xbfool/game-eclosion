@@ -10,6 +10,7 @@
 #import "ECPauseScene.h"
 #import "ECLevelScene.h"
 #import "ECMenuScene.h"
+#import "ECTileMap.h"
 
 @interface ECGameScene()<ECPauseSceneDelegate>
 
@@ -40,6 +41,10 @@
     CCMenu * m = [CCMenu menuWithItems:pauseBtn, nil];
     m.position = CGPointZero;
     [self addChild:m];
+    
+    // LoadGaem
+    ECTileMap *map = [ECTileMap mapBuildWithFile:@"level0"];
+    [self addChild:map];
 }
 
 -(void) pause {

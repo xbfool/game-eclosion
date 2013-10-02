@@ -9,18 +9,18 @@
 #import "ECTile.h"
 
 static ECTileUtil* _ectileUtil;
+
 @implementation ECTileUtil
 @synthesize classMapping;
-
 - (id)init {
     if ( self = [super init] ) {
         self.classMapping = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithInt:ECTileTypeRoad],@"ECTileRoad",
-                             [NSNumber numberWithInt:ECTileTypeWall],@"ECTileWall",
-                             [NSNumber numberWithInt:ECTileTypeJump],@"ECTileTypeJump",
-                             [NSNumber numberWithInt:ECTileTypeLadder],@"ECTileTypeLadder",
-                             [NSNumber numberWithInt:ECTileTypeTrap],@"ECTileTypeTrap",
-                             [NSNumber numberWithInt:ECTileTypeEnd],@"ECTileTypeEnd",
+                             @"ECTileRoad",[NSNumber numberWithInt:ECTileTypeRoad],
+                             @"ECTileWall",[NSNumber numberWithInt:ECTileTypeWall],
+                             @"ECTileTypeJump",[NSNumber numberWithInt:ECTileTypeJump],
+                             @"ECTileTypeLadder",[NSNumber numberWithInt:ECTileTypeLadder],
+                             @"ECTileTypeTrap",[NSNumber numberWithInt:ECTileTypeTrap],
+                             @"ECTileTypeEnd",[NSNumber numberWithInt:ECTileTypeEnd],
                              nil];
     }
     return self;
@@ -30,15 +30,36 @@ static ECTileUtil* _ectileUtil;
     if ( !_ectileUtil ) {
         _ectileUtil = [[ECTileUtil alloc] init];
     }
-    Class tileclass = NSClassFromString([_ectileUtil.classMapping
-                                         objectForKey:[NSNumber numberWithInt:index]]);
-    return [[tileclass alloc] init];
+    
+    // Dynamic class
+    NSString *classString = [_ectileUtil.classMapping objectForKey:[NSNumber numberWithInt:index]];
+    if ([classString length] == 0) return nil;
+    
+    Class tileClass = NSClassFromString(classString);
+    return [(BaseTile *)[[tileClass alloc] init] autorelease];
 }
 
 @end
 
 @implementation ECTileRoad
-
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"tile_road.png"];
+        [self setTexture: texture];
+        CGRect rect = CGRectZero;
+		rect.size = texture.contentSize;
+        [self setTextureRect:rect];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(80, 40);
+        self.tileWidth = 305;
+        self.tileHeight = 105;
+        self.prototype = TileProtoWall;
+    }
+    return self;
+}
 @end
 
 @implementation ECTileWall
