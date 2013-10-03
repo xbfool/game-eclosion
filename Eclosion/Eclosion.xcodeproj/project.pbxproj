@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		DB0FC85617FD6ACD00184FB5 /* ECHero.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0FC85517FD6ACD00184FB5 /* ECHero.m */; };
 		DB0FC85917FD6B1C00184FB5 /* CCAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0FC85817FD6B1C00184FB5 /* CCAnimationHelper.m */; };
+		DB0FC85C17FD6F1F00184FB5 /* BombA0-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0FC85A17FD6F1F00184FB5 /* BombA0-hd.png */; };
+		DB0FC85D17FD6F1F00184FB5 /* BombA0.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0FC85B17FD6F1F00184FB5 /* BombA0.png */; };
 		DB2035BD17D33AB3005F4A84 /* ECMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = DB2035BC17D33AB3005F4A84 /* ECMacros.m */; };
 		DB2035C417D345A3005F4A84 /* loading-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB2035C017D345A3005F4A84 /* loading-hd.png */; };
 		DB2035CB17D346F1005F4A84 /* bg_game-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB2035C717D346F1005F4A84 /* bg_game-hd.png */; };
@@ -236,8 +238,6 @@
 		DB825AB117FD53920052DA3C /* flower.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825AA917FD53920052DA3C /* flower.png */; };
 		DB825AB217FD53920052DA3C /* hole-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825AAA17FD53920052DA3C /* hole-hd.png */; };
 		DB825AB317FD53920052DA3C /* hole.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825AAB17FD53920052DA3C /* hole.png */; };
-		DB825AB417FD53920052DA3C /* star-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825AAC17FD53920052DA3C /* star-hd.png */; };
-		DB825AB517FD53920052DA3C /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825AAD17FD53920052DA3C /* star.png */; };
 		DB825AB617FD53920052DA3C /* wall-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825AAE17FD53920052DA3C /* wall-hd.png */; };
 		DB825AB717FD53920052DA3C /* wall.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825AAF17FD53920052DA3C /* wall.png */; };
 		DB83CD3C17D31FBE00E79B93 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83CD3B17D31FBE00E79B93 /* QuartzCore.framework */; };
@@ -376,6 +376,8 @@
 		DB0FC85517FD6ACD00184FB5 /* ECHero.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ECHero.m; path = Objects/ECHero.m; sourceTree = "<group>"; };
 		DB0FC85717FD6B1C00184FB5 /* CCAnimationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAnimationHelper.h; sourceTree = "<group>"; };
 		DB0FC85817FD6B1C00184FB5 /* CCAnimationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAnimationHelper.m; sourceTree = "<group>"; };
+		DB0FC85A17FD6F1F00184FB5 /* BombA0-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BombA0-hd.png"; sourceTree = "<group>"; };
+		DB0FC85B17FD6F1F00184FB5 /* BombA0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BombA0.png; sourceTree = "<group>"; };
 		DB2035BB17D33AB3005F4A84 /* ECMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ECMacros.h; path = Public/ECMacros.h; sourceTree = "<group>"; };
 		DB2035BC17D33AB3005F4A84 /* ECMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ECMacros.m; path = Public/ECMacros.m; sourceTree = "<group>"; };
 		DB2035C017D345A3005F4A84 /* loading-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loading-hd.png"; sourceTree = "<group>"; };
@@ -612,8 +614,6 @@
 		DB825AA917FD53920052DA3C /* flower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flower.png; sourceTree = "<group>"; };
 		DB825AAA17FD53920052DA3C /* hole-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hole-hd.png"; sourceTree = "<group>"; };
 		DB825AAB17FD53920052DA3C /* hole.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hole.png; sourceTree = "<group>"; };
-		DB825AAC17FD53920052DA3C /* star-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-hd.png"; sourceTree = "<group>"; };
-		DB825AAD17FD53920052DA3C /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		DB825AAE17FD53920052DA3C /* wall-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-hd.png"; sourceTree = "<group>"; };
 		DB825AAF17FD53920052DA3C /* wall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wall.png; sourceTree = "<group>"; };
 		DB83CD3817D31FBE00E79B93 /* Eclosion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eclosion.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -974,12 +974,12 @@
 		DB825A8717FC260A0052DA3C /* GameObject */ = {
 			isa = PBXGroup;
 			children = (
+				DB0FC85A17FD6F1F00184FB5 /* BombA0-hd.png */,
+				DB0FC85B17FD6F1F00184FB5 /* BombA0.png */,
 				DB825AA817FD53920052DA3C /* flower-hd.png */,
 				DB825AA917FD53920052DA3C /* flower.png */,
 				DB825AAA17FD53920052DA3C /* hole-hd.png */,
 				DB825AAB17FD53920052DA3C /* hole.png */,
-				DB825AAC17FD53920052DA3C /* star-hd.png */,
-				DB825AAD17FD53920052DA3C /* star.png */,
 				DB825AAE17FD53920052DA3C /* wall-hd.png */,
 				DB825AAF17FD53920052DA3C /* wall.png */,
 				DB825A8817FC260A0052DA3C /* Bomb11-hd.png */,
@@ -1948,10 +1948,10 @@
 				DB825AB117FD53920052DA3C /* flower.png in Resources */,
 				DB825AB217FD53920052DA3C /* hole-hd.png in Resources */,
 				DB825AB317FD53920052DA3C /* hole.png in Resources */,
-				DB825AB417FD53920052DA3C /* star-hd.png in Resources */,
-				DB825AB517FD53920052DA3C /* star.png in Resources */,
 				DB825AB617FD53920052DA3C /* wall-hd.png in Resources */,
 				DB825AB717FD53920052DA3C /* wall.png in Resources */,
+				DB0FC85C17FD6F1F00184FB5 /* BombA0-hd.png in Resources */,
+				DB0FC85D17FD6F1F00184FB5 /* BombA0.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

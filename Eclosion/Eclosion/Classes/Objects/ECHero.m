@@ -9,59 +9,53 @@
 #import "ECHero.h"
 #import "CCAnimationHelper.h"
 
+#define EC_DEFAULT_SPEED 1;
+static NSString* _filename[ECHeroActionCount] = { @"BombA",@"BombA",@"BombA"};
 
-static NSString* _filename[ECHeroActionCount] = {
-    @"BombA1",@"BombA1",@"BombA1"};
+static const int _fileCount[ECHeroActionCount] = { 3,3,3};
 
-static const int _fileCount[ECHeroActionCount] = {
-    3,3,3};
-
-static const float _fileDelay[ECHeroActionCount] = {
-    0.3,0.3,0.3};
+static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
 
 @implementation ECHero
-@synthesize speed;
+@synthesize speed, animating, heroAction;
 
 - (id)init {
     if ( self = [super init]) {
-        
+        self.heroAction = ECHeroActionDefault;
+        self.speed = EC_DEFAULT_SPEED;
+        self.anchorPoint = ccp(0,1);
     }
     return self;
 }
 
-- (void)loadResource:(int)index {
-    CCSpriteFrameCache* frameCache = [CCSpriteFrameCache sharedSpriteFrameCache];
-    int i = 0;
-    while ( i < index - 1 ) {
-        [frameCache removeSpriteFramesFromFile:_girlframeName[i++]];
-    }
-    for ( ; i <= min(index+1, BODY_COUNT - 1); i++ ) {
-        [frameCache addSpriteFramesWithFile:_girlframeName[i]];
-        NSString *fname = [NSString stringWithFormat:@"%@0.png",_girlfilename[i][0]];
-        [CCSprite spriteWithSpriteFrameName:fname];
-    }
-}
-
-- (void)step {
-    if ( animating ) return;
+- (void)step:(ccTime)interval {
+    if ( self.animating ) return;
     if ( self.heroAction != ECHeroActionDefault ) {
         self.animating = YES;
         [self stopAllActions];
         id action = [self getAction:self.heroAction];
         [self runAction:action];
+    } else {
+        // 移动
+        CCMoveBy *moveAction = [CCMoveBy actionWithDuration:interval position:ccp(self.speed, 0)];
+        [self runAction:moveAction];
     }
 }
 
 - (id)getAction:(ECHeroAction)index {
+    
     id seq;
-    CCAnimation *anim = [CCAnimation animationWithFrame:_filename[index]
+    CCAnimation *anim = [CCAnimation animationWithFile:_filename[index]
                                              frameCount:_fileCount[index]
                                                   delay:_fileDelay[index]];
     CCAnimate *animate = [CCAnimate actionWithAnimation:anim];
     
+    // 默认走路动画
     if ( index == ECHeroActionDefault ) {
         seq = [CCRepeatForever actionWithAction:animate];
+        
     } else {
+    // 其它特效动画
         seq = [CCSequence actions:animate,
                [CCCallFunc actionWithTarget:self selector:@selector(callback)],nil];
     }
@@ -69,7 +63,7 @@ static const float _fileDelay[ECHeroActionCount] = {
 }
 
 
-- (void)runDefaultAction {
+- (void)run {
     // reset to default action
     [self stopAllActions];
     self.heroAction = ECHeroActionDefault;
@@ -79,7 +73,7 @@ static const float _fileDelay[ECHeroActionCount] = {
 
 - (void)callback {
     self.animating = NO;
-    [self runDefaultAction];
+    [self run];
 }
 
 @end

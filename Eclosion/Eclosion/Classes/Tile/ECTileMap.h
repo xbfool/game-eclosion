@@ -13,12 +13,14 @@
 #define MAP_COL 7
 #define TILE_SIZE 40
 
+@class ECHero;
 @interface ECTileMap : CCSprite {
     NSMutableArray *_tileMatrix;
-    int _picxlMap[MAP_ROW * TILE_SIZE][MAP_COL* TILE_SIZE];
+    ECHero*         _hero;
+    int             _picxlMap[MAP_ROW * TILE_SIZE][MAP_COL* TILE_SIZE];
 }
 
 + (ECTileMap *)mapBuildWithFile:(NSString *)filename;
-- (void)update;
+- (void)run;
 @end
 

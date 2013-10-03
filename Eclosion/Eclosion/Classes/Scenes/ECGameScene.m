@@ -46,9 +46,10 @@
     _map = [ECTileMap mapBuildWithFile:@"level0"];
     _map.position = ccp(22,5);
     [self addChild:_map];
+    [_map run];
     
     // Update
-    [self schedule:@selector(step) interval:0.1];
+    [self schedule:@selector(step:) interval:0.1];
 }
 
 -(void) onExit {
@@ -65,8 +66,8 @@
 	[self addChild: _pauseScene];
 }
 
--(void)step {
-    [_map update];
+-(void)step:(ccTime)interval {
+    [_map step:interval];
 }
 
 #pragma PauseScene Delegate

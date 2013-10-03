@@ -23,4 +23,5 @@ typedef enum {
 @property(nonatomic, assign) bool            animating;
 @property(nonatomic, assign) ECHeroAction    heroAction;
 
+- (void)run;
 @end

@@ -8,7 +8,7 @@
 
 #import "ECTileMap.h"
 #import "ECTile.h"
-
+#import "ECHero.h"
 
 @implementation ECTileMap
 
@@ -39,15 +39,28 @@
         BaseTile *tile = [ECTileUtil getTileByIndex:
                           [[objDic objectForKey:@"type"] intValue]];
         if (!tile) continue;
-        
         int x = [[[objDic objectForKey:@"position"] objectForKey:@"x"] intValue];
         int y = [[[objDic objectForKey:@"position"] objectForKey:@"y"] intValue];
         tile.position = ccp(TILE_SIZE * x, TILE_SIZE * y);
         [self addChild:tile];
     }
+    
+    // read hero position
+    NSDictionary *heroDic = [dic objectForKey:@"hero"];
+    int x = [[[heroDic objectForKey:@"position"] objectForKey:@"x"] intValue];
+    int y = [[[heroDic objectForKey:@"position"] objectForKey:@"y"] intValue];
+    _hero = [[ECHero alloc] init];
+    _hero.position = ccp(TILE_SIZE * x, TILE_SIZE * y);
+    _hero.speed = 2;
+    [self addChild:_hero];
 }
 
-- (void)update {
+- (void)run {
+    [_hero run];
+}
+
+- (void)step:(ccTime)interval {
+    // 刷新地图状态
     memset(_picxlMap, 0, sizeof(int) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
     for ( id obj in self.children ) {
         if ( [obj isKindOfClass:[BaseTile class]]) {
@@ -61,10 +74,15 @@
             }
         }
     }
+    
+    // 刷新Hero状态
+    [_hero step:interval];
 }
 
 - (void)dealloc {
     [_tileMatrix release];
+    [_hero removeFromParentAndCleanup:YES];
+    [_hero release];
     [super dealloc];
 }
 
