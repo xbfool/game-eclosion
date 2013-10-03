@@ -42,8 +42,9 @@
     m.position = CGPointZero;
     [self addChild:m];
     
-    // LoadGaem
+    // Load game
     ECTileMap *map = [ECTileMap mapBuildWithFile:@"level0"];
+    map.position = ccp(22,5);
     [self addChild:map];
 }
 

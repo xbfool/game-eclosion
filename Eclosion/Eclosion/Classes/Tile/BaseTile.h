@@ -10,22 +10,22 @@
 #import "cocos2d.h"
 
 typedef enum {
-    TileProtoWalkable = 0,
-    TileProtoWall     = 1,
-    TileProtoJump     = 2,
-    TileProtoLadder   = 3,
-    TileProtoTrap     = 4,
-    TileProtoEnd      = 5,
-}TilePrototype;
+    TileMapWalkable = 0,
+    TileMapWall     = 1,
+    TileMapJump     = 2,
+    TileMapLadder   = 3,
+    TileMapTrap     = 4,
+    TileMapEnd      = 5,
+}TileMaptype;
 
 @interface BaseTile : CCSprite {
     float           _tileWidth;
     float           _tileHeight;
-    TilePrototype   _prototype;
+    TileMaptype   _prototype;
 }
 
 @property(nonatomic, assign) float          tileWidth;
 @property(nonatomic, assign) float          tileHeight;
-@property(nonatomic, assign) TilePrototype  prototype;
+@property(nonatomic, assign) TileMaptype  prototype;
 
 @end

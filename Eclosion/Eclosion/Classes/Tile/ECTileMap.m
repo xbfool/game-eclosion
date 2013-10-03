@@ -40,6 +40,8 @@
         NSDictionary *objDic = [_tileMatrix objectAtIndex:i];
         BaseTile *tile = [ECTileUtil getTileByIndex:
                           [[objDic objectForKey:@"type"] intValue]];
+        if (!tile) continue;
+        
         int x = [[[objDic objectForKey:@"position"] objectForKey:@"x"] intValue];
         int y = [[[objDic objectForKey:@"position"] objectForKey:@"y"] intValue];
         tile.position = ccp(TILE_SIZE * x, TILE_SIZE * y);

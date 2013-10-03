@@ -17,10 +17,10 @@ static ECTileUtil* _ectileUtil;
         self.classMapping = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"ECTileRoad",[NSNumber numberWithInt:ECTileTypeRoad],
                              @"ECTileWall",[NSNumber numberWithInt:ECTileTypeWall],
-                             @"ECTileTypeJump",[NSNumber numberWithInt:ECTileTypeJump],
-                             @"ECTileTypeLadder",[NSNumber numberWithInt:ECTileTypeLadder],
-                             @"ECTileTypeTrap",[NSNumber numberWithInt:ECTileTypeTrap],
-                             @"ECTileTypeEnd",[NSNumber numberWithInt:ECTileTypeEnd],
+                             @"ECTileJump",[NSNumber numberWithInt:ECTileTypeJump],
+                             @"ECTileLadder",[NSNumber numberWithInt:ECTileTypeLadder],
+                             @"ECTileTrap",[NSNumber numberWithInt:ECTileTypeTrap],
+                             @"ECTileEnd",[NSNumber numberWithInt:ECTileTypeEnd],
                              nil];
     }
     return self;
@@ -54,16 +54,29 @@ static ECTileUtil* _ectileUtil;
         
         // Set Propertys
         self.contentSize = CGSizeMake(80, 40);
-        self.tileWidth = 305;
-        self.tileHeight = 105;
-        self.prototype = TileProtoWall;
+        self.prototype = TileMapWall;
     }
     return self;
 }
 @end
 
 @implementation ECTileWall
-
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"wall.png"];
+        [self setTexture: texture];
+        CGRect rect = CGRectZero;
+		rect.size = texture.contentSize;
+        [self setTextureRect:rect];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(40, 40);
+        self.prototype = TileMapWall;
+    }
+    return self;
+}
 @end
 
 @implementation ECTileJump
@@ -75,10 +88,40 @@ static ECTileUtil* _ectileUtil;
 @end
 
 @implementation ECTileTrap
-
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"hole.png"];
+        [self setTexture: texture];
+        CGRect rect = CGRectZero;
+		rect.size = texture.contentSize;
+        [self setTextureRect:rect];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(40, 40);
+        self.prototype = TileMapTrap;
+    }
+    return self;
+}
 @end
 
 @implementation ECTileEnd
-
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"flower.png"];
+        [self setTexture: texture];
+        CGRect rect = CGRectZero;
+		rect.size = texture.contentSize;
+        [self setTextureRect:rect];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(40, 40);
+        self.prototype = TileMapEnd;
+    }
+    return self;
+}
 @end
 

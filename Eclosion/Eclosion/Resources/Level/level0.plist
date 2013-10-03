@@ -30,12 +30,45 @@
 			<key>position</key>
 			<dict>
 				<key>x</key>
-				<integer>5</integer>
+				<integer>3</integer>
 				<key>y</key>
 				<integer>3</integer>
 			</dict>
 			<key>type</key>
 			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>position</key>
+			<dict>
+				<key>x</key>
+				<integer>2</integer>
+				<key>y</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>position</key>
+			<dict>
+				<key>x</key>
+				<integer>6</integer>
+				<key>y</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<integer>4</integer>
+		</dict>
+		<dict>
+			<key>position</key>
+			<dict>
+				<key>x</key>
+				<integer>6</integer>
+				<key>y</key>
+				<integer>1</integer>
+			</dict>
+			<key>type</key>
+			<integer>5</integer>
 		</dict>
 	</array>
 </dict>
