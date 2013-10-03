@@ -10,8 +10,10 @@
 #import "cocos2d.h"
 
 @class ECPauseScene;
+@class ECTileMap;
 @interface ECGameScene : CCSprite {
     ECPauseScene *_pauseScene;
+    ECTileMap    *_map;
 }
 
 +(CCScene *) scene;
