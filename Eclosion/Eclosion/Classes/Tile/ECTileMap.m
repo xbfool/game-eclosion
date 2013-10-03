@@ -10,6 +10,9 @@
 #import "ECTile.h"
 #import "ECHero.h"
 
+#define MAP_INVALID_X(x) (( x < 0 ) || ( x >= MAP_COL*TILE_SIZE))
+#define MAP_INVALID_Y(y) (( y < 0 ) || ( y >= MAP_ROW*TILE_SIZE))
+
 @implementation ECTileMap
 
 + (ECTileMap *)mapBuildWithFile:(NSString *)filename {
@@ -21,7 +24,7 @@
 - (id)init {
     if ( self = [super init ]) {
         _tileMatrix = [[NSMutableArray alloc] init];
-        memset(_picxlMap, 0, sizeof(int) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
+        memset(_pixelMap, 0, sizeof(int) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
     }
     return self;
 }
@@ -51,7 +54,7 @@
     int y = [[[heroDic objectForKey:@"position"] objectForKey:@"y"] intValue];
     _hero = [[ECHero alloc] init];
     _hero.position = ccp(TILE_SIZE * x, TILE_SIZE * y);
-    _hero.speed = 2;
+    _hero.heroDirection = ECHeroDirectionRight;
     [self addChild:_hero];
 }
 
@@ -61,7 +64,7 @@
 
 - (void)step:(ccTime)interval {
     // 刷新地图状态
-    memset(_picxlMap, 0, sizeof(int) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
+    memset(_pixelMap, 0, sizeof(int) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
     for ( id obj in self.children ) {
         if ( [obj isKindOfClass:[BaseTile class]]) {
             BaseTile *tile = (BaseTile *)obj;
@@ -69,14 +72,70 @@
                 for ( int y = tile.position.y; y > (tile.position.y - tile.contentSize.height); y -- ) {
                     if (( x > MAP_ROW * TILE_SIZE ) || ( x < 0 )) continue;
                     if (( y > MAP_COL * TILE_SIZE ) || ( y < 0 )) continue;
-                    _picxlMap[x][y] = tile.prototype;
+                    _pixelMap[x][y] = tile.prototype;
                 }
             }
         }
     }
     
     // 刷新Hero状态
+    [self checkStatus];
     [_hero step:interval];
+}
+
+// 检查地图, 不可乱序
+- (void)checkStatus {
+    [self checkEnd];
+    [self checkItem];
+    [self checkMove];
+}
+
+// 检查是否触发了结局
+- (void)checkEnd {
+    // 陷阱
+    
+    // 成功
+}
+
+// 检查是否碰触道具
+- (void)checkItem {
+    
+}
+
+// 检查地形
+- (void)checkMove {
+    int headX = _hero.position.x + ((_hero.heroDirection == ECHeroDirectionRight) ? _hero.contentSize.width : 0);
+    if ( MAP_INVALID_X(headX) ) return;
+    int tailX = _hero.position.x + ((_hero.heroDirection == ECHeroDirectionRight) ? 0 : _hero.contentSize.width);
+    if ( MAP_INVALID_X(tailX) ) return;
+    int frontX = headX + 1;
+    if ( MAP_INVALID_X(frontX) ) return;
+    int bottomY = _hero.position.y;
+    if ( MAP_INVALID_Y(bottomY) ) return;
+    int belowY = bottomY - 1;
+    if ( MAP_INVALID_Y(belowY) ) return;
+    
+    
+    // 底部有道路, 按原路行进
+    if ( _pixelMap[tailX][belowY] == ECTileTypeWall ) {
+        return;
+    }
+    
+    // 底部悬空, 下坠
+    if ( _pixelMap[tailX][belowY] == ECTileTypeRoad ) {
+        _hero.heroDirection = ECHeroDirectionDown;
+        return;
+    }
+    // 前方有墙, 转向
+    if ( _pixelMap[frontX][bottomY] == ECTileTypeRoad ) {
+        if ( _hero.heroDirection == ECHeroDirectionRight ) {
+            _hero.heroDirection = ECHeroDirectionLeft;
+        }
+        if ( _hero.heroDirection == ECHeroDirectionLeft ) {
+            _hero.heroDirection = ECHeroDirectionRight;
+        }
+        return;
+    }
 }
 
 - (void)dealloc {

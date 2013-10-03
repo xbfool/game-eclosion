@@ -21,11 +21,11 @@ typedef enum {
 @interface BaseTile : CCSprite {
     float           _tileWidth;
     float           _tileHeight;
-    TileMaptype   _prototype;
+    TileMaptype     _prototype;
 }
 
 @property(nonatomic, assign) float          tileWidth;
 @property(nonatomic, assign) float          tileHeight;
-@property(nonatomic, assign) TileMaptype  prototype;
+@property(nonatomic, assign) TileMaptype    prototype;
 
 @end

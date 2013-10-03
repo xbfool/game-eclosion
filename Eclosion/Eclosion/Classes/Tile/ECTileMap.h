@@ -17,10 +17,11 @@
 @interface ECTileMap : CCSprite {
     NSMutableArray *_tileMatrix;
     ECHero*         _hero;
-    int             _picxlMap[MAP_ROW * TILE_SIZE][MAP_COL* TILE_SIZE];
+    int             _pixelMap[MAP_ROW * TILE_SIZE][MAP_COL* TILE_SIZE];
 }
 
 + (ECTileMap *)mapBuildWithFile:(NSString *)filename;
 - (void)run;
+- (void)step:(ccTime)interval;
 @end
 

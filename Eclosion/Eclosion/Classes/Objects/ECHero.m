@@ -23,7 +23,7 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
     if ( self = [super init]) {
         self.heroAction = ECHeroActionDefault;
         self.speed = EC_DEFAULT_SPEED;
-        self.anchorPoint = ccp(0,1);
+        self.anchorPoint = ccp(0,0);
     }
     return self;
 }
@@ -37,9 +37,30 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
         [self runAction:action];
     } else {
         // 移动
-        CCMoveBy *moveAction = [CCMoveBy actionWithDuration:interval position:ccp(self.speed, 0)];
-        [self runAction:moveAction];
+        [self moveHero:interval];
     }
+}
+
+- (void)moveHero:(ccTime)interval {
+    CGPoint position = ccp(0,0);
+    switch (self.heroDirection) {
+        case ECHeroDirectionRight:
+            position = ccp(1,0);
+            break;
+        case ECHeroDirectionLeft:
+            position = ccp(-1,0);
+            break;
+        case ECHeroDirectionUp:
+            position = ccp(0,1);
+            break;
+        case ECHeroDirectionDown:
+            position = ccp(0,-1);
+            break;
+        default:
+            break;
+    }
+    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:interval position:position];
+    [self runAction:moveAction];
 }
 
 - (id)getAction:(ECHeroAction)index {

@@ -11,12 +11,12 @@
 
 @implementation BaseTile
 @synthesize tileHeight = _tileHeight;
-@synthesize tileWidth = _tileWidth;
-@synthesize prototype = _prototype;
+@synthesize tileWidth  = _tileWidth;
+@synthesize prototype  = _prototype;
 
 - (id)init {
     if ( self = [super init]) {
-        self.anchorPoint = ccp(0,1);
+        self.anchorPoint = ccp(0,0);
     }
     return self;
 }
