@@ -43,9 +43,17 @@
     [self addChild:m];
     
     // Load game
-    ECTileMap *map = [ECTileMap mapBuildWithFile:@"level0"];
-    map.position = ccp(22,5);
-    [self addChild:map];
+    _map = [ECTileMap mapBuildWithFile:@"level0"];
+    _map.position = ccp(22,5);
+    [self addChild:_map];
+    
+    // Update
+    [self schedule:@selector(step) interval:0.1];
+}
+
+-(void) onExit {
+    [super onExit];
+    [_map release];
 }
 
 -(void) pause {
@@ -55,6 +63,10 @@
     }
     
 	[self addChild: _pauseScene];
+}
+
+-(void)step {
+    [_map update];
 }
 
 #pragma PauseScene Delegate
