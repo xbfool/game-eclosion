@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB0FC85617FD6ACD00184FB5 /* ECHero.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0FC85517FD6ACD00184FB5 /* ECHero.m */; };
+		DB0FC85917FD6B1C00184FB5 /* CCAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0FC85817FD6B1C00184FB5 /* CCAnimationHelper.m */; };
 		DB2035BD17D33AB3005F4A84 /* ECMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = DB2035BC17D33AB3005F4A84 /* ECMacros.m */; };
 		DB2035C417D345A3005F4A84 /* loading-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB2035C017D345A3005F4A84 /* loading-hd.png */; };
 		DB2035CB17D346F1005F4A84 /* bg_game-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB2035C717D346F1005F4A84 /* bg_game-hd.png */; };
@@ -218,8 +220,6 @@
 		DB825A8617FC029C0052DA3C /* ECTileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = DB825A8417FC029C0052DA3C /* ECTileMap.m */; };
 		DB825A9817FC260A0052DA3C /* Bomb11-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825A8817FC260A0052DA3C /* Bomb11-hd.png */; };
 		DB825A9917FC260A0052DA3C /* Bomb11.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825A8917FC260A0052DA3C /* Bomb11.png */; };
-		DB825A9A17FC260A0052DA3C /* BombA-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825A8A17FC260A0052DA3C /* BombA-hd.png */; };
-		DB825A9B17FC260A0052DA3C /* BombA.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825A8B17FC260A0052DA3C /* BombA.png */; };
 		DB825A9C17FC260A0052DA3C /* BombA1-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825A8C17FC260A0052DA3C /* BombA1-hd.png */; };
 		DB825A9D17FC260A0052DA3C /* BombA1.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825A8D17FC260A0052DA3C /* BombA1.png */; };
 		DB825A9E17FC260A0052DA3C /* BombA2-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB825A8E17FC260A0052DA3C /* BombA2-hd.png */; };
@@ -372,6 +372,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DB0FC85417FD6ACD00184FB5 /* ECHero.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ECHero.h; path = Objects/ECHero.h; sourceTree = "<group>"; };
+		DB0FC85517FD6ACD00184FB5 /* ECHero.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ECHero.m; path = Objects/ECHero.m; sourceTree = "<group>"; };
+		DB0FC85717FD6B1C00184FB5 /* CCAnimationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAnimationHelper.h; sourceTree = "<group>"; };
+		DB0FC85817FD6B1C00184FB5 /* CCAnimationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAnimationHelper.m; sourceTree = "<group>"; };
 		DB2035BB17D33AB3005F4A84 /* ECMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ECMacros.h; path = Public/ECMacros.h; sourceTree = "<group>"; };
 		DB2035BC17D33AB3005F4A84 /* ECMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ECMacros.m; path = Public/ECMacros.m; sourceTree = "<group>"; };
 		DB2035C017D345A3005F4A84 /* loading-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loading-hd.png"; sourceTree = "<group>"; };
@@ -592,8 +596,6 @@
 		DB825A8417FC029C0052DA3C /* ECTileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ECTileMap.m; path = Tile/ECTileMap.m; sourceTree = "<group>"; };
 		DB825A8817FC260A0052DA3C /* Bomb11-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bomb11-hd.png"; sourceTree = "<group>"; };
 		DB825A8917FC260A0052DA3C /* Bomb11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bomb11.png; sourceTree = "<group>"; };
-		DB825A8A17FC260A0052DA3C /* BombA-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BombA-hd.png"; sourceTree = "<group>"; };
-		DB825A8B17FC260A0052DA3C /* BombA.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BombA.png; sourceTree = "<group>"; };
 		DB825A8C17FC260A0052DA3C /* BombA1-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BombA1-hd.png"; sourceTree = "<group>"; };
 		DB825A8D17FC260A0052DA3C /* BombA1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BombA1.png; sourceTree = "<group>"; };
 		DB825A8E17FC260A0052DA3C /* BombA2-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BombA2-hd.png"; sourceTree = "<group>"; };
@@ -906,6 +908,8 @@
 		DB2035BA17D33A8D005F4A84 /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				DB0FC85717FD6B1C00184FB5 /* CCAnimationHelper.h */,
+				DB0FC85817FD6B1C00184FB5 /* CCAnimationHelper.m */,
 			);
 			name = Public;
 			sourceTree = "<group>";
@@ -980,8 +984,6 @@
 				DB825AAF17FD53920052DA3C /* wall.png */,
 				DB825A8817FC260A0052DA3C /* Bomb11-hd.png */,
 				DB825A8917FC260A0052DA3C /* Bomb11.png */,
-				DB825A8A17FC260A0052DA3C /* BombA-hd.png */,
-				DB825A8B17FC260A0052DA3C /* BombA.png */,
 				DB825A8C17FC260A0052DA3C /* BombA1-hd.png */,
 				DB825A8D17FC260A0052DA3C /* BombA1.png */,
 				DB825A8E17FC260A0052DA3C /* BombA2-hd.png */,
@@ -1447,6 +1449,8 @@
 		DB83CEDB17D3209A00E79B93 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				DB0FC85417FD6ACD00184FB5 /* ECHero.h */,
+				DB0FC85517FD6ACD00184FB5 /* ECHero.m */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -1928,8 +1932,6 @@
 				DB825A7D17FBD24E0052DA3C /* level0.plist in Resources */,
 				DB825A9817FC260A0052DA3C /* Bomb11-hd.png in Resources */,
 				DB825A9917FC260A0052DA3C /* Bomb11.png in Resources */,
-				DB825A9A17FC260A0052DA3C /* BombA-hd.png in Resources */,
-				DB825A9B17FC260A0052DA3C /* BombA.png in Resources */,
 				DB825A9C17FC260A0052DA3C /* BombA1-hd.png in Resources */,
 				DB825A9D17FC260A0052DA3C /* BombA1.png in Resources */,
 				DB825A9E17FC260A0052DA3C /* BombA2-hd.png in Resources */,
@@ -2075,6 +2077,8 @@
 				DB825A8017FC02870052DA3C /* ECTile.m in Sources */,
 				DB825A8517FC029C0052DA3C /* BaseTile.m in Sources */,
 				DB825A8617FC029C0052DA3C /* ECTileMap.m in Sources */,
+				DB0FC85617FD6ACD00184FB5 /* ECHero.m in Sources */,
+				DB0FC85917FD6B1C00184FB5 /* CCAnimationHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
