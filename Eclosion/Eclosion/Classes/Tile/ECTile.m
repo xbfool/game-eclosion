@@ -53,7 +53,7 @@ static ECTileUtil* _ectileUtil;
         [self setTextureRect:rect];
         
         // Set Propertys
-        self.contentSize = CGSizeMake(80, 40);
+        self.contentSize = CGSizeMake(120, 40);
         self.prototype = TileMapWall;
     }
     return self;

@@ -43,17 +43,17 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
 
 - (void)moveHero:(ccTime)interval {
     CGPoint position = ccp(0,0);
-    switch (self.heroDirection) {
-        case ECHeroDirectionRight:
+    switch (self.Direction) {
+        case ECDirectionRight:
             position = ccp(1,0);
             break;
-        case ECHeroDirectionLeft:
+        case ECDirectionLeft:
             position = ccp(-1,0);
             break;
-        case ECHeroDirectionUp:
+        case ECDirectionUp:
             position = ccp(0,1);
             break;
-        case ECHeroDirectionDown:
+        case ECDirectionDown:
             position = ccp(0,-1);
             break;
         default:

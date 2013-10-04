@@ -18,11 +18,11 @@ typedef enum {
 } ECHeroAction;
 
 typedef enum {
-    ECHeroDirectionRight = 0,
-    ECHeroDirectionLeft,
-    ECHeroDirectionUp,
-    ECHeroDirectionDown,
-} ECHeroDirection;
+    ECDirectionRight = 0,
+    ECDirectionLeft,
+    ECDirectionUp,
+    ECDirectionDown,
+} ECDirection;
 
 @interface ECHero : CCSprite {
     
@@ -31,7 +31,7 @@ typedef enum {
 @property(nonatomic, assign) int             speed;
 @property(nonatomic, assign) bool            animating;
 @property(nonatomic, assign) ECHeroAction    heroAction;
-@property(nonatomic, assign) ECHeroDirection heroDirection;
+@property(nonatomic, assign) ECDirection Direction;
 
 - (void)run;
 - (void)step:(ccTime)interval;

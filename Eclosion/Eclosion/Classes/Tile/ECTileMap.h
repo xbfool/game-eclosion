@@ -17,7 +17,7 @@
 @interface ECTileMap : CCSprite {
     NSMutableArray *_tileMatrix;
     ECHero*         _hero;
-    int             _pixelMap[MAP_ROW * TILE_SIZE][MAP_COL* TILE_SIZE];
+    int             _pixelMap[MAP_COL * TILE_SIZE][MAP_ROW* TILE_SIZE];
 }
 
 + (ECTileMap *)mapBuildWithFile:(NSString *)filename;

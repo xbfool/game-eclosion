@@ -10,9 +10,6 @@
 #import "ECTile.h"
 #import "ECHero.h"
 
-#define MAP_INVALID_X(x) (( x < 0 ) || ( x >= MAP_COL*TILE_SIZE))
-#define MAP_INVALID_Y(y) (( y < 0 ) || ( y >= MAP_ROW*TILE_SIZE))
-
 @implementation ECTileMap
 
 + (ECTileMap *)mapBuildWithFile:(NSString *)filename {
@@ -54,7 +51,7 @@
     int y = [[[heroDic objectForKey:@"position"] objectForKey:@"y"] intValue];
     _hero = [[ECHero alloc] init];
     _hero.position = ccp(TILE_SIZE * x, TILE_SIZE * y);
-    _hero.heroDirection = ECHeroDirectionRight;
+    _hero.Direction = ECDirectionRight;
     [self addChild:_hero];
 }
 
@@ -65,22 +62,27 @@
 - (void)step:(ccTime)interval {
     // 刷新地图状态
     memset(_pixelMap, 0, sizeof(int) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
-    for ( id obj in self.children ) {
+    for ( CCSprite* obj in self.children ) {
         if ( [obj isKindOfClass:[BaseTile class]]) {
             BaseTile *tile = (BaseTile *)obj;
             for ( int x = tile.position.x; x < (tile.position.x + tile.contentSize.width); x ++ ) {
-                for ( int y = tile.position.y; y > (tile.position.y - tile.contentSize.height); y -- ) {
-                    if (( x > MAP_ROW * TILE_SIZE ) || ( x < 0 )) continue;
-                    if (( y > MAP_COL * TILE_SIZE ) || ( y < 0 )) continue;
+                for ( int y = tile.position.y; y < (tile.position.y + tile.contentSize.height); y ++ ) {
+                    if (( x > MAP_COL * TILE_SIZE ) || ( x < 0 )) continue;
+                    if (( y > MAP_ROW * TILE_SIZE ) || ( y < 0 )) continue;
                     _pixelMap[x][y] = tile.prototype;
                 }
             }
         }
     }
-    
     // 刷新Hero状态
     [self checkStatus];
     [_hero step:interval];
+}
+
+- (TileMaptype)getPixelStatusAtX:(int)x Y:(int)y{
+    if (( x < 0 ) || ( x >= MAP_COL*TILE_SIZE)) return TileMapWall;
+    if (( y < 0 ) || ( y >= MAP_ROW*TILE_SIZE)) return TileMapWall;
+    return _pixelMap[x][y];
 }
 
 // 检查地图, 不可乱序
@@ -104,35 +106,37 @@
 
 // 检查地形
 - (void)checkMove {
-    int headX = _hero.position.x + ((_hero.heroDirection == ECHeroDirectionRight) ? _hero.contentSize.width : 0);
-    if ( MAP_INVALID_X(headX) ) return;
-    int tailX = _hero.position.x + ((_hero.heroDirection == ECHeroDirectionRight) ? 0 : _hero.contentSize.width);
-    if ( MAP_INVALID_X(tailX) ) return;
-    int frontX = headX + 1;
-    if ( MAP_INVALID_X(frontX) ) return;
+    int headX = _hero.position.x + ((_hero.Direction == ECDirectionRight) ? _hero.contentSize.width-1 : 0);
+    int tailX = _hero.position.x + ((_hero.Direction == ECDirectionRight) ? 0 : _hero.contentSize.width-1);
+    int frontX = headX + ((_hero.Direction == ECDirectionRight) ? 1 : (-1));
     int bottomY = _hero.position.y;
-    if ( MAP_INVALID_Y(bottomY) ) return;
     int belowY = bottomY - 1;
-    if ( MAP_INVALID_Y(belowY) ) return;
-    
-    
-    // 底部有道路, 按原路行进
-    if ( _pixelMap[tailX][belowY] == ECTileTypeWall ) {
-        return;
-    }
     
     // 底部悬空, 下坠
-    if ( _pixelMap[tailX][belowY] == ECTileTypeRoad ) {
-        _hero.heroDirection = ECHeroDirectionDown;
+    NSLog(@"bottom:%d",[self getPixelStatusAtX:tailX Y:belowY]);
+    if ( [self getPixelStatusAtX:tailX Y:belowY] == TileMapWalkable ) {
+        _hero.Direction = ECDirectionDown;
         return;
     }
-    // 前方有墙, 转向
-    if ( _pixelMap[frontX][bottomY] == ECTileTypeRoad ) {
-        if ( _hero.heroDirection == ECHeroDirectionRight ) {
-            _hero.heroDirection = ECHeroDirectionLeft;
+    
+    // 底部有道路, 按原路行进
+    if ( [self getPixelStatusAtX:tailX Y:belowY] == TileMapWall ) {
+        if (( _hero.Direction == ECDirectionRight )||(_hero.Direction == ECDirectionLeft )) {
+            
+        } else {
+            _hero.Direction = ECDirectionRight;
         }
-        if ( _hero.heroDirection == ECHeroDirectionLeft ) {
-            _hero.heroDirection = ECHeroDirectionRight;
+        //return;
+    }
+    
+    // 前方有墙, 转向
+    NSLog(@"frount:%d",[self getPixelStatusAtX:frontX Y:bottomY]);
+    if ( [self getPixelStatusAtX:frontX Y:bottomY] == TileMapWall) {
+        if ( _hero.Direction == ECDirectionRight ) {
+            _hero.Direction = ECDirectionLeft;
+        }
+        if ( _hero.Direction == ECDirectionLeft ) {
+            _hero.Direction = ECDirectionRight;
         }
         return;
     }

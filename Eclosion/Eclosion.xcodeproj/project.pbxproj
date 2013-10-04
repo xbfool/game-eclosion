@@ -11,6 +11,7 @@
 		DB0FC85917FD6B1C00184FB5 /* CCAnimationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0FC85817FD6B1C00184FB5 /* CCAnimationHelper.m */; };
 		DB0FC85C17FD6F1F00184FB5 /* BombA0-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0FC85A17FD6F1F00184FB5 /* BombA0-hd.png */; };
 		DB0FC85D17FD6F1F00184FB5 /* BombA0.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0FC85B17FD6F1F00184FB5 /* BombA0.png */; };
+		DB0FC86117FEBD3300184FB5 /* 20.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0FC86017FEBD3200184FB5 /* 20.png */; };
 		DB2035BD17D33AB3005F4A84 /* ECMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = DB2035BC17D33AB3005F4A84 /* ECMacros.m */; };
 		DB2035C417D345A3005F4A84 /* loading-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB2035C017D345A3005F4A84 /* loading-hd.png */; };
 		DB2035CB17D346F1005F4A84 /* bg_game-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB2035C717D346F1005F4A84 /* bg_game-hd.png */; };
@@ -378,6 +379,7 @@
 		DB0FC85817FD6B1C00184FB5 /* CCAnimationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAnimationHelper.m; sourceTree = "<group>"; };
 		DB0FC85A17FD6F1F00184FB5 /* BombA0-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BombA0-hd.png"; sourceTree = "<group>"; };
 		DB0FC85B17FD6F1F00184FB5 /* BombA0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BombA0.png; sourceTree = "<group>"; };
+		DB0FC86017FEBD3200184FB5 /* 20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 20.png; sourceTree = "<group>"; };
 		DB2035BB17D33AB3005F4A84 /* ECMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ECMacros.h; path = Public/ECMacros.h; sourceTree = "<group>"; };
 		DB2035BC17D33AB3005F4A84 /* ECMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ECMacros.m; path = Public/ECMacros.m; sourceTree = "<group>"; };
 		DB2035C017D345A3005F4A84 /* loading-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loading-hd.png"; sourceTree = "<group>"; };
@@ -1004,6 +1006,7 @@
 		DB83CD2F17D31FBE00E79B93 = {
 			isa = PBXGroup;
 			children = (
+				DB0FC86017FEBD3200184FB5 /* 20.png */,
 				DB83CED317D3209200E79B93 /* Classes */,
 				DB83CD4D17D31FBE00E79B93 /* Eclosion */,
 				DB83CD3A17D31FBE00E79B93 /* Frameworks */,
@@ -1952,6 +1955,7 @@
 				DB825AB717FD53920052DA3C /* wall.png in Resources */,
 				DB0FC85C17FD6F1F00184FB5 /* BombA0-hd.png in Resources */,
 				DB0FC85D17FD6F1F00184FB5 /* BombA0.png in Resources */,
+				DB0FC86117FEBD3300184FB5 /* 20.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
