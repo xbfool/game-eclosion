@@ -55,6 +55,10 @@ static ECTileUtil* _ectileUtil;
         // Set Propertys
         self.contentSize = CGSizeMake(120, 40);
         self.prototype = TileMapWall;
+        
+        // Moveble
+        [[[CCDirector sharedDirector] touchDispatcher]
+         addTargetedDelegate:self priority:0 swallowsTouches:YES];
     }
     return self;
 }

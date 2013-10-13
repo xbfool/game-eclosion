@@ -18,7 +18,7 @@ typedef enum {
     TileMapEnd      = 5,
 }TileMaptype;
 
-@interface BaseTile : CCSprite {
+@interface BaseTile : CCSprite<CCTargetedTouchDelegate> {
     float           _tileWidth;
     float           _tileHeight;
     TileMaptype     _prototype;
