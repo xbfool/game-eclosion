@@ -51,7 +51,8 @@
     int y = [[[heroDic objectForKey:@"position"] objectForKey:@"y"] intValue];
     _hero = [[ECHero alloc] init];
     _hero.position = ccp(TILE_SIZE * x, TILE_SIZE * y);
-    _hero.Direction = ECDirectionRight;
+    _hero.direction = ECDirectionRight;
+    _hero.speed = 5;
     [self addChild:_hero];
 }
 
@@ -97,7 +98,7 @@
     // 陷阱
     
     // 成功
-}
+}   
 
 // 检查是否碰触道具
 - (void)checkItem {
@@ -106,37 +107,38 @@
 
 // 检查地形
 - (void)checkMove {
-    int headX = _hero.position.x + ((_hero.Direction == ECDirectionRight) ? _hero.contentSize.width-1 : 0);
-    int tailX = _hero.position.x + ((_hero.Direction == ECDirectionRight) ? 0 : _hero.contentSize.width-1);
-    int frontX = headX + ((_hero.Direction == ECDirectionRight) ? 1 : (-1));
+    int headX = _hero.position.x + ((_hero.direction == ECDirectionRight) ? _hero.contentSize.width - 1 : 0);
+    int tailX = _hero.position.x + ((_hero.direction == ECDirectionRight) ? 0 : _hero.contentSize.width - 1);
+    int frontX = headX + ((_hero.direction == ECDirectionRight) ? 1 : (-1)); // 有bug, 应检查一条线
     int bottomY = _hero.position.y;
     int belowY = bottomY - 1;
     
     // 底部悬空, 下坠
-    NSLog(@"bottom:%d",[self getPixelStatusAtX:tailX Y:belowY]);
+    //NSLog(@"bottom:%d",[self getPixelStatusAtX:tailX Y:belowY]);
     if ( [self getPixelStatusAtX:tailX Y:belowY] == TileMapWalkable ) {
-        _hero.Direction = ECDirectionDown;
+        if ( _hero.direction != ECDirectionDown ) {
+            _hero.direction = ECDirectionDown;
+        }
         return;
     }
     
     // 底部有道路, 按原路行进
     if ( [self getPixelStatusAtX:tailX Y:belowY] == TileMapWall ) {
-        if (( _hero.Direction == ECDirectionRight )||(_hero.Direction == ECDirectionLeft )) {
+        if (( _hero.direction == ECDirectionRight )||(_hero.direction == ECDirectionLeft )) {
             
         } else {
-            _hero.Direction = ECDirectionRight;
+            _hero.direction = ECDirectionRight;
         }
         //return;
     }
     
     // 前方有墙, 转向
-    NSLog(@"frount:%d",[self getPixelStatusAtX:frontX Y:bottomY]);
+    //NSLog(@"frount:%d",[self getPixelStatusAtX:frontX Y:bottomY]);
     if ( [self getPixelStatusAtX:frontX Y:bottomY] == TileMapWall) {
-        if ( _hero.Direction == ECDirectionRight ) {
-            _hero.Direction = ECDirectionLeft;
-        }
-        if ( _hero.Direction == ECDirectionLeft ) {
-            _hero.Direction = ECDirectionRight;
+        if ( _hero.direction == ECDirectionRight ) {
+            _hero.direction = ECDirectionLeft;
+        } else if ( _hero.direction == ECDirectionLeft ) {
+            _hero.direction = ECDirectionRight;
         }
         return;
     }

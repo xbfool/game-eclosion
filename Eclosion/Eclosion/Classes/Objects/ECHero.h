@@ -30,8 +30,9 @@ typedef enum {
 
 @property(nonatomic, assign) int             speed;
 @property(nonatomic, assign) bool            animating;
+@property(nonatomic, assign) bool            running;
 @property(nonatomic, assign) ECHeroAction    heroAction;
-@property(nonatomic, assign) ECDirection Direction;
+@property(nonatomic, assign) ECDirection     direction;
 
 - (void)run;
 - (void)step:(ccTime)interval;
