@@ -15,11 +15,13 @@
 @synthesize prototype  = _prototype;
 @synthesize forceDirection = _forceDirection;
 @synthesize animating;
+@synthesize movebal;
 
 - (id)init {
     if ( self = [super init]) {
         self.anchorPoint = ccp(0,0);
         self.forceDirection = ECDirectionNone;
+        self.movebal = NO;
     }
     return self;
 }
@@ -34,8 +36,17 @@
 }
 
 - (void)setForceDirection:(ECDirection)aForceDirection {
+    if ( ! movebal ) return;
     if ( (_forceDirection != ECDirectionNone) && (aForceDirection != ECDirectionNone) ) return;
     _forceDirection = aForceDirection;
+}
+
+- (void)setMovebal:(BOOL)amovebal {
+    movebal = amovebal;
+    if ( movebal ) {
+        [[[CCDirector sharedDirector] touchDispatcher]
+         addTargetedDelegate:self priority:0 swallowsTouches:YES];
+    }
 }
 
 - (void)pushByForce {

@@ -57,8 +57,7 @@ static ECTileUtil* _ectileUtil;
         self.prototype = TileMapWall;
         
         // Moveble
-        [[[CCDirector sharedDirector] touchDispatcher]
-         addTargetedDelegate:self priority:0 swallowsTouches:YES];
+        self.movebal = YES;
     }
     return self;
 }

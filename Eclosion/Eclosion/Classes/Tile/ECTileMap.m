@@ -94,6 +94,18 @@
     return _pixelMap[x][y];
 }
 
+// 获取覆盖这个坐标的obj
+- (BaseTile *)getItemAtPointX:(int)x Y:(int)y {
+    CGPoint location = CGPointMake(x, y);
+    for ( BaseTile* tile in _myItems ) {
+        CGRect myRect = CGRectMake(tile.position.x, tile.position.y, tile.contentSize.width, tile.contentSize.height);
+         if ( CGRectContainsPoint(myRect, location) ) {
+             return tile;
+         }
+     }
+    return nil;
+}
+
 // 检查地图, 不可乱序
 - (void)checkStatus {
     [self checkEnd];        // 检查是否触发了结局
@@ -134,52 +146,68 @@
 
 // 检查道具在受力方向上是否可移动
 - (BOOL)checkItemMovebal:(BaseTile *)tile {
-    int headX = tile.position.x + ((tile.forceDirection == ECDirectionRight) ? tile.contentSize.width - 1 : 0);
-    int frontX = headX + ((tile.forceDirection == ECDirectionRight) ? 1 : (-1));
-    int belowY = tile.position.y - 1;
-    int beyoundY = tile.position.y + tile.contentSize.height;
-    
-    switch (tile.forceDirection) {
-        case ECDirectionLeft:
-        case ECDirectionRight:
-            if ( [self getPixelStatusAtX:frontX Y:tile.position.y] != TileMapWalkable) {
-                return NO;
-            }
-            break;
-        case ECDirectionUp:
-            if ( [self getPixelStatusAtX:tile.position.x Y:beyoundY] != TileMapWalkable ) {
-                return NO;
-            }
-            break;
-        case ECDirectionDown:
-            if ( [self getPixelStatusAtX:tile.position.x Y:belowY] != TileMapWalkable ) {
-                return NO;
-            }
-            break;
-        default:
-            break;
+    BaseTile *next = [self getNextItem:tile];
+    if ( next == nil ) {
+        return YES;
     }
-    return YES;
+    if ( [next isKindOfClass:[ECTileRoad class]] ) {
+        return YES;
+    }
+    return NO;
 }
 
 // 传递力
 - (void)passForce:(BaseTile *)tile {
+    BaseTile *next = [self getNextItem:tile];
+    if ( next != nil ) {
+        // 传递
+        next.forceDirection = tile.forceDirection;
+        // 递归
+        [self passForce:next]; 
+    }
+}
+
+// 获取受力方向上相邻的Obj
+- (BaseTile *)getNextItem:(BaseTile *)tile {
+    int leftX = tile.position.x - 1;
+    int rightX = tile.position.x + tile.contentSize.width;
+    int belowY = tile.position.y - 1;
+    int beyoundY = tile.position.y + tile.contentSize.height;
+    int tileWidth = ( tile.contentSize.width / ECTileSize );
+    int tileHeight = ( tile.contentSize.height / ECTileSize );
+    
+    int i = 0;
+    BaseTile *next = nil;
+    
     switch (tile.forceDirection) {
         case ECDirectionRight:
-            
+            for ( i = 0; i < tileHeight; i++ ){
+                next = [self getItemAtPointX:rightX Y:tile.position.y + i * ECTileSize];
+                if ( next != nil ) break;
+            }
             break;
         case ECDirectionLeft:
-            
+            for ( i = 0; i < tileHeight; i++ ){
+                next = [self getItemAtPointX:leftX Y:tile.position.y + i * ECTileSize];
+                if ( next != nil ) break;
+            }
             break;
         case ECDirectionUp:
-            
+            for ( i = 0; i < tileWidth; i++ ){
+                next = [self getItemAtPointX:tile.position.x + i * ECTileSize Y:beyoundY];
+                if ( next != nil ) break;
+            }
             break;
         case ECDirectionDown:
-            
+            for ( i = 0; i < tileWidth; i++ ){
+                next = [self getItemAtPointX:tile.position.x + i * ECTileSize Y:belowY];
+                if ( next != nil ) break;
+            }
             break;
         default:
             break;
     }
+    return next;
 }
 
 // 检查英雄移动地形
