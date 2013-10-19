@@ -61,8 +61,7 @@
     }
     CCMoveBy *moveAction = [CCMoveBy actionWithDuration:0.3 position:position];
     CCSequence *squence = [CCSequence actions:moveAction,
-                           [CCCallBlock actionWithBlock:^{ self.animating = NO;
-                                self.forceDirection = ECDirectionNone;}], nil];
+                           [CCCallBlock actionWithBlock:^{ self.animating = NO;}], nil];
     squence.tag = RUN_ACTION_TAG;
     
     [self runAction:squence];

@@ -82,6 +82,7 @@
             }
         }
     }
+    
     // 刷新Hero状态
     [self checkStatus];
     [_hero step:interval];
@@ -96,7 +97,7 @@
 // 检查地图, 不可乱序
 - (void)checkStatus {
     [self checkEnd];        // 检查是否触发了结局
-    [self checkItemMove];   // 检查是否需要移动道具
+    [self checkItemForce];  // 检查是否需要移动道具
     [self checkItem];       // 检查是否碰触道具
     [self checkMove];       // 检查地形
 }
@@ -112,15 +113,53 @@
 - (void)checkItem {
     
 }
+
 // 检查是否需要移动道具
-- (void)checkItemMove {
+- (void)checkItemForce {
     for ( BaseTile* tile in _myItems ) {
         if ( tile.forceDirection != ECDirectionNone ) {
             // 将力传递给当前受力道具相邻的道具.
             [self passForce:tile];
-            [tile pushByForce];
+            
+            // 检查道具在受力方向上是否可移动
+            if( [self checkItemMovebal:tile] ) {
+                // 移动道具
+                [tile pushByForce];
+            }
+            
+            tile.forceDirection = ECDirectionNone;
         }
     }
+}
+
+// 检查道具在受力方向上是否可移动
+- (BOOL)checkItemMovebal:(BaseTile *)tile {
+    int headX = tile.position.x + ((tile.forceDirection == ECDirectionRight) ? tile.contentSize.width - 1 : 0);
+    int frontX = headX + ((tile.forceDirection == ECDirectionRight) ? 1 : (-1));
+    int belowY = tile.position.y - 1;
+    int beyoundY = tile.position.y + tile.contentSize.height;
+    
+    switch (tile.forceDirection) {
+        case ECDirectionLeft:
+        case ECDirectionRight:
+            if ( [self getPixelStatusAtX:frontX Y:tile.position.y] != TileMapWalkable) {
+                return NO;
+            }
+            break;
+        case ECDirectionUp:
+            if ( [self getPixelStatusAtX:tile.position.x Y:beyoundY] != TileMapWalkable ) {
+                return NO;
+            }
+            break;
+        case ECDirectionDown:
+            if ( [self getPixelStatusAtX:tile.position.x Y:belowY] != TileMapWalkable ) {
+                return NO;
+            }
+            break;
+        default:
+            break;
+    }
+    return YES;
 }
 
 // 传递力
@@ -143,7 +182,7 @@
     }
 }
 
-// 检查地形
+// 检查英雄移动地形
 - (void)checkMove {
     int headX = _hero.position.x + ((_hero.direction == ECDirectionRight) ? _hero.contentSize.width - 1 : 0);
     int tailX = _hero.position.x + ((_hero.direction == ECDirectionRight) ? 0 : _hero.contentSize.width - 1);
