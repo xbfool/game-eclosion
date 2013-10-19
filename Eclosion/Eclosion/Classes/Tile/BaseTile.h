@@ -18,14 +18,28 @@ typedef enum {
     TileMapEnd      = 5,
 }TileMaptype;
 
+typedef enum {
+    ECDirectionRight = 0,
+    ECDirectionLeft,
+    ECDirectionUp,
+    ECDirectionDown,
+    ECDirectionNone,
+} ECDirection;
+
 @interface BaseTile : CCSprite<CCTargetedTouchDelegate> {
     float           _tileWidth;
     float           _tileHeight;
+    CGPoint         _beginPoint;
     TileMaptype     _prototype;
+    ECDirection     _forceDirection;
 }
 
 @property(nonatomic, assign) float          tileWidth;
 @property(nonatomic, assign) float          tileHeight;
 @property(nonatomic, assign) TileMaptype    prototype;
+@property(nonatomic, assign) ECDirection    forceDirection;
+@property(nonatomic, assign) BOOL           animating;
+
+- (void)pushByForce;
 
 @end

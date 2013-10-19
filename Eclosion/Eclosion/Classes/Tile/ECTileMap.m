@@ -21,9 +21,18 @@
 - (id)init {
     if ( self = [super init ]) {
         _tileMatrix = [[NSMutableArray alloc] init];
+        _myItems = [[NSMutableArray alloc] init];
         memset(_pixelMap, 0, sizeof(int) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
     }
     return self;
+}
+
+- (void)dealloc {
+    [_tileMatrix release];
+    [_myItems release];
+    [_hero removeFromParentAndCleanup:YES];
+    [_hero release];
+    [super dealloc];
 }
 
 - (void)buildMap:(NSString *)filename {
@@ -43,6 +52,7 @@
         int y = [[[objDic objectForKey:@"position"] objectForKey:@"y"] intValue];
         tile.position = ccp(TILE_SIZE * x, TILE_SIZE * y);
         [self addChild:tile];
+        [_myItems addObject:tile];
     }
     
     // read hero position
@@ -63,15 +73,12 @@
 - (void)step:(ccTime)interval {
     // 刷新地图状态
     memset(_pixelMap, 0, sizeof(int) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
-    for ( CCSprite* obj in self.children ) {
-        if ( [obj isKindOfClass:[BaseTile class]]) {
-            BaseTile *tile = (BaseTile *)obj;
-            for ( int x = tile.position.x; x < (tile.position.x + tile.contentSize.width); x ++ ) {
-                for ( int y = tile.position.y; y < (tile.position.y + tile.contentSize.height); y ++ ) {
-                    if (( x > MAP_COL * TILE_SIZE ) || ( x < 0 )) continue;
-                    if (( y > MAP_ROW * TILE_SIZE ) || ( y < 0 )) continue;
-                    _pixelMap[x][y] = tile.prototype;
-                }
+    for ( BaseTile* tile in _myItems ) {
+        for ( int x = tile.position.x; x < (tile.position.x + tile.contentSize.width); x ++ ) {
+            for ( int y = tile.position.y; y < (tile.position.y + tile.contentSize.height); y ++ ) {
+                if (( x > MAP_COL * TILE_SIZE ) || ( x < 0 )) continue;
+                if (( y > MAP_ROW * TILE_SIZE ) || ( y < 0 )) continue;
+                _pixelMap[x][y] = tile.prototype;
             }
         }
     }
@@ -88,9 +95,10 @@
 
 // 检查地图, 不可乱序
 - (void)checkStatus {
-    [self checkEnd];
-    [self checkItem];
-    [self checkMove];
+    [self checkEnd];        // 检查是否触发了结局
+    [self checkItemMove];   // 检查是否需要移动道具
+    [self checkItem];       // 检查是否碰触道具
+    [self checkMove];       // 检查地形
 }
 
 // 检查是否触发了结局
@@ -103,6 +111,36 @@
 // 检查是否碰触道具
 - (void)checkItem {
     
+}
+// 检查是否需要移动道具
+- (void)checkItemMove {
+    for ( BaseTile* tile in _myItems ) {
+        if ( tile.forceDirection != ECDirectionNone ) {
+            // 将力传递给当前受力道具相邻的道具.
+            [self passForce:tile];
+            [tile pushByForce];
+        }
+    }
+}
+
+// 传递力
+- (void)passForce:(BaseTile *)tile {
+    switch (tile.forceDirection) {
+        case ECDirectionRight:
+            
+            break;
+        case ECDirectionLeft:
+            
+            break;
+        case ECDirectionUp:
+            
+            break;
+        case ECDirectionDown:
+            
+            break;
+        default:
+            break;
+    }
 }
 
 // 检查地形
@@ -134,7 +172,7 @@
     
     // 前方有墙, 转向
     //NSLog(@"frount:%d",[self getPixelStatusAtX:frontX Y:bottomY]);
-    if ( [self getPixelStatusAtX:frontX Y:bottomY] == TileMapWall) {
+    if ( [self getPixelStatusAtX:frontX Y:(bottomY+2)] == TileMapWall) { // 底部留2px误差
         if ( _hero.direction == ECDirectionRight ) {
             _hero.direction = ECDirectionLeft;
         } else if ( _hero.direction == ECDirectionLeft ) {
@@ -142,13 +180,6 @@
         }
         return;
     }
-}
-
-- (void)dealloc {
-    [_tileMatrix release];
-    [_hero removeFromParentAndCleanup:YES];
-    [_hero release];
-    [super dealloc];
 }
 
 @end

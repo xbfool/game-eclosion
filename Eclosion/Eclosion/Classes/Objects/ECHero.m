@@ -26,6 +26,7 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
         self.heroAction = ECHeroActionDefault;
         self.speed = EC_DEFAULT_SPEED;
         self.anchorPoint = ccp(0,0);
+        self.running = NO;
     }
     return self;
 }
@@ -40,7 +41,6 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
     } else {
         // 移动
         if ( !self.running ) {
-            self.running = YES;
             [self moveHero];
         }
     }
@@ -50,7 +50,6 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
     _direction = aDirection;
     [self stopActionByTag:RUN_ACTION_TAG];
     self.running = NO;
-    [self moveHero];
 }
 
 - (void)moveHero {
@@ -75,6 +74,7 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
     CCSequence *squence = [CCSequence actions:moveAction,
                   [CCCallBlock actionWithBlock:^{ self.running = NO; }], nil];
     squence.tag = RUN_ACTION_TAG;
+    self.running = YES;
     [self runAction:squence];
 }
 

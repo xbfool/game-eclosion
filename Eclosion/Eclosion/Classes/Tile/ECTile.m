@@ -53,7 +53,7 @@ static ECTileUtil* _ectileUtil;
         [self setTextureRect:rect];
         
         // Set Propertys
-        self.contentSize = CGSizeMake(120, 40);
+        self.contentSize = CGSizeMake(3*ECTileSize, ECTileSize);
         self.prototype = TileMapWall;
         
         // Moveble
@@ -76,7 +76,7 @@ static ECTileUtil* _ectileUtil;
         [self setTextureRect:rect];
         
         // Set Propertys
-        self.contentSize = CGSizeMake(40, 40);
+        self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
         self.prototype = TileMapWall;
     }
     return self;
@@ -103,7 +103,7 @@ static ECTileUtil* _ectileUtil;
         [self setTextureRect:rect];
         
         // Set Propertys
-        self.contentSize = CGSizeMake(40, 40);
+        self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
         self.prototype = TileMapTrap;
     }
     return self;
@@ -122,7 +122,7 @@ static ECTileUtil* _ectileUtil;
         [self setTextureRect:rect];
         
         // Set Propertys
-        self.contentSize = CGSizeMake(40, 40);
+        self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
         self.prototype = TileMapEnd;
     }
     return self;

@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+// Tile size
+#define ECTileSize 40
+
 // Winsize
 #define WINSIZE ([[CCDirector sharedDirector] winSize])
 

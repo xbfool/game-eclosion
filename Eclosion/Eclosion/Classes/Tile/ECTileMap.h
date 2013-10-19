@@ -16,6 +16,7 @@
 @class ECHero;
 @interface ECTileMap : CCSprite {
     NSMutableArray *_tileMatrix;
+    NSMutableArray *_myItems;
     ECHero*         _hero;
     int             _pixelMap[MAP_COL * TILE_SIZE][MAP_ROW* TILE_SIZE];
 }

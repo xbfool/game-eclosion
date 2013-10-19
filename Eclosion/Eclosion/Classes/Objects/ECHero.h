@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "BaseTile.h"
 
 typedef enum {
     ECHeroActionDefault = 0,
@@ -16,13 +17,6 @@ typedef enum {
     ECHeroActionFailure,
     ECHeroActionCount // MUST be last one
 } ECHeroAction;
-
-typedef enum {
-    ECDirectionRight = 0,
-    ECDirectionLeft,
-    ECDirectionUp,
-    ECDirectionDown,
-} ECDirection;
 
 @interface ECHero : CCSprite {
     
