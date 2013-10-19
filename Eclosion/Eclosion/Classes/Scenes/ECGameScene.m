@@ -49,7 +49,7 @@
     [_map run];
     
     // Update
-    [self schedule:@selector(step:) interval:0.1];
+    [self schedule:@selector(step:)];
 }
 
 -(void) onExit {

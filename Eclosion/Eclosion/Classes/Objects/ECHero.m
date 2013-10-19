@@ -9,7 +9,9 @@
 #import "ECHero.h"
 #import "CCAnimationHelper.h"
 
-#define EC_DEFAULT_SPEED 1;
+#define EC_DEFAULT_SPEED 1
+#define RUN_ACTION_TAG 9
+
 static NSString* _filename[ECHeroActionCount] = { @"BombA",@"BombA",@"BombA"};
 
 static const int _fileCount[ECHeroActionCount] = { 3,3,3};
@@ -17,13 +19,14 @@ static const int _fileCount[ECHeroActionCount] = { 3,3,3};
 static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
 
 @implementation ECHero
-@synthesize speed, animating, heroAction;
+@synthesize speed, animating, heroAction, running;
 
 - (id)init {
     if ( self = [super init]) {
         self.heroAction = ECHeroActionDefault;
         self.speed = EC_DEFAULT_SPEED;
-        self.anchorPoint = ccp(0,1);
+        self.anchorPoint = ccp(0,0);
+        self.running = NO;
     }
     return self;
 }
@@ -37,9 +40,42 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
         [self runAction:action];
     } else {
         // 移动
-        CCMoveBy *moveAction = [CCMoveBy actionWithDuration:interval position:ccp(self.speed, 0)];
-        [self runAction:moveAction];
+        if ( !self.running ) {
+            [self moveHero];
+        }
     }
+}
+
+- (void)setDirection:(ECDirection)aDirection {
+    _direction = aDirection;
+    [self stopActionByTag:RUN_ACTION_TAG];
+    self.running = NO;
+}
+
+- (void)moveHero {
+    CGPoint position = ccp(0,0);
+    switch (self.direction) {
+        case ECDirectionRight:
+            position = ccp(speed,0);
+            break;
+        case ECDirectionLeft:
+            position = ccp(-1*speed,0);
+            break;
+        case ECDirectionUp:
+            position = ccp(0,speed);
+            break;
+        case ECDirectionDown:
+            position = ccp(0,-1*speed);
+            break;
+        default:
+            break;
+    }
+    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:0.1 position:position];
+    CCSequence *squence = [CCSequence actions:moveAction,
+                  [CCCallBlock actionWithBlock:^{ self.running = NO; }], nil];
+    squence.tag = RUN_ACTION_TAG;
+    self.running = YES;
+    [self runAction:squence];
 }
 
 - (id)getAction:(ECHeroAction)index {

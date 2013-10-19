@@ -16,11 +16,13 @@
 @class ECHero;
 @interface ECTileMap : CCSprite {
     NSMutableArray *_tileMatrix;
+    NSMutableArray *_myItems;
     ECHero*         _hero;
-    int             _picxlMap[MAP_ROW * TILE_SIZE][MAP_COL* TILE_SIZE];
+    int             _pixelMap[MAP_COL * TILE_SIZE][MAP_ROW* TILE_SIZE];
 }
 
 + (ECTileMap *)mapBuildWithFile:(NSString *)filename;
 - (void)run;
+- (void)step:(ccTime)interval;
 @end
 
