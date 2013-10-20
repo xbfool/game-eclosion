@@ -40,6 +40,7 @@ typedef enum {
 @property(nonatomic, assign) ECDirection    forceDirection;
 @property(nonatomic, assign) BOOL           animating;
 @property(nonatomic, assign) BOOL           movebal;
-- (void)pushByForce;
+
+- (void)pushByStep:(int)step;
 
 @end

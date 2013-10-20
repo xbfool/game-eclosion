@@ -88,13 +88,14 @@
     [_hero step:interval];
 }
 
+// 获取地图像素状态
 - (TileMaptype)getPixelStatusAtX:(int)x Y:(int)y{
     if (( x < 0 ) || ( x >= MAP_COL*TILE_SIZE)) return TileMapWall;
     if (( y < 0 ) || ( y >= MAP_ROW*TILE_SIZE)) return TileMapWall;
     return _pixelMap[x][y];
 }
 
-// 获取覆盖这个坐标的obj
+// 获取覆盖这个坐标的Obj
 - (BaseTile *)getItemAtPointX:(int)x Y:(int)y {
     CGPoint location = CGPointMake(x, y);
     for ( BaseTile* tile in _myItems ) {
@@ -106,69 +107,8 @@
     return nil;
 }
 
-// 检查地图, 不可乱序
-- (void)checkStatus {
-    [self checkEnd];        // 检查是否触发了结局
-    [self checkItemForce];  // 检查是否需要移动道具
-    [self checkItem];       // 检查是否碰触道具
-    [self checkMove];       // 检查地形
-}
-
-// 检查是否触发了结局
-- (void)checkEnd {
-    // 陷阱
-    
-    // 成功
-}   
-
-// 检查是否碰触道具
-- (void)checkItem {
-    
-}
-
-// 检查是否需要移动道具
-- (void)checkItemForce {
-    for ( BaseTile* tile in _myItems ) {
-        if ( tile.forceDirection != ECDirectionNone ) {
-            // 将力传递给当前受力道具相邻的道具.
-            [self passForce:tile];
-            
-            // 检查道具在受力方向上是否可移动
-            if( [self checkItemMovebal:tile] ) {
-                // 移动道具
-                [tile pushByForce];
-            }
-            
-            tile.forceDirection = ECDirectionNone;
-        }
-    }
-}
-
-// 检查道具在受力方向上是否可移动
-- (BOOL)checkItemMovebal:(BaseTile *)tile {
-    BaseTile *next = [self getNextItem:tile];
-    if ( next == nil ) {
-        return YES;
-    }
-    if ( [next isKindOfClass:[ECTileRoad class]] ) {
-        return YES;
-    }
-    return NO;
-}
-
-// 传递力
-- (void)passForce:(BaseTile *)tile {
-    BaseTile *next = [self getNextItem:tile];
-    if ( next != nil ) {
-        // 传递
-        next.forceDirection = tile.forceDirection;
-        // 递归
-        [self passForce:next]; 
-    }
-}
-
-// 获取受力方向上相邻的Obj
-- (BaseTile *)getNextItem:(BaseTile *)tile {
+// 获取指定方向上相邻的Obj
+- (BaseTile *)getNextItem:(CCSprite *)tile direction:(ECDirection)direction {
     int leftX = tile.position.x - 1;
     int rightX = tile.position.x + tile.contentSize.width;
     int belowY = tile.position.y - 1;
@@ -179,7 +119,7 @@
     int i = 0;
     BaseTile *next = nil;
     
-    switch (tile.forceDirection) {
+    switch (direction) {
         case ECDirectionRight:
             for ( i = 0; i < tileHeight; i++ ){
                 next = [self getItemAtPointX:rightX Y:tile.position.y + i * ECTileSize];
@@ -209,6 +149,83 @@
     }
     return next;
 }
+
+// 获取移动方向上最远可达地点, 返回像素坐标
+- (CGPoint)getDistination:(CCSprite *)tile direction:(ECDirection)direction {
+    // todu
+}
+
+// 获取受力方向上相邻的Obj
+- (BaseTile *)getNextForceItem:(BaseTile *)tile {
+    
+    BaseTile *next = [self getNextItem:tile direction:tile.forceDirection];
+    
+    return next;
+}
+
+// 检查道具在受力方向上是否可移动
+- (BOOL)checkItemMovebal:(BaseTile *)tile {
+    BaseTile *next = [self getNextForceItem:tile];
+    if ( next == nil ) {
+        return YES;
+    }
+    if ( [next isKindOfClass:[ECTileRoad class]] ) {
+        return YES;
+    }
+    return NO;
+}
+
+// 传递力
+- (void)passForce:(BaseTile *)tile {
+    BaseTile *next = [self getNextForceItem:tile];
+    if ( next != nil ) {
+        // 传递
+        next.forceDirection = tile.forceDirection;
+        // 递归
+        [self passForce:next];
+    }
+}
+
+// 检查是否需要移动道具
+- (void)checkItemForce {
+    for ( BaseTile* tile in _myItems ) {
+        if ( tile.forceDirection != ECDirectionNone ) {
+            // 将力传递给当前受力道具相邻的道具.
+            //[self passForce:tile];
+            
+            // 检查道具在受力方向上可移动的距离
+            CGPoint des = [self getDistination:tile direction:tile.forceDirection];
+            CGPoint p = tile.position;
+            int step = MAX(abs(des.x - tile.position.x)/ECTileSize, abs(des.y - tile.position.y)/ECTileSize);
+            
+            // 移动道具
+            [tile pushByStep:step];
+            
+            tile.forceDirection = ECDirectionNone;
+        }
+    }
+}
+
+// 检查Hero脚下地图状态, 不可乱序
+- (void)checkStatus {
+    [self checkEnd];        // 检查是否触发了结局
+    [self checkItemForce];  // 检查是否需要移动道具
+    [self checkItem];       // 检查是否碰触道具
+    [self checkMove];       // 检查地形
+}
+
+// 检查是否触发了结局
+- (void)checkEnd {
+    // 陷阱
+    
+    // 成功
+}   
+
+// 检查是否碰触道具
+- (void)checkItem {
+    
+}
+
 
 // 检查英雄移动地形
 - (void)checkMove {

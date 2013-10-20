@@ -49,23 +49,23 @@
     }
 }
 
-- (void)pushByForce {
+- (void)pushByStep:(int)step {
     if ( self.animating ) return;
     self.animating = YES;
     
     CGPoint position = ccp(0,0);
     switch (self.forceDirection) {
         case ECDirectionRight:
-            position = ccp(ECTileSize,0);
+            position = ccp( step * ECTileSize, 0);
             break;
         case ECDirectionLeft:
-            position = ccp(-1*ECTileSize,0);
+            position = ccp(-1 * step * ECTileSize, 0);
             break;
         case ECDirectionUp:
-            position = ccp(0,ECTileSize);
+            position = ccp(0, step * ECTileSize);
             break;
         case ECDirectionDown:
-            position = ccp(0,-1*ECTileSize);
+            position = ccp(0, -1 * step * ECTileSize);
             break;
         default:
             break;
