@@ -97,6 +97,11 @@
 
 // 获取覆盖这个坐标的Obj
 - (BaseTile *)getItemAtPointX:(int)x Y:(int)y {
+    // 越界
+    if (( x < 0 ) || ( x >= MAP_COL*TILE_SIZE)) return [ECTileWall node];
+    if (( y < 0 ) || ( y >= MAP_ROW*TILE_SIZE)) return [ECTileWall node];
+    
+    // 循环
     CGPoint location = CGPointMake(x, y);
     for ( BaseTile* tile in _myItems ) {
         CGRect myRect = CGRectMake(tile.position.x, tile.position.y, tile.contentSize.width, tile.contentSize.height);
@@ -107,7 +112,7 @@
     return nil;
 }
 
-// 获取指定方向上相邻的Obj
+// 获取指定方向上相邻的Obj(考虑当前tile的宽度)
 - (BaseTile *)getNextItem:(CCSprite *)tile direction:(ECDirection)direction {
     int leftX = tile.position.x - 1;
     int rightX = tile.position.x + tile.contentSize.width;
@@ -150,30 +155,46 @@
     return next;
 }
 
-// 获取移动方向上最远可达地点, 返回像素坐标
-- (CGPoint)getDistination:(CCSprite *)tile direction:(ECDirection)direction {
-    // todu
+// 获取移动方向上最远可达地点, 返回步数(有个bug, 碰撞时没考虑宽度, 但暂不需要)
+- (int)getDistination:(CCSprite *)tile direction:(ECDirection)direction {
+    // 坐标增量
+    CGPoint vector = ccp(0,0);
+    CGPoint position = tile.position;
+    switch (direction) {
+        case ECDirectionRight:
+            vector = ccp (1, 0);
+            position = ccp (tile.position.x + tile.contentSize.width, tile.position.y);
+            break;
+        case ECDirectionLeft:
+            vector = ccp (-1, 0);
+            position = ccp (tile.position.x - ECTileSize, tile.position.y);
+            break;
+        case ECDirectionUp:
+            vector = ccp (0, 1);
+            position = ccp (tile.position.x, tile.position.y + ECTileSize);
+            break;
+        case ECDirectionDown:
+            vector = ccp (0, -1);
+            position = ccp (tile.position.x, tile.position.y - tile.contentSize.height);
+            break;
+        default:
+            break;
+    }
+    
+    BaseTile *next = nil;
+    int step = 0;
+    while ( next == nil ) {
+        next = [self getItemAtPointX:position.x Y:position.y];
+        if ( next == nil ) {
+            position = ccp(position.x + vector.x * ECTileSize, position.y + vector.y * ECTileSize);
+            step ++;
+        } else {
+            return step;
+        }
+    }
+    return step;
 }
 
-// 获取受力方向上相邻的Obj
-- (BaseTile *)getNextForceItem:(BaseTile *)tile {
-    
-    BaseTile *next = [self getNextItem:tile direction:tile.forceDirection];
-    
-    return next;
-}
-
-// 检查道具在受力方向上是否可移动
-- (BOOL)checkItemMovebal:(BaseTile *)tile {
-    BaseTile *next = [self getNextForceItem:tile];
-    if ( next == nil ) {
-        return YES;
-    }
-    if ( [next isKindOfClass:[ECTileRoad class]] ) {
-        return YES;
-    }
-    return NO;
-}
 
 // 传递力
 - (void)passForce:(BaseTile *)tile {
@@ -194,10 +215,8 @@
             //[self passForce:tile];
             
             // 检查道具在受力方向上可移动的距离
-            CGPoint des = [self getDistination:tile direction:tile.forceDirection];
-            CGPoint p = tile.position;
-            int step = MAX(abs(des.x - tile.position.x)/ECTileSize, abs(des.y - tile.position.y)/ECTileSize);
-            
+            int step = [self getDistination:tile direction:tile.forceDirection];
+    
             // 移动道具
             [tile pushByStep:step];
             

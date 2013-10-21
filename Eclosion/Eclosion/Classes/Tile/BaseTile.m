@@ -7,7 +7,9 @@
 //
 
 #import "BaseTile.h"
+
 #define RUN_ACTION_TAG 9
+#define ITEM_SPEED 0.1 // 道具移动一格需要的时间
 
 @implementation BaseTile
 @synthesize tileHeight = _tileHeight;
@@ -37,8 +39,12 @@
 
 - (void)setForceDirection:(ECDirection)aForceDirection {
     if ( ! movebal ) return;
+    
     if ( (_forceDirection != ECDirectionNone) && (aForceDirection != ECDirectionNone) ) return;
-    _forceDirection = aForceDirection;
+
+    if ((aForceDirection == ECDirectionNone ) || (self.alowingDirection & aForceDirection)) {
+        _forceDirection = aForceDirection;
+    }
 }
 
 - (void)setMovebal:(BOOL)amovebal {
@@ -70,7 +76,7 @@
         default:
             break;
     }
-    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:0.3 position:position];
+    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:ITEM_SPEED * step position:position];
     CCSequence *squence = [CCSequence actions:moveAction,
                            [CCCallBlock actionWithBlock:^{ self.animating = NO;}], nil];
     squence.tag = RUN_ACTION_TAG;
@@ -91,12 +97,9 @@
 
 - (void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event
 {
+    if (_forceDirection != ECDirectionNone) return;
     
-}
-
-- (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
-{
-    CGPoint endPoint = [touch previousLocationInView:[touch view]];
+    CGPoint endPoint = [touch locationInView:[touch view]];
     endPoint = [[CCDirector sharedDirector] convertToGL:endPoint];
     //self.position = ccp(self.position.x + (cur.x - pre.x), self.position.y + (cur.y - pre.y));
     float x = endPoint.x - _beginPoint.x;
@@ -114,5 +117,10 @@
             self.forceDirection = ECDirectionDown;
         }
     }
+}
+
+- (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    
 }
 @end

@@ -55,6 +55,7 @@ static ECTileUtil* _ectileUtil;
         // Set Propertys
         self.contentSize = CGSizeMake(3*ECTileSize, ECTileSize);
         self.prototype = TileMapWall;
+        self.alowingDirection = ECDirectionRight | ECDirectionLeft;
         
         // Moveble
         self.movebal = YES;

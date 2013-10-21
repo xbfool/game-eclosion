@@ -19,11 +19,11 @@ typedef enum {
 }TileMaptype;
 
 typedef enum {
-    ECDirectionNone = 0,
-    ECDirectionRight,
-    ECDirectionLeft,
-    ECDirectionUp,
-    ECDirectionDown,
+    ECDirectionNone     = 0,
+    ECDirectionRight    = 0x00000001,
+    ECDirectionLeft     = 0x00000010,
+    ECDirectionUp       = 0x00000100,
+    ECDirectionDown     = 0x00001000,
 } ECDirection;
 
 @interface BaseTile : CCSprite<CCTargetedTouchDelegate> {
@@ -40,6 +40,7 @@ typedef enum {
 @property(nonatomic, assign) ECDirection    forceDirection;
 @property(nonatomic, assign) BOOL           animating;
 @property(nonatomic, assign) BOOL           movebal;
+@property(nonatomic, assign) int            alowingDirection;
 
 - (void)pushByStep:(int)step;
 
