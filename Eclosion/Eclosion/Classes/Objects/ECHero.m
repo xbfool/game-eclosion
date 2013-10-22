@@ -27,29 +27,47 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
         self.speed = EC_DEFAULT_SPEED;
         self.anchorPoint = ccp(0,0);
         self.running = NO;
+        self.direction = ECDirectionNone;
     }
     return self;
 }
 
 - (void)step:(ccTime)interval {
-    if ( self.animating ) return;
-    if ( self.heroAction != ECHeroActionDefault ) {
-        self.animating = YES;
-        [self stopAllActions];
-        id action = [self getAction:self.heroAction];
-        [self runAction:action];
-    } else {
-        // 移动
-        if ( !self.running ) {
-            [self moveHero];
-        }
-    }
 }
 
 - (void)setDirection:(ECDirection)aDirection {
     _direction = aDirection;
     [self stopActionByTag:RUN_ACTION_TAG];
     self.running = NO;
+}
+
+- (void)runByStep:(int)step {
+    if ( self.running ) return;
+    self.running = YES;
+    
+    CGPoint position = ccp(0,0);
+    switch (self.direction) {
+        case ECDirectionRight:
+            position = ccp( step * ECTileSize, 0);
+            break;
+        case ECDirectionLeft:
+            position = ccp(-1 * step * ECTileSize, 0);
+            break;
+        case ECDirectionUp:
+            position = ccp(0, step * ECTileSize);
+            break;
+        case ECDirectionDown:
+            position = ccp(0, -1 * step * ECTileSize);
+            break;
+        default:
+            break;
+    }
+    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:(5.0f/(float)self.speed) * step position:position];
+    CCSequence *squence = [CCSequence actions:moveAction,
+                           [CCCallBlock actionWithBlock:^{ self.running = NO;}], nil];
+    squence.tag = RUN_ACTION_TAG;
+    
+    [self runAction:squence];
 }
 
 - (void)moveHero {

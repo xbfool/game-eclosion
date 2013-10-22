@@ -30,4 +30,6 @@ typedef enum {
 
 - (void)run;
 - (void)step:(ccTime)interval;
+- (void)runByStep:(int)step;
+
 @end

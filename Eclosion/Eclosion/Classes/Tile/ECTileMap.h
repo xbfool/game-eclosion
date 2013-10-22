@@ -18,7 +18,7 @@
     NSMutableArray *_tileMatrix;
     NSMutableArray *_myItems;
     ECHero*         _hero;
-    int             _pixelMap[MAP_COL * TILE_SIZE][MAP_ROW* TILE_SIZE];
+    CCSprite*       _pixelMap[MAP_COL * TILE_SIZE][MAP_ROW* TILE_SIZE];
 }
 
 + (ECTileMap *)mapBuildWithFile:(NSString *)filename;

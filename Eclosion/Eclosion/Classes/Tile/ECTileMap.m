@@ -61,7 +61,6 @@
     int y = [[[heroDic objectForKey:@"position"] objectForKey:@"y"] intValue];
     _hero = [[ECHero alloc] init];
     _hero.position = ccp(TILE_SIZE * x, TILE_SIZE * y);
-    _hero.direction = ECDirectionRight;
     _hero.speed = 5;
     [self addChild:_hero];
 }
@@ -72,90 +71,53 @@
 
 - (void)step:(ccTime)interval {
     // 刷新地图状态
-    memset(_pixelMap, 0, sizeof(int) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
+    memset(_pixelMap, nil, sizeof(CCSprite *) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
     for ( BaseTile* tile in _myItems ) {
         for ( int x = tile.position.x; x < (tile.position.x + tile.contentSize.width); x ++ ) {
             for ( int y = tile.position.y; y < (tile.position.y + tile.contentSize.height); y ++ ) {
                 if (( x > MAP_COL * TILE_SIZE ) || ( x < 0 )) continue;
                 if (( y > MAP_ROW * TILE_SIZE ) || ( y < 0 )) continue;
-                _pixelMap[x][y] = tile.prototype;
+                _pixelMap[x][y] = tile;
             }
         }
     }
     
-    // 刷新Hero状态
+    // 刷新各元素状态
     [self checkStatus];
-    [_hero step:interval];
 }
 
-// 获取地图像素状态
-- (TileMaptype)getPixelStatusAtX:(int)x Y:(int)y{
-    if (( x < 0 ) || ( x >= MAP_COL*TILE_SIZE)) return TileMapWall;
-    if (( y < 0 ) || ( y >= MAP_ROW*TILE_SIZE)) return TileMapWall;
-    return _pixelMap[x][y];
-}
-
-// 获取覆盖这个坐标的Obj
+// 获取覆盖某坐标的Obj
 - (BaseTile *)getItemAtPointX:(int)x Y:(int)y {
     // 越界
     if (( x < 0 ) || ( x >= MAP_COL*TILE_SIZE)) return [ECTileWall node];
     if (( y < 0 ) || ( y >= MAP_ROW*TILE_SIZE)) return [ECTileWall node];
     
-    // 循环
-    CGPoint location = CGPointMake(x, y);
-    for ( BaseTile* tile in _myItems ) {
-        CGRect myRect = CGRectMake(tile.position.x, tile.position.y, tile.contentSize.width, tile.contentSize.height);
-         if ( CGRectContainsPoint(myRect, location) ) {
-             return tile;
-         }
-     }
-    return nil;
+    return (BaseTile *)_pixelMap[x][y];
 }
 
-// 获取指定方向上相邻的Obj(考虑当前tile的宽度)
-- (BaseTile *)getNextItem:(CCSprite *)tile direction:(ECDirection)direction {
-    int leftX = tile.position.x - 1;
-    int rightX = tile.position.x + tile.contentSize.width;
-    int belowY = tile.position.y - 1;
-    int beyoundY = tile.position.y + tile.contentSize.height;
-    int tileWidth = ( tile.contentSize.width / ECTileSize );
-    int tileHeight = ( tile.contentSize.height / ECTileSize );
-    
-    int i = 0;
-    BaseTile *next = nil;
-    
+// 获取移动方向单位向量
+- (CGPoint)getVectorForDirection:(ECDirection)direction {
+    CGPoint vector = ccp(0,0);
     switch (direction) {
         case ECDirectionRight:
-            for ( i = 0; i < tileHeight; i++ ){
-                next = [self getItemAtPointX:rightX Y:tile.position.y + i * ECTileSize];
-                if ( next != nil ) break;
-            }
+            vector = ccp (1, 0);
             break;
         case ECDirectionLeft:
-            for ( i = 0; i < tileHeight; i++ ){
-                next = [self getItemAtPointX:leftX Y:tile.position.y + i * ECTileSize];
-                if ( next != nil ) break;
-            }
+            vector = ccp (-1, 0);
             break;
         case ECDirectionUp:
-            for ( i = 0; i < tileWidth; i++ ){
-                next = [self getItemAtPointX:tile.position.x + i * ECTileSize Y:beyoundY];
-                if ( next != nil ) break;
-            }
+            vector = ccp (0, 1);
             break;
         case ECDirectionDown:
-            for ( i = 0; i < tileWidth; i++ ){
-                next = [self getItemAtPointX:tile.position.x + i * ECTileSize Y:belowY];
-                if ( next != nil ) break;
-            }
+            vector = ccp (0, -1);
             break;
         default:
             break;
     }
-    return next;
+    return vector;
 }
 
-// 获取移动方向上最远可达地点, 返回步数(有个bug, 碰撞时没考虑宽度, 但暂不需要)
+// 获取道具移动方向上最远可达地点, 返回步数(有个bug, 碰撞时没考虑宽度, 但暂不需要)
 - (int)getDistination:(CCSprite *)tile direction:(ECDirection)direction {
     // 坐标增量
     CGPoint vector = ccp(0,0);
@@ -195,9 +157,112 @@
     return step;
 }
 
+// 获取hero下一步方向
+- (ECDirection)getHeroNextDirection:(ECHero *)hero {
+    
+    // 获取相邻边界坐标
+    CGPoint position = ccp((int)hero.position.x, (int)hero.position.y);
+    switch (hero.direction) {
+        case ECDirectionRight:
+            position = ccp (position.x + ECTileSize, position.y);
+            break;
+        case ECDirectionLeft:
+            position = ccp (position.x - 1, position.y);
+            break;
+        case ECDirectionUp:
+            position = ccp (position.x, position.y + ECTileSize);
+            break;
+        case ECDirectionDown:
+            position = ccp (position.x, position.y - 1);
+            break;
+        default:
+            break;
+    }
+    
+    BaseTile *next = [self getItemAtPointX:position.x Y:position.y];
+    BaseTile *bottom = [self getItemAtPointX:(int)hero.position.x Y:(int)hero.position.y - 1];
+    
+    ECDirection nextDirection = hero.direction;
+    
+    // 底部悬空, 下坠
+    if (( bottom == nil ) || (( bottom != nil ) && ( bottom.prototype != TileMapWall ))) {
+        if ( hero.direction != ECDirectionDown ) {
+            nextDirection = ECDirectionDown;
+        }
+    }
+    
+    else {
+        // 底部有道路, 默认向右行进
+        if ( bottom.prototype == TileMapWall ) {
+            if (( hero.direction != ECDirectionRight )&&(hero.direction != ECDirectionLeft )) {
+                nextDirection = ECDirectionRight;
+            }
+        }
+        
+        // 前方有墙, 转向
+        if ((( hero.direction == ECDirectionRight )||(hero.direction == ECDirectionLeft ))&&
+            ( next != nil ) && ( next.prototype == TileMapWall )) {
+            if ( hero.direction == ECDirectionRight ) {
+                nextDirection = ECDirectionLeft;
+            } else if ( hero.direction == ECDirectionLeft ) {
+                nextDirection = ECDirectionRight;
+            }
+        }
+    }
+    return nextDirection;
+}
+
+// 获取hero移动方向上最远可达的点, 返回步数
+- (int)getHeroDistination:(ECHero *)hero {
+    
+    ECDirection nextDirection = [self getHeroNextDirection:hero];
+    if ( hero.direction != nextDirection ) {
+        hero.direction = nextDirection;
+    }
+    
+    // 计算步数
+    CGPoint vector = [self getVectorForDirection:hero.direction];
+    CGPoint nextPosition = ccp((int)hero.position.x + vector.x * ECTileSize,
+                               (int)hero.position.y + vector.y * ECTileSize);
+    BaseTile *next = nil;
+    BaseTile *bottom = nil;
+    int step = 0;
+    
+    while ( 1 ) {
+        next = [self getItemAtPointX:nextPosition.x Y:nextPosition.y];
+        switch (hero.direction) {
+            case ECDirectionDown:
+                // 落地
+                if (( next != nil ) && ( next.prototype == TileMapWall )) {
+                    return step;
+                }
+                break;
+            case ECDirectionLeft:
+            case ECDirectionRight:
+                bottom = [self getItemAtPointX:nextPosition.x - vector.x * ECTileSize Y:nextPosition.y - 1];
+                // 悬空
+                if (( bottom == nil ) || (( bottom != nil ) && ( bottom.prototype != TileMapWall ))) {
+                    return step;
+                }
+                // 撞墙
+                if (( next != nil ) && ( next.prototype == TileMapWall )) {
+                    return step;
+                }
+                break;
+            default:
+                break;
+        }
+        
+        nextPosition = ccp(nextPosition.x + vector.x * ECTileSize, nextPosition.y + vector.y * ECTileSize);
+        step ++;
+    }
+    return step;
+}
+
 
 // 传递力
 - (void)passForce:(BaseTile *)tile {
+    /*
     BaseTile *next = [self getNextForceItem:tile];
     if ( next != nil ) {
         // 传递
@@ -205,6 +270,7 @@
         // 递归
         [self passForce:next];
     }
+     */
 }
 
 // 检查是否需要移动道具
@@ -227,10 +293,10 @@
 
 // 检查Hero脚下地图状态, 不可乱序
 - (void)checkStatus {
-    [self checkEnd];        // 检查是否触发了结局
-    [self checkItemForce];  // 检查是否需要移动道具
-    [self checkItem];       // 检查是否碰触道具
-    [self checkMove];       // 检查地形
+    [self checkEnd];            // 检查是否触发了结局
+    [self checkItemForce];      // 检查是否需要移动道具
+    [self checkGettingItem];    // 检查是否碰触道具
+    [self updateHeroStatus];       // 检查地形
 }
 
 // 检查是否触发了结局
@@ -241,47 +307,15 @@
 }   
 
 // 检查是否碰触道具
-- (void)checkItem {
+- (void)checkGettingItem {
     
 }
 
-
-// 检查英雄移动地形
-- (void)checkMove {
-    int headX = _hero.position.x + ((_hero.direction == ECDirectionRight) ? _hero.contentSize.width - 1 : 0);
-    int tailX = _hero.position.x + ((_hero.direction == ECDirectionRight) ? 0 : _hero.contentSize.width - 1);
-    int frontX = headX + ((_hero.direction == ECDirectionRight) ? 1 : (-1)); // 有bug, 应检查一条线
-    int bottomY = _hero.position.y;
-    int belowY = bottomY - 1;
-    
-    // 底部悬空, 下坠
-    //NSLog(@"bottom:%d",[self getPixelStatusAtX:tailX Y:belowY]);
-    if ( [self getPixelStatusAtX:tailX Y:belowY] == TileMapWalkable ) {
-        if ( _hero.direction != ECDirectionDown ) {
-            _hero.direction = ECDirectionDown;
-        }
-        return;
-    }
-    
-    // 底部有道路, 按原路行进
-    if ( [self getPixelStatusAtX:tailX Y:belowY] == TileMapWall ) {
-        if (( _hero.direction == ECDirectionRight )||(_hero.direction == ECDirectionLeft )) {
-            
-        } else {
-            _hero.direction = ECDirectionRight;
-        }
-        //return;
-    }
-    
-    // 前方有墙, 转向
-    //NSLog(@"frount:%d",[self getPixelStatusAtX:frontX Y:bottomY]);
-    if ( [self getPixelStatusAtX:frontX Y:(bottomY+2)] == TileMapWall) { // 底部留2px误差
-        if ( _hero.direction == ECDirectionRight ) {
-            _hero.direction = ECDirectionLeft;
-        } else if ( _hero.direction == ECDirectionLeft ) {
-            _hero.direction = ECDirectionRight;
-        }
-        return;
+// 更新Hero移动状态
+- (void)updateHeroStatus {
+    int step = [self getHeroDistination:_hero];
+    if ( step > 0 ) {
+        [_hero runByStep:step];
     }
 }
 
