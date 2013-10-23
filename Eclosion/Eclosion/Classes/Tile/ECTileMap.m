@@ -161,7 +161,7 @@
 - (ECDirection)getHeroNextDirection:(ECHero *)hero {
     
     // 获取相邻边界坐标
-    CGPoint position = ccp((int)hero.position.x, (int)hero.position.y);
+    CGPoint position = ccp((int)(hero.position.x + 0.5), (int)(hero.position.y + 0.5));
     switch (hero.direction) {
         case ECDirectionRight:
             position = ccp (position.x + ECTileSize, position.y);
@@ -180,8 +180,8 @@
     }
     
     BaseTile *next = [self getItemAtPointX:position.x Y:position.y];
-    BaseTile *bottom = [self getItemAtPointX:(int)hero.position.x Y:(int)hero.position.y - 1];
-    
+    BaseTile *bottom = [self getItemAtPointX:(int)(hero.position.x + 0.5)
+                                           Y:(int)(hero.position.y + 0.5) - 1];
     ECDirection nextDirection = hero.direction;
     
     // 底部悬空, 下坠
@@ -215,18 +215,13 @@
 // 获取hero移动方向上最远可达的点, 返回步数
 - (int)getHeroDistination:(ECHero *)hero {
     
-    ECDirection nextDirection = [self getHeroNextDirection:hero];
-    if ( hero.direction != nextDirection ) {
-        hero.direction = nextDirection;
-    }
-    
     // 计算步数
     CGPoint vector = [self getVectorForDirection:hero.direction];
-    CGPoint nextPosition = ccp((int)hero.position.x + vector.x * ECTileSize,
-                               (int)hero.position.y + vector.y * ECTileSize);
+    CGPoint nextPosition = ccp((int)(hero.position.x + 0.5) + vector.x * ECTileSize,
+                               (int)(hero.position.y + 0.5) + vector.y * ECTileSize);
     BaseTile *next = nil;
     BaseTile *bottom = nil;
-    int step = 0;
+    int step = 1;
     
     while ( 1 ) {
         next = [self getItemAtPointX:nextPosition.x Y:nextPosition.y];
@@ -313,8 +308,11 @@
 
 // 更新Hero移动状态
 - (void)updateHeroStatus {
-    int step = [self getHeroDistination:_hero];
-    if ( step > 0 ) {
+    // 检查hero是否需转向
+    ECDirection nextDirection = [self getHeroNextDirection:_hero];
+    if (( _hero.direction != nextDirection ) || ( ! _hero.running )) {
+        _hero.direction = nextDirection;
+        int step = [self getHeroDistination:_hero];
         [_hero runByStep:step];
     }
 }
