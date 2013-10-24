@@ -38,6 +38,7 @@ typedef enum {
 @property(nonatomic, assign) float          tileHeight;
 @property(nonatomic, assign) TileMaptype    prototype;
 @property(nonatomic, assign) ECDirection    forceDirection;
+@property(nonatomic, assign) ECDirection    direction;
 @property(nonatomic, assign) BOOL           animating;
 @property(nonatomic, assign) BOOL           movebal;
 @property(nonatomic, assign) int            alowingDirection;

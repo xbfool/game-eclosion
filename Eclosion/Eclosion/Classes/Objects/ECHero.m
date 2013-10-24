@@ -19,7 +19,7 @@ static const int _fileCount[ECHeroActionCount] = { 3,3,3};
 static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
 
 @implementation ECHero
-@synthesize speed, animating, heroAction, running;
+@synthesize speed, animating, heroAction, running, pushing;
 
 - (id)init {
     if ( self = [super init]) {
@@ -45,6 +45,11 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
     if ( self.running ) return;
     self.running = YES;
     
+    float mSpeed = speed;
+    if ( self.pushing ) {
+        mSpeed = 50;
+    }
+    
     CGPoint position = ccp(0,0);
     switch (self.direction) {
         case ECDirectionRight:
@@ -62,9 +67,9 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
         default:
             break;
     }
-    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:(5.0f/(float)self.speed) * step position:position];
+    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:(5.0f/(float)mSpeed) * step position:position];
     CCSequence *squence = [CCSequence actions:moveAction,
-                           [CCCallBlock actionWithBlock:^{ self.running = NO;}], nil];
+                           [CCCallBlock actionWithBlock:^{ self.running = NO; self.pushing = NO;}], nil];
     squence.tag = RUN_ACTION_TAG;
     
     [self runAction:squence];

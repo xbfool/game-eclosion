@@ -16,6 +16,7 @@
 @synthesize tileWidth  = _tileWidth;
 @synthesize prototype  = _prototype;
 @synthesize forceDirection = _forceDirection;
+@synthesize direction;
 @synthesize animating;
 @synthesize movebal;
 
@@ -24,6 +25,7 @@
         self.anchorPoint = ccp(0,0);
         self.forceDirection = ECDirectionNone;
         self.movebal = NO;
+        self.direction = ECDirectionNone;
     }
     return self;
 }
@@ -78,9 +80,9 @@
     }
     CCMoveBy *moveAction = [CCMoveBy actionWithDuration:ITEM_SPEED * step position:position];
     CCSequence *squence = [CCSequence actions:moveAction,
-                           [CCCallBlock actionWithBlock:^{ self.animating = NO;}], nil];
+                           [CCCallBlock actionWithBlock:^{ self.animating = NO; self.direction = ECDirectionNone; }], nil];
     squence.tag = RUN_ACTION_TAG;
-    
+    self.direction = self.forceDirection;
     [self runAction:squence];
 }
 

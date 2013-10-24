@@ -133,11 +133,11 @@
             break;
         case ECDirectionUp:
             vector = ccp (0, 1);
-            position = ccp (tile.position.x, tile.position.y + ECTileSize);
+            position = ccp (tile.position.x, tile.position.y + tile.contentSize.height);
             break;
         case ECDirectionDown:
             vector = ccp (0, -1);
-            position = ccp (tile.position.x, tile.position.y - tile.contentSize.height);
+            position = ccp (tile.position.x, tile.position.y - ECTileSize);
             break;
         default:
             break;
@@ -159,7 +159,8 @@
 
 // 获取hero下一步方向
 - (ECDirection)getHeroNextDirection:(ECHero *)hero {
-    
+    if ( _hero.pushing ) return _hero.direction;
+        
     // 获取相邻边界坐标
     CGPoint position = ccp((int)(hero.position.x + 0.5), (int)(hero.position.y + 0.5));
     switch (hero.direction) {
@@ -257,23 +258,23 @@
 
 // 传递力
 - (void)passForce:(BaseTile *)tile {
-    /*
-    BaseTile *next = [self getNextForceItem:tile];
-    if ( next != nil ) {
-        // 传递
-        next.forceDirection = tile.forceDirection;
-        // 递归
-        [self passForce:next];
+    CGRect tileRect = CGRectMake(tile.position.x, tile.position.y,
+                                 tile.contentSize.width, tile.contentSize.height);
+    CGRect heroRect = CGRectMake(_hero.position.x, _hero.position.y,
+                                 _hero.contentSize.width, _hero.contentSize.height);
+    
+    if ( !CGRectIsEmpty(CGRectIntersection(heroRect, tileRect)) ) {
+        _hero.pushing = YES;
+        _hero.direction = tile.direction;
+        int step = [self getHeroDistination:_hero];
+        [_hero runByStep:step];
     }
-     */
 }
 
 // 检查是否需要移动道具
 - (void)checkItemForce {
     for ( BaseTile* tile in _myItems ) {
         if ( tile.forceDirection != ECDirectionNone ) {
-            // 将力传递给当前受力道具相邻的道具.
-            //[self passForce:tile];
             
             // 检查道具在受力方向上可移动的距离
             int step = [self getDistination:tile direction:tile.forceDirection];
@@ -282,6 +283,11 @@
             [tile pushByStep:step];
             
             tile.forceDirection = ECDirectionNone;
+            
+        }
+        if ( tile.direction != ECDirectionNone ) {
+            // 若碰撞到英雄则将力传递过去, 推动英雄
+            [self passForce:tile];
         }
     }
 }
@@ -291,7 +297,7 @@
     [self checkEnd];            // 检查是否触发了结局
     [self checkItemForce];      // 检查是否需要移动道具
     [self checkGettingItem];    // 检查是否碰触道具
-    [self updateHeroStatus];       // 检查地形
+    [self updateHeroStatus];    // 检查地形
 }
 
 // 检查是否触发了结局
