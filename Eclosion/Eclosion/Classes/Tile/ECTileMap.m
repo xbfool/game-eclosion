@@ -264,10 +264,10 @@
                                  _hero.contentSize.width, _hero.contentSize.height);
     
     if ( !CGRectIsEmpty(CGRectIntersection(heroRect, tileRect)) ) {
-        _hero.pushing = YES;
-        _hero.direction = tile.direction;
-        int step = [self getHeroDistination:_hero];
-        [_hero runByStep:step];
+        if ( !_hero.pushing || ( _hero.direction != tile.direction )) {
+            _hero.pushing = YES;
+            _hero.direction = tile.direction;
+        }
     }
 }
 
