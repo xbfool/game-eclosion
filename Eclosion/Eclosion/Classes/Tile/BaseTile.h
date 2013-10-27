@@ -43,6 +43,6 @@ typedef enum {
 @property(nonatomic, assign) BOOL           movebal;
 @property(nonatomic, assign) int            alowingDirection;
 
-- (void)pushByStep:(int)step;
+- (void)pushWithDistence:(int)distence;
 
 @end

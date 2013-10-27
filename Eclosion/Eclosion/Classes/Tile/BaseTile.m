@@ -9,7 +9,7 @@
 #import "BaseTile.h"
 
 #define RUN_ACTION_TAG 9
-#define ITEM_SPEED 0.1 // 道具移动一格需要的时间
+#define ITEM_SPEED 0.2 // 道具移动一格需要的时间
 
 @implementation BaseTile
 @synthesize tileHeight = _tileHeight;
@@ -57,28 +57,30 @@
     }
 }
 
-- (void)pushByStep:(int)step {
+- (void)pushWithDistence:(int)distence {
     if ( self.animating ) return;
     self.animating = YES;
+    
+    float _mSpeed = (float)ITEM_SPEED / (float)ECTileSize;
     
     CGPoint position = ccp(0,0);
     switch (self.forceDirection) {
         case ECDirectionRight:
-            position = ccp( step * ECTileSize, 0);
+            position = ccp( distence, 0);
             break;
         case ECDirectionLeft:
-            position = ccp(-1 * step * ECTileSize, 0);
+            position = ccp(-1 * distence, 0);
             break;
         case ECDirectionUp:
-            position = ccp(0, step * ECTileSize);
+            position = ccp(0, distence);
             break;
         case ECDirectionDown:
-            position = ccp(0, -1 * step * ECTileSize);
+            position = ccp(0, -1 * distence);
             break;
         default:
             break;
     }
-    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:ITEM_SPEED * step position:position];
+    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:_mSpeed * distence position:position];
     CCSequence *squence = [CCSequence actions:moveAction,
                            [CCCallBlock actionWithBlock:^{ self.animating = NO; self.direction = ECDirectionNone; }], nil];
     squence.tag = RUN_ACTION_TAG;

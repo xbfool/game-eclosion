@@ -10,7 +10,9 @@
 #import "CCAnimationHelper.h"
 
 #define EC_DEFAULT_SPEED 1
+#define EC_MAX_SPEED 0.2
 #define RUN_ACTION_TAG 9
+#define PUSH_ACTION_TAG 10
 
 static NSString* _filename[ECHeroActionCount] = { @"BombA",@"BombA",@"BombA"};
 
@@ -19,7 +21,6 @@ static const int _fileCount[ECHeroActionCount] = { 3,3,3};
 static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
 
 @implementation ECHero
-@synthesize speed, animating, heroAction, running, pushing;
 
 - (id)init {
     if ( self = [super init]) {
@@ -41,65 +42,77 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
     self.running = NO;
 }
 
-- (void)runByStep:(int)step {
+- (void)setPushDirection:(ECDirection)aPushDirection {
+    _pushDirection = aPushDirection;
+    self.pushing = NO;
+}
+
+- (void)pushWithDistence:(int)distence {
+    if ( self.pushing ) return;
+    self.pushing = YES;
+    
+    float _mSpeed = (float)EC_MAX_SPEED / (float)ECTileSize;
+    
+    CGPoint position = ccp(0,0);
+    switch (self.pushDirection) {
+        case ECDirectionRight:
+            position = ccp( distence, 0);
+            break;
+        case ECDirectionLeft:
+            position = ccp(-1 * distence, 0);
+            break;
+        case ECDirectionUp:
+            position = ccp(0, distence);
+            break;
+        case ECDirectionDown:
+            position = ccp(0, -1 * distence);
+            break;
+        default:
+            break;
+    }
+    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:_mSpeed * distence position:position];
+    CCSequence *squence = [CCSequence actions:moveAction,
+                           [CCCallBlock actionWithBlock:^{ self.pushing = NO;
+        self.pushDirection = ECDirectionNone; self.running = NO;}], nil];
+    squence.tag = PUSH_ACTION_TAG;
+    
+    [self runAction:squence];
+}
+
+- (void)runWithDistence:(int)distence {
     if ( self.running ) return;
     self.running = YES;
     
-    float mSpeed = speed;
-    if ( self.pushing ) {
-        mSpeed = 50;
+    float _mSpeed = (float)self.speed / (float)ECTileSize;
+    if ( self.direction == ECDirectionDown ) {
+        _mSpeed = (float)EC_MAX_SPEED / (float)ECTileSize;
     }
     
     CGPoint position = ccp(0,0);
     switch (self.direction) {
         case ECDirectionRight:
-            position = ccp( step * ECTileSize, 0);
+            position = ccp( distence, 0);
             break;
         case ECDirectionLeft:
-            position = ccp(-1 * step * ECTileSize, 0);
+            position = ccp(-1 * distence, 0);
             break;
         case ECDirectionUp:
-            position = ccp(0, step * ECTileSize);
+            position = ccp(0, distence);
             break;
         case ECDirectionDown:
-            position = ccp(0, -1 * step * ECTileSize);
+            position = ccp(0, -1 * distence);
             break;
         default:
             break;
     }
-    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:(5.0f/(float)mSpeed) * step position:position];
+    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:_mSpeed * distence position:position];
     CCSequence *squence = [CCSequence actions:moveAction,
-                           [CCCallBlock actionWithBlock:^{ self.running = NO; self.pushing = NO;}], nil];
+                           [CCCallBlock actionWithBlock:^{ self.running = NO;}], nil];
     squence.tag = RUN_ACTION_TAG;
     
     [self runAction:squence];
 }
 
-- (void)moveHero {
-    CGPoint position = ccp(0,0);
-    switch (self.direction) {
-        case ECDirectionRight:
-            position = ccp(speed,0);
-            break;
-        case ECDirectionLeft:
-            position = ccp(-1*speed,0);
-            break;
-        case ECDirectionUp:
-            position = ccp(0,speed);
-            break;
-        case ECDirectionDown:
-            position = ccp(0,-1*speed);
-            break;
-        default:
-            break;
-    }
-    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:0.1 position:position];
-    CCSequence *squence = [CCSequence actions:moveAction,
-                  [CCCallBlock actionWithBlock:^{ self.running = NO; }], nil];
-    squence.tag = RUN_ACTION_TAG;
-    self.running = YES;
-    [self runAction:squence];
-}
 
 - (id)getAction:(ECHeroAction)index {
     

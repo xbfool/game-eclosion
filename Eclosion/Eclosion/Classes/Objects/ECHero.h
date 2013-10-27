@@ -22,15 +22,17 @@ typedef enum {
     
 }
 
-@property(nonatomic, assign) int             speed;
+@property(nonatomic, assign) float             speed;
 @property(nonatomic, assign) bool            animating;
 @property(nonatomic, assign) bool            running; // 移动
+@property(nonatomic, assign) bool            pushing; // 被推
 @property(nonatomic, assign) ECHeroAction    heroAction;
 @property(nonatomic, assign) ECDirection     direction;
-@property(nonatomic, assign) bool            pushing; // 被道具推, 优先级高于移动
+@property(nonatomic, assign) ECDirection     pushDirection;
 
 - (void)run;
 - (void)step:(ccTime)interval;
-- (void)runByStep:(int)step;
+- (void)runWithDistence:(int)distence;
+- (void)pushWithDistence:(int)distence;
 
 @end
