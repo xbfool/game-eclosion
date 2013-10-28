@@ -29,8 +29,19 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
         self.anchorPoint = ccp(0,0);
         self.running = NO;
         self.direction = ECDirectionNone;
+        _x = self.position.x;
+        _y = self.position.y;
     }
     return self;
+}
+
+- (void)fpsUpdate:(ccTime)interval {
+    self.position = ccp(_x, _y);
+}
+
+- (void)fixUpdate:(ccTime)interval {
+    _x += self.speed / ECFixFPS;
+    _y += self.speed / ECFixFPS;
 }
 
 - (void)step:(ccTime)interval {
@@ -45,72 +56,6 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
 - (void)setPushDirection:(ECDirection)aPushDirection {
     _pushDirection = aPushDirection;
     self.pushing = NO;
-}
-
-- (void)pushWithDistence:(int)distence {
-    if ( self.pushing ) return;
-    self.pushing = YES;
-    
-    float _mSpeed = (float)EC_MAX_SPEED / (float)ECTileSize;
-    
-    CGPoint position = ccp(0,0);
-    switch (self.pushDirection) {
-        case ECDirectionRight:
-            position = ccp( distence, 0);
-            break;
-        case ECDirectionLeft:
-            position = ccp(-1 * distence, 0);
-            break;
-        case ECDirectionUp:
-            position = ccp(0, distence);
-            break;
-        case ECDirectionDown:
-            position = ccp(0, -1 * distence);
-            break;
-        default:
-            break;
-    }
-    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:_mSpeed * distence position:position];
-    CCSequence *squence = [CCSequence actions:moveAction,
-                           [CCCallBlock actionWithBlock:^{ self.pushing = NO;
-        self.pushDirection = ECDirectionNone; self.running = NO;}], nil];
-    squence.tag = PUSH_ACTION_TAG;
-    
-    [self runAction:squence];
-}
-
-- (void)runWithDistence:(int)distence {
-    if ( self.running ) return;
-    self.running = YES;
-    
-    float _mSpeed = (float)self.speed / (float)ECTileSize;
-    if ( self.direction == ECDirectionDown ) {
-        _mSpeed = (float)EC_MAX_SPEED / (float)ECTileSize;
-    }
-    
-    CGPoint position = ccp(0,0);
-    switch (self.direction) {
-        case ECDirectionRight:
-            position = ccp( distence, 0);
-            break;
-        case ECDirectionLeft:
-            position = ccp(-1 * distence, 0);
-            break;
-        case ECDirectionUp:
-            position = ccp(0, distence);
-            break;
-        case ECDirectionDown:
-            position = ccp(0, -1 * distence);
-            break;
-        default:
-            break;
-    }
-    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:_mSpeed * distence position:position];
-    CCSequence *squence = [CCSequence actions:moveAction,
-                           [CCCallBlock actionWithBlock:^{ self.running = NO;}], nil];
-    squence.tag = RUN_ACTION_TAG;
-    
-    [self runAction:squence];
 }
 
 

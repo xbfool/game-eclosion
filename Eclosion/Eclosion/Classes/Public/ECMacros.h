@@ -10,6 +10,7 @@
 
 // Tile size
 #define ECTileSize 40
+#define ECFixFPS   40.f
 
 // Winsize
 #define WINSIZE ([[CCDirector sharedDirector] winSize])

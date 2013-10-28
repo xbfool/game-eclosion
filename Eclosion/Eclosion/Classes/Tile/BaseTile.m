@@ -57,37 +57,6 @@
     }
 }
 
-- (void)pushWithDistence:(int)distence {
-    if ( self.animating ) return;
-    self.animating = YES;
-    
-    float _mSpeed = (float)ITEM_SPEED / (float)ECTileSize;
-    
-    CGPoint position = ccp(0,0);
-    switch (self.forceDirection) {
-        case ECDirectionRight:
-            position = ccp( distence, 0);
-            break;
-        case ECDirectionLeft:
-            position = ccp(-1 * distence, 0);
-            break;
-        case ECDirectionUp:
-            position = ccp(0, distence);
-            break;
-        case ECDirectionDown:
-            position = ccp(0, -1 * distence);
-            break;
-        default:
-            break;
-    }
-    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:_mSpeed * distence position:position];
-    CCSequence *squence = [CCSequence actions:moveAction,
-                           [CCCallBlock actionWithBlock:^{ self.animating = NO; self.direction = ECDirectionNone; }], nil];
-    squence.tag = RUN_ACTION_TAG;
-    self.direction = self.forceDirection;
-    [self runAction:squence];
-}
-
 #pragma Touch Delegate
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {

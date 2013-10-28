@@ -19,10 +19,11 @@ typedef enum {
 } ECHeroAction;
 
 @interface ECHero : CCSprite {
-    
+    float _x;
+    float _y;
 }
 
-@property(nonatomic, assign) float             speed;
+@property(nonatomic, assign) float             speed; // 像素 / 秒
 @property(nonatomic, assign) bool            animating;
 @property(nonatomic, assign) bool            running; // 移动
 @property(nonatomic, assign) bool            pushing; // 被推
@@ -31,8 +32,7 @@ typedef enum {
 @property(nonatomic, assign) ECDirection     pushDirection;
 
 - (void)run;
-- (void)step:(ccTime)interval;
-- (void)runWithDistence:(int)distence;
-- (void)pushWithDistence:(int)distence;
+- (void)fpsUpdate:(ccTime)interval;
+- (void)fixUpdate:(ccTime)interval;
 
 @end

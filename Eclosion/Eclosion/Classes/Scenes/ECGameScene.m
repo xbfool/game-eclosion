@@ -49,7 +49,8 @@
     [_map run];
     
     // Update
-    [self schedule:@selector(step:)];
+    [self schedule:@selector(fpsUpdate:)];
+    [self schedule:@selector(fixUpdate:) interval:1.f/ECFixFPS];
 }
 
 -(void) onExit {
@@ -66,8 +67,12 @@
 	[self addChild: _pauseScene];
 }
 
--(void)step:(ccTime)interval {
-    [_map step:interval];
+- (void)fpsUpdate:(ccTime)interval {
+    [_map fpsUpdate:interval];
+}
+
+- (void)fixUpdate:(ccTime)interval {
+    [_map fixUpdate:interval];
 }
 
 #pragma PauseScene Delegate

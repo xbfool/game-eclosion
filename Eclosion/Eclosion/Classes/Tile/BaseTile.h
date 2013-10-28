@@ -43,6 +43,6 @@ typedef enum {
 @property(nonatomic, assign) BOOL           movebal;
 @property(nonatomic, assign) int            alowingDirection;
 
-- (void)pushWithDistence:(int)distence;
-
+- (void)fpsUpdate:(ccTime)interval;
+- (void)fixUpdate:(ccTime)interval;
 @end
