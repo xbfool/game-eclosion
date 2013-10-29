@@ -68,6 +68,7 @@
     _hero.x = TILE_SIZE * tileX + _hero.tileW/2;
     _hero.y = TILE_SIZE * tileY + _hero.tileH/2;
     _hero.position = ccp(_hero.x, _hero.y);
+    _hero.direction = ECDirectionRight;
     [self addChild:_hero];
 }
 
@@ -87,7 +88,31 @@
     }
     
     // 刷新Hero
-    [self moveHero:_hero x:1 y:0];
+    float x, y;
+    _hero.speed = 1;
+    switch (_hero.direction) {
+        case ECDirectionLeft:
+            x = -1;
+            y = 0;
+            break;
+        case ECDirectionRight:
+            x = 1;
+            y = 0;
+            break;
+        case ECDirectionUp:
+            x = 0;
+            y = 1;
+            break;
+        case ECDirectionDown:
+            x = 0;
+            y = -1;
+            _hero.speed = 3;
+            break;
+        default:
+            break;
+    }
+    [self moveHero:_hero x:x y:y];
+    [self turnHero:_hero];
 }
 
 
@@ -106,6 +131,11 @@
     next.upL =   ccp(( tile.x + x - tile.tileW/2 ), ( tile.y + y + tile.tileH/2 ));
     next.upR =   ccp(( tile.x + x + tile.tileW/2 ), ( tile.y + y + tile.tileH/2 ));
     return next;
+}
+
+// 转向check
+- (void)turnHero:(ECHero *)hero {
+
 }
 
 - (void)moveHero:(ECHero *)hero x:(float)dirx y:(float)diry  {
@@ -131,7 +161,7 @@
         
         // 上方有墙
         if (( itemL.prototype == ECTileTypeWall ) || ( itemR.prototype == ECTileTypeWall )) {
-            hero.y = (hero.tileY + 1) * hero.tileH + hero.tileH / 2;
+            hero.y = MIN((hero.tileY + 1), (MAP_ROW - 1)) * hero.tileH + hero.tileH / 2;
         }
         
         // 上方悬空
@@ -161,7 +191,7 @@
         BaseTile * itemD = [self getItemAtPointX:nextX.downR.x Y:nextY.downR.y];
         // 右方有墙
         if (( itemU.prototype == ECTileTypeWall ) || ( itemD.prototype == ECTileTypeWall )) {
-            hero.x = (hero.tileX + 1) * hero.tileW + hero.tileW / 2;
+            hero.x = MIN((hero.tileX + 1),(MAP_COL - 1) ) * hero.tileW + hero.tileW / 2;
         }
         
         // 右方道路
