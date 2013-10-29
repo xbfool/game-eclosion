@@ -10,7 +10,7 @@
 #import "CCAnimationHelper.h"
 
 #define EC_DEFAULT_SPEED 1
-#define EC_MAX_SPEED 0.2
+#define EC_MAX_SPEED 5
 #define RUN_ACTION_TAG 9
 #define PUSH_ACTION_TAG 10
 
@@ -38,13 +38,18 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
     return self;
 }
 
-- (void)fpsUpdate:(ccTime)interval {
-}
-
 - (void)fixUpdate:(ccTime)interval {
+    [super fixUpdate:interval];
 }
 
-- (void)step:(ccTime)interval {
+- (void)fpsUpdate:(ccTime)interval {
+    [super fpsUpdate:interval];
+    
+    switch (self.direction) {
+
+        default:
+            break;
+    }
 }
 
 

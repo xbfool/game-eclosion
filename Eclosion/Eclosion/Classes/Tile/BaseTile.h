@@ -36,6 +36,10 @@ typedef enum {
 @property(nonatomic, assign) float          tileY;
 @property(nonatomic, assign) float          x;
 @property(nonatomic, assign) float          y;
+@property(nonatomic, assign) CGPoint        downL;
+@property(nonatomic, assign) CGPoint        downR;
+@property(nonatomic, assign) CGPoint        upL;
+@property(nonatomic, assign) CGPoint        upR;
 @property(nonatomic, assign) float          speed;
 
 @property(nonatomic, assign) TileMaptype    prototype;

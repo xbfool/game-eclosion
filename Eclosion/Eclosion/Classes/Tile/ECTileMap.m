@@ -87,20 +87,88 @@
     }
     
     // 刷新Hero
-    [_hero getCorners];
-    _hero.x += _hero.speed * ECTileSize / ECFixFPS;
-    //_hero.y += _hero.speed * ECTileSize / ECFixFPS;
+    [self moveHero:_hero x:1 y:0];
 }
 
 
 - (void)fpsUpdate:(ccTime)interval {
     
     // 刷新Hero
+    [_hero fpsUpdate:interval];
+    
     _hero.position = ccp(_hero.x, _hero.y);
 }
 
-- (void)step:(ccTime)interval {
+- (BaseTile *)getMyCorners:(BaseTile *)tile x:(float)x y:(float)y {
+    BaseTile *next = [[[BaseTile alloc] init] autorelease];
+    next.downL = ccp(( tile.x + x - tile.tileW/2 ), ( tile.y + y - tile.tileH/2 ));
+    next.downR = ccp(( tile.x + x + tile.tileW/2 ), ( tile.y + y - tile.tileH/2 ));
+    next.upL =   ccp(( tile.x + x - tile.tileW/2 ), ( tile.y + y + tile.tileH/2 ));
+    next.upR =   ccp(( tile.x + x + tile.tileW/2 ), ( tile.y + y + tile.tileH/2 ));
+    return next;
+}
+
+- (void)moveHero:(ECHero *)hero x:(float)dirx y:(float)diry  {
+    BaseTile *nextY = [self getMyCorners:hero x:0 y:diry * hero.speed];
+    if ( diry == -1 ) {
+        BaseTile * itemL = [self getItemAtPointX:nextY.downL.x Y:nextY.downL.y];
+        BaseTile * itemR = [self getItemAtPointX:nextY.downR.x Y:nextY.downR.y];
+        
+        // 下方有墙
+        if (( itemL.prototype == ECTileTypeWall ) || ( itemR.prototype == ECTileTypeWall )) {
+            hero.y = hero.tileY * hero.tileH + hero.tileH / 2;
+        }
+        
+        // 下方悬空
+        else {
+            hero.y -= hero.speed * diry;
+        }
+    }
     
+    if ( diry == 1 ) {
+        BaseTile * itemL = [self getItemAtPointX:nextY.upL.x Y:nextY.upL.y];
+        BaseTile * itemR = [self getItemAtPointX:nextY.upR.x Y:nextY.upR.y];
+        
+        // 上方有墙
+        if (( itemL.prototype == ECTileTypeWall ) || ( itemR.prototype == ECTileTypeWall )) {
+            hero.y = (hero.tileY + 1) * hero.tileH + hero.tileH / 2;
+        }
+        
+        // 上方悬空
+        else {
+            hero.y += hero.speed * diry;
+        }
+    }
+    
+    BaseTile *nextX = [self getMyCorners:hero x:dirx y:0];
+    if ( dirx == -1 ) {
+        BaseTile * itemU = [self getItemAtPointX:nextX.upL.x Y:nextY.upL.y];
+        BaseTile * itemD = [self getItemAtPointX:nextX.downL.x Y:nextY.downL.y];
+        
+        // 左方有墙
+        if (( itemU.prototype == ECTileTypeWall ) || ( itemD.prototype == ECTileTypeWall )) {
+            hero.x = hero.tileX * hero.tileW + hero.tileW / 2;
+        }
+        
+        // 左方道路
+        else {
+            hero.x -= hero.speed * dirx;
+        }
+    }
+    
+    if ( dirx == 1 ) {
+        BaseTile * itemU = [self getItemAtPointX:nextX.upR.x Y:nextY.upR.y];
+        BaseTile * itemD = [self getItemAtPointX:nextX.downR.x Y:nextY.downR.y];
+        // 右方有墙
+        if (( itemU.prototype == ECTileTypeWall ) || ( itemD.prototype == ECTileTypeWall )) {
+            hero.x = (hero.tileX + 1) * hero.tileW + hero.tileW / 2;
+        }
+        
+        // 右方道路
+        else {
+            hero.x += hero.speed * dirx;
+        }
+    }
 }
 
 // 获取覆盖某坐标的Obj

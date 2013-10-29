@@ -9,7 +9,7 @@
 #import "BaseTile.h"
 
 #define RUN_ACTION_TAG 9
-#define ITEM_SPEED 0.2 // 道具移动一格需要的时间
+#define ITEM_SPEED 5 // 每帧移动的距离
 
 @implementation BaseTile
 
@@ -24,11 +24,14 @@
 }
 
 - (void)fpsUpdate:(ccTime)interval {
-
+    
 }
 
 - (void)fixUpdate:(ccTime)interval {
-
+    [self getCorners];
+    self.tileX = _x / _tileW;
+    self.tileY = _y / _tileY;
+    
 }
 
 - (BOOL)containsTouchLocation:(UITouch *)touch
@@ -58,11 +61,6 @@
     }
 }
 
-// 获取四个角的坐标
-- (NSArray *)getCorners {
-    return nil;
-}
-
 // 获取移动方向单位向量
 - (CGPoint)getVectorForDirection:(ECDirection)direction {
     CGPoint vector = ccp(0,0);
@@ -85,6 +83,15 @@
     return vector;
 }
 
+
+// 获取四个角的坐标
+- (NSArray *)getCorners {
+    _downL = ccp(( _x - _tileW/2 ), ( _y - _tileH/2 ));
+    _downR = ccp(( _x + _tileW/2 ), ( _y - _tileH/2 ));
+    _upL = ccp(( _x - _tileW/2 ), ( _y + _tileH/2 ));
+    _upR = ccp(( _x + _tileW/2 ), ( _y + _tileH/2 ));
+    return nil;
+}
 
 #pragma Touch Delegate
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
