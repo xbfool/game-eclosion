@@ -54,6 +54,8 @@ static ECTileUtil* _ectileUtil;
         
         // Set Propertys
         self.contentSize = CGSizeMake(3*ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
         self.prototype = TileMapWall;
         self.alowingDirection = ECDirectionRight | ECDirectionLeft;
         
@@ -77,6 +79,8 @@ static ECTileUtil* _ectileUtil;
         
         // Set Propertys
         self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
         self.prototype = TileMapWall;
     }
     return self;
@@ -104,6 +108,8 @@ static ECTileUtil* _ectileUtil;
         
         // Set Propertys
         self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
         self.prototype = TileMapTrap;
     }
     return self;
@@ -123,6 +129,8 @@ static ECTileUtil* _ectileUtil;
         
         // Set Propertys
         self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
         self.prototype = TileMapEnd;
     }
     return self;

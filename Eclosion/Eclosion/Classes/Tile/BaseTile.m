@@ -12,22 +12,23 @@
 #define ITEM_SPEED 0.2 // 道具移动一格需要的时间
 
 @implementation BaseTile
-@synthesize tileHeight = _tileHeight;
-@synthesize tileWidth  = _tileWidth;
-@synthesize prototype  = _prototype;
-@synthesize forceDirection = _forceDirection;
-@synthesize direction;
-@synthesize animating;
-@synthesize movebal;
 
 - (id)init {
     if ( self = [super init]) {
-        self.anchorPoint = ccp(0,0);
+        self.anchorPoint = ccp(0.5,0.5);
         self.forceDirection = ECDirectionNone;
         self.movebal = NO;
         self.direction = ECDirectionNone;
     }
     return self;
+}
+
+- (void)fpsUpdate:(ccTime)interval {
+
+}
+
+- (void)fixUpdate:(ccTime)interval {
+
 }
 
 - (BOOL)containsTouchLocation:(UITouch *)touch
@@ -40,7 +41,7 @@
 }
 
 - (void)setForceDirection:(ECDirection)aForceDirection {
-    if ( ! movebal ) return;
+    if ( ! _movebal ) return;
     
     if ( (_forceDirection != ECDirectionNone) && (aForceDirection != ECDirectionNone) ) return;
 
@@ -50,12 +51,40 @@
 }
 
 - (void)setMovebal:(BOOL)amovebal {
-    movebal = amovebal;
-    if ( movebal ) {
+    _movebal = amovebal;
+    if ( _movebal ) {
         [[[CCDirector sharedDirector] touchDispatcher]
          addTargetedDelegate:self priority:0 swallowsTouches:YES];
     }
 }
+
+// 获取四个角的坐标
+- (NSArray *)getCorners {
+    return nil;
+}
+
+// 获取移动方向单位向量
+- (CGPoint)getVectorForDirection:(ECDirection)direction {
+    CGPoint vector = ccp(0,0);
+    switch (direction) {
+        case ECDirectionRight:
+            vector = ccp (1, 0);
+            break;
+        case ECDirectionLeft:
+            vector = ccp (-1, 0);
+            break;
+        case ECDirectionUp:
+            vector = ccp (0, 1);
+            break;
+        case ECDirectionDown:
+            vector = ccp (0, -1);
+            break;
+        default:
+            break;
+    }
+    return vector;
+}
+
 
 #pragma Touch Delegate
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event

@@ -951,15 +951,24 @@
 			path = numbers;
 			sourceTree = "<group>";
 		};
+		DB7F7E921820045300E1DB5A /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				DB825A8317FC029C0052DA3C /* ECTileMap.h */,
+				DB825A8417FC029C0052DA3C /* ECTileMap.m */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
 		DB825A7417FBC4320052DA3C /* Tile */ = {
 			isa = PBXGroup;
 			children = (
 				DB825A8117FC029C0052DA3C /* BaseTile.h */,
 				DB825A8217FC029C0052DA3C /* BaseTile.m */,
-				DB825A8317FC029C0052DA3C /* ECTileMap.h */,
-				DB825A8417FC029C0052DA3C /* ECTileMap.m */,
 				DB825A7E17FC02870052DA3C /* ECTile.h */,
 				DB825A7F17FC02870052DA3C /* ECTile.m */,
+				DB0FC85417FD6ACD00184FB5 /* ECHero.h */,
+				DB0FC85517FD6ACD00184FB5 /* ECHero.m */,
 			);
 			name = Tile;
 			sourceTree = "<group>";
@@ -1420,7 +1429,7 @@
 				DB2035BA17D33A8D005F4A84 /* Public */,
 				DB83CEDD17D320B000E79B93 /* Data */,
 				DB83CEDC17D320A400E79B93 /* Managers */,
-				DB83CEDB17D3209A00E79B93 /* Objects */,
+				DB7F7E921820045300E1DB5A /* Map */,
 				DB825A7417FBC4320052DA3C /* Tile */,
 				DB83CED417D3209200E79B93 /* Scenes */,
 			);
@@ -1431,12 +1440,12 @@
 		DB83CED417D3209200E79B93 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				DB83CED517D3209200E79B93 /* ECGameScene.h */,
+				DB83CED617D3209200E79B93 /* ECGameScene.m */,
 				DB83CED717D3209200E79B93 /* ECMenuScene.h */,
 				DB83CED817D3209200E79B93 /* ECMenuScene.m */,
 				DB2035D217D78F36005F4A84 /* ECLevelScene.h */,
 				DB2035D317D78F36005F4A84 /* ECLevelScene.m */,
-				DB83CED517D3209200E79B93 /* ECGameScene.h */,
-				DB83CED617D3209200E79B93 /* ECGameScene.m */,
 				DB2035CF17D78F26005F4A84 /* ECPauseScene.h */,
 				DB2035D017D78F26005F4A84 /* ECPauseScene.m */,
 				DB2036D517DCBA94005F4A84 /* ECVolumeScene.h */,
@@ -1447,15 +1456,6 @@
 				DB2036DC17DCBBEC005F4A84 /* ECHelpScene.m */,
 			);
 			path = Scenes;
-			sourceTree = "<group>";
-		};
-		DB83CEDB17D3209A00E79B93 /* Objects */ = {
-			isa = PBXGroup;
-			children = (
-				DB0FC85417FD6ACD00184FB5 /* ECHero.h */,
-				DB0FC85517FD6ACD00184FB5 /* ECHero.m */,
-			);
-			name = Objects;
 			sourceTree = "<group>";
 		};
 		DB83CEDC17D320A400E79B93 /* Managers */ = {

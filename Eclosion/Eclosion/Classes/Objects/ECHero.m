@@ -26,36 +26,25 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
     if ( self = [super init]) {
         self.heroAction = ECHeroActionDefault;
         self.speed = EC_DEFAULT_SPEED;
-        self.anchorPoint = ccp(0,0);
-        self.running = NO;
+        self.anchorPoint = ccp(0.5,0.5);
         self.direction = ECDirectionNone;
-        _x = self.position.x;
-        _y = self.position.y;
+        self.x = self.position.x;
+        self.y = self.position.y;
+        self.tileW = ECTileSize;
+        self.tileH = ECTileSize;
+        
+        [self run];
     }
     return self;
 }
 
 - (void)fpsUpdate:(ccTime)interval {
-    self.position = ccp(_x, _y);
 }
 
 - (void)fixUpdate:(ccTime)interval {
-    _x += self.speed / ECFixFPS;
-    _y += self.speed / ECFixFPS;
 }
 
 - (void)step:(ccTime)interval {
-}
-
-- (void)setDirection:(ECDirection)aDirection {
-    _direction = aDirection;
-    [self stopActionByTag:RUN_ACTION_TAG];
-    self.running = NO;
-}
-
-- (void)setPushDirection:(ECDirection)aPushDirection {
-    _pushDirection = aPushDirection;
-    self.pushing = NO;
 }
 
 

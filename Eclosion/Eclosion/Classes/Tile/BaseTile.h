@@ -27,15 +27,17 @@ typedef enum {
 } ECDirection;
 
 @interface BaseTile : CCSprite<CCTargetedTouchDelegate> {
-    float           _tileWidth;
-    float           _tileHeight;
-    CGPoint         _beginPoint;
-    TileMaptype     _prototype;
-    ECDirection     _forceDirection;
+    CGPoint       _beginPoint;
 }
 
-@property(nonatomic, assign) float          tileWidth;
-@property(nonatomic, assign) float          tileHeight;
+@property(nonatomic, assign) float          tileW;
+@property(nonatomic, assign) float          tileH;
+@property(nonatomic, assign) float          tileX;
+@property(nonatomic, assign) float          tileY;
+@property(nonatomic, assign) float          x;
+@property(nonatomic, assign) float          y;
+@property(nonatomic, assign) float          speed;
+
 @property(nonatomic, assign) TileMaptype    prototype;
 @property(nonatomic, assign) ECDirection    forceDirection;
 @property(nonatomic, assign) ECDirection    direction;
@@ -45,4 +47,5 @@ typedef enum {
 
 - (void)fpsUpdate:(ccTime)interval;
 - (void)fixUpdate:(ccTime)interval;
+- (NSArray *)getCorners;
 @end

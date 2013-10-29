@@ -14,6 +14,8 @@
 #define TILE_SIZE 40
 
 @class ECHero;
+
+
 @interface ECTileMap : CCSprite {
     NSMutableArray *_tileMatrix;
     NSMutableArray *_myItems;

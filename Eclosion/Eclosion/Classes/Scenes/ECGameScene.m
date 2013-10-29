@@ -46,7 +46,6 @@
     _map = [ECTileMap mapBuildWithFile:@"level0"];
     _map.position = ccp(22,5);
     [self addChild:_map];
-    [_map run];
     
     // Update
     [self schedule:@selector(fpsUpdate:)];
