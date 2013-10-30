@@ -9,7 +9,7 @@
 #import "BaseTile.h"
 
 #define RUN_ACTION_TAG 9
-#define ITEM_SPEED 5 // 每帧移动的距离
+#define ITEM_SPEED 4 // 每帧移动的距离
 
 @implementation BaseTile
 
@@ -19,6 +19,7 @@
         self.forceDirection = ECDirectionNone;
         self.movebal = NO;
         self.direction = ECDirectionNone;
+        self.speed = ITEM_SPEED;
     }
     return self;
 }
@@ -28,8 +29,8 @@
 }
 
 - (void)fixUpdate:(ccTime)interval {
-    self.tileX = _x / _tileW;
-    self.tileY = _y / _tileH;
+    self.tileX = _x / ECTileSize;
+    self.tileY = _y / ECTileSize;
     
 }
 
@@ -60,27 +61,6 @@
     }
 }
 
-// 获取移动方向单位向量
-- (CGPoint)getVectorForDirection:(ECDirection)direction {
-    CGPoint vector = ccp(0,0);
-    switch (direction) {
-        case ECDirectionRight:
-            vector = ccp (1, 0);
-            break;
-        case ECDirectionLeft:
-            vector = ccp (-1, 0);
-            break;
-        case ECDirectionUp:
-            vector = ccp (0, 1);
-            break;
-        case ECDirectionDown:
-            vector = ccp (0, -1);
-            break;
-        default:
-            break;
-    }
-    return vector;
-}
 
 #pragma Touch Delegate
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
