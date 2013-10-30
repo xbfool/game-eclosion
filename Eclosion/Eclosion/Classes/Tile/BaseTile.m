@@ -28,9 +28,8 @@
 }
 
 - (void)fixUpdate:(ccTime)interval {
-    [self getCorners];
     self.tileX = _x / _tileW;
-    self.tileY = _y / _tileY;
+    self.tileY = _y / _tileH;
     
 }
 
@@ -81,16 +80,6 @@
             break;
     }
     return vector;
-}
-
-
-// 获取四个角的坐标
-- (NSArray *)getCorners {
-    _downL = ccp(( _x - _tileW/2 ), ( _y - _tileH/2 ));
-    _downR = ccp(( _x + _tileW/2 ), ( _y - _tileH/2 ));
-    _upL = ccp(( _x - _tileW/2 ), ( _y + _tileH/2 ));
-    _upR = ccp(( _x + _tileW/2 ), ( _y + _tileH/2 ));
-    return nil;
 }
 
 #pragma Touch Delegate

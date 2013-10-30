@@ -28,6 +28,12 @@ typedef enum {
 
 @end
 
+@interface ECTileBlank : BaseTile {
+    
+}
+
+@end
+
 @interface ECTileRoad : BaseTile {
     
 }

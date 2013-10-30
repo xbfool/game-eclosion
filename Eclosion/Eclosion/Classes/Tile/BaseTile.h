@@ -32,8 +32,8 @@ typedef enum {
 
 @property(nonatomic, assign) float          tileW;
 @property(nonatomic, assign) float          tileH;
-@property(nonatomic, assign) float          tileX;
-@property(nonatomic, assign) float          tileY;
+@property(nonatomic, assign) int            tileX;
+@property(nonatomic, assign) int            tileY;
 @property(nonatomic, assign) float          x;
 @property(nonatomic, assign) float          y;
 @property(nonatomic, assign) CGPoint        downL;
@@ -51,5 +51,5 @@ typedef enum {
 
 - (void)fpsUpdate:(ccTime)interval;
 - (void)fixUpdate:(ccTime)interval;
-- (NSArray *)getCorners;
+
 @end
