@@ -18,16 +18,13 @@ typedef enum {
     ECHeroActionCount // MUST be last one
 } ECHeroAction;
 
-@interface ECHero : CCSprite {
-    
+@interface ECHero : BaseTile {
+
 }
 
-@property(nonatomic, assign) int             speed;
-@property(nonatomic, assign) bool            animating;
-@property(nonatomic, assign) bool            running;
+@property(nonatomic, assign) bool            pushing; // 被推
 @property(nonatomic, assign) ECHeroAction    heroAction;
-@property(nonatomic, assign) ECDirection     direction;
 
 - (void)run;
-- (void)step:(ccTime)interval;
+
 @end

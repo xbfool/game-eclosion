@@ -16,30 +16,41 @@ typedef enum {
     TileMapLadder   = 3,
     TileMapTrap     = 4,
     TileMapEnd      = 5,
+    TileMapHero     = 6,
 }TileMaptype;
 
 typedef enum {
-    ECDirectionNone = 0,
-    ECDirectionRight,
-    ECDirectionLeft,
-    ECDirectionUp,
-    ECDirectionDown,
+    ECDirectionNone     = 0,
+    ECDirectionRight    = 0x00000001,
+    ECDirectionLeft     = 0x00000010,
+    ECDirectionUp       = 0x00000100,
+    ECDirectionDown     = 0x00001000,
 } ECDirection;
 
 @interface BaseTile : CCSprite<CCTargetedTouchDelegate> {
-    float           _tileWidth;
-    float           _tileHeight;
-    CGPoint         _beginPoint;
-    TileMaptype     _prototype;
-    ECDirection     _forceDirection;
+    CGPoint       _beginPoint;
 }
 
-@property(nonatomic, assign) float          tileWidth;
-@property(nonatomic, assign) float          tileHeight;
+@property(nonatomic, assign) float          tileW;
+@property(nonatomic, assign) float          tileH;
+@property(nonatomic, assign) int            tileX;
+@property(nonatomic, assign) int            tileY;
+@property(nonatomic, assign) float          x;
+@property(nonatomic, assign) float          y;
+@property(nonatomic, assign) CGPoint        downL;
+@property(nonatomic, assign) CGPoint        downR;
+@property(nonatomic, assign) CGPoint        upL;
+@property(nonatomic, assign) CGPoint        upR;
+@property(nonatomic, assign) float          speed;
+
 @property(nonatomic, assign) TileMaptype    prototype;
 @property(nonatomic, assign) ECDirection    forceDirection;
+@property(nonatomic, assign) ECDirection    direction;
 @property(nonatomic, assign) BOOL           animating;
 @property(nonatomic, assign) BOOL           movebal;
-- (void)pushByForce;
+@property(nonatomic, assign) int            alowingDirection;
+
+- (void)fpsUpdate:(ccTime)interval;
+- (void)fixUpdate:(ccTime)interval;
 
 @end

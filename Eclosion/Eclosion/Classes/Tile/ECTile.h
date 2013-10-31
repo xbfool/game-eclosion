@@ -17,6 +17,7 @@ typedef enum {
     ECTileTypeLadder   = 3,
     ECTileTypeTrap     = 4,
     ECTileTypeEnd      = 5,
+    ECTileTypeHero     = 6,
 }ECTileType;
 
 @interface ECTileUtil : NSObject {
@@ -25,6 +26,12 @@ typedef enum {
 
 @property(nonatomic,retain) NSDictionary *classMapping;
 + (BaseTile *)getTileByIndex:(ECTileType)index;
+
+@end
+
+@interface ECTileBlank : BaseTile {
+    
+}
 
 @end
 

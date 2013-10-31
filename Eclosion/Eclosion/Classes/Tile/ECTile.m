@@ -41,6 +41,22 @@ static ECTileUtil* _ectileUtil;
 
 @end
 
+@implementation ECTileBlank
+- (id)init {
+    if ( self = [super init]) {
+
+        // Set Propertys
+        self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
+        self.prototype = TileMapWalkable;
+        self.alowingDirection = ECDirectionRight | ECDirectionLeft;
+        
+    }
+    return self;
+}
+@end
+
 @implementation ECTileRoad
 - (id)init {
     if ( self = [super init]) {
@@ -54,7 +70,10 @@ static ECTileUtil* _ectileUtil;
         
         // Set Propertys
         self.contentSize = CGSizeMake(3*ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
         self.prototype = TileMapWall;
+        self.alowingDirection = ECDirectionRight | ECDirectionLeft;
         
         // Moveble
         self.movebal = YES;
@@ -76,6 +95,8 @@ static ECTileUtil* _ectileUtil;
         
         // Set Propertys
         self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
         self.prototype = TileMapWall;
     }
     return self;
@@ -103,6 +124,8 @@ static ECTileUtil* _ectileUtil;
         
         // Set Propertys
         self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
         self.prototype = TileMapTrap;
     }
     return self;
@@ -122,6 +145,8 @@ static ECTileUtil* _ectileUtil;
         
         // Set Propertys
         self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
         self.prototype = TileMapEnd;
     }
     return self;

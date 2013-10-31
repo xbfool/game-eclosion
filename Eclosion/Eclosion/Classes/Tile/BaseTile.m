@@ -7,23 +7,31 @@
 //
 
 #import "BaseTile.h"
+
 #define RUN_ACTION_TAG 9
+#define ITEM_SPEED 4 // 每帧移动的距离
 
 @implementation BaseTile
-@synthesize tileHeight = _tileHeight;
-@synthesize tileWidth  = _tileWidth;
-@synthesize prototype  = _prototype;
-@synthesize forceDirection = _forceDirection;
-@synthesize animating;
-@synthesize movebal;
 
 - (id)init {
     if ( self = [super init]) {
-        self.anchorPoint = ccp(0,0);
+        self.anchorPoint = ccp(0.5,0.5);
         self.forceDirection = ECDirectionNone;
         self.movebal = NO;
+        self.direction = ECDirectionNone;
+        self.speed = ITEM_SPEED;
     }
     return self;
+}
+
+- (void)fpsUpdate:(ccTime)interval {
+    
+}
+
+- (void)fixUpdate:(ccTime)interval {
+    self.tileX = _x / ECTileSize;
+    self.tileY = _y / ECTileSize;
+    
 }
 
 - (BOOL)containsTouchLocation:(UITouch *)touch
@@ -36,47 +44,23 @@
 }
 
 - (void)setForceDirection:(ECDirection)aForceDirection {
-    if ( ! movebal ) return;
+    if ( ! _movebal ) return;
+    
     if ( (_forceDirection != ECDirectionNone) && (aForceDirection != ECDirectionNone) ) return;
-    _forceDirection = aForceDirection;
+
+    if ((aForceDirection == ECDirectionNone ) || (self.alowingDirection & aForceDirection)) {
+        _forceDirection = aForceDirection;
+    }
 }
 
 - (void)setMovebal:(BOOL)amovebal {
-    movebal = amovebal;
-    if ( movebal ) {
+    _movebal = amovebal;
+    if ( _movebal ) {
         [[[CCDirector sharedDirector] touchDispatcher]
          addTargetedDelegate:self priority:0 swallowsTouches:YES];
     }
 }
 
-- (void)pushByForce {
-    if ( self.animating ) return;
-    self.animating = YES;
-    
-    CGPoint position = ccp(0,0);
-    switch (self.forceDirection) {
-        case ECDirectionRight:
-            position = ccp(ECTileSize,0);
-            break;
-        case ECDirectionLeft:
-            position = ccp(-1*ECTileSize,0);
-            break;
-        case ECDirectionUp:
-            position = ccp(0,ECTileSize);
-            break;
-        case ECDirectionDown:
-            position = ccp(0,-1*ECTileSize);
-            break;
-        default:
-            break;
-    }
-    CCMoveBy *moveAction = [CCMoveBy actionWithDuration:0.3 position:position];
-    CCSequence *squence = [CCSequence actions:moveAction,
-                           [CCCallBlock actionWithBlock:^{ self.animating = NO;}], nil];
-    squence.tag = RUN_ACTION_TAG;
-    
-    [self runAction:squence];
-}
 
 #pragma Touch Delegate
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
@@ -91,12 +75,9 @@
 
 - (void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event
 {
+    if (_forceDirection != ECDirectionNone) return;
     
-}
-
-- (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
-{
-    CGPoint endPoint = [touch previousLocationInView:[touch view]];
+    CGPoint endPoint = [touch locationInView:[touch view]];
     endPoint = [[CCDirector sharedDirector] convertToGL:endPoint];
     //self.position = ccp(self.position.x + (cur.x - pre.x), self.position.y + (cur.y - pre.y));
     float x = endPoint.x - _beginPoint.x;
@@ -114,5 +95,10 @@
             self.forceDirection = ECDirectionDown;
         }
     }
+}
+
+- (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    
 }
 @end

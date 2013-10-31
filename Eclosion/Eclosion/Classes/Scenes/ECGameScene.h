@@ -17,5 +17,6 @@
 }
 
 +(CCScene *) scene;
-
+- (void)fpsUpdate:(ccTime)interval;
+- (void)fixUpdate:(ccTime)interval;
 @end
