@@ -16,6 +16,7 @@ typedef enum {
     TileMapLadder   = 3,
     TileMapTrap     = 4,
     TileMapEnd      = 5,
+    TileMapHero     = 6,
 }TileMaptype;
 
 typedef enum {

@@ -28,6 +28,7 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
         self.speed = EC_DEFAULT_SPEED;
         self.anchorPoint = ccp(0.5,0.5);
         self.direction = ECDirectionNone;
+        self.prototype = TileMapHero;
         self.x = self.position.x;
         self.y = self.position.y;
         self.tileW = ECTileSize;
