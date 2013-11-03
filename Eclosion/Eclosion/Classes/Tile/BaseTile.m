@@ -24,6 +24,26 @@
     return self;
 }
 
+- (void)setMyTexture:(CCTexture2D *)texture {
+    // Set texture
+    [self setTexture: texture];
+    CGRect rect = CGRectZero;
+    rect.size = texture.contentSize;
+    [self setTextureRect:rect];
+}
+
+- (void)setTextureFile:(NSString *)file highlight:(NSString *)highlightFile {
+    _texture = [[[CCTextureCache sharedTextureCache] addImage:file] retain];
+    _highlightTexture = [[[CCTextureCache sharedTextureCache] addImage:highlightFile] retain];
+    [self setMyTexture:_texture];
+}
+
+- (void)dealloc {
+    [_texture release];
+    [_highlightTexture release];
+    [super dealloc];
+}
+
 - (void)fpsUpdate:(ccTime)interval {
     
 }
@@ -68,6 +88,8 @@
 	if ([self containsTouchLocation:touch]) {
         _beginPoint = [touch locationInView:[touch view]];
         _beginPoint = [[CCDirector sharedDirector] convertToGL:_beginPoint];
+        
+        [self setMyTexture:_highlightTexture];
         return YES;
     }
     return NO;
@@ -99,6 +121,6 @@
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    
+    [self setMyTexture:_texture];
 }
 @end

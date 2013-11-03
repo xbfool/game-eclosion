@@ -17,6 +17,7 @@ typedef enum {
     TileMapTrap     = 4,
     TileMapEnd      = 5,
     TileMapHero     = 6,
+    TileMapStar     = 7
 }TileMaptype;
 
 typedef enum {
@@ -29,6 +30,8 @@ typedef enum {
 
 @interface BaseTile : CCSprite<CCTargetedTouchDelegate> {
     CGPoint       _beginPoint;
+    CCTexture2D* _texture;
+    CCTexture2D* _highlightTexture;
 }
 
 @property(nonatomic, assign) float          tileW;
@@ -52,5 +55,6 @@ typedef enum {
 
 - (void)fpsUpdate:(ccTime)interval;
 - (void)fixUpdate:(ccTime)interval;
+- (void)setTextureFile:(NSString *)file highlight:(NSString *)highlightFile;
 
 @end

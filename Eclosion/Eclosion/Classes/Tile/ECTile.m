@@ -17,10 +17,15 @@ static ECTileUtil* _ectileUtil;
         self.classMapping = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"ECTileRoad",[NSNumber numberWithInt:ECTileTypeRoad],
                              @"ECTileWall",[NSNumber numberWithInt:ECTileTypeWall],
-                             @"ECTileJump",[NSNumber numberWithInt:ECTileTypeJump],
-                             @"ECTileLadder",[NSNumber numberWithInt:ECTileTypeLadder],
+                             @"ECTileStar",[NSNumber numberWithInt:ECTileTypeStar],
+                             @"ECTileTree",[NSNumber numberWithInt:ECTileTypeTree],
                              @"ECTileTrap",[NSNumber numberWithInt:ECTileTypeTrap],
                              @"ECTileEnd",[NSNumber numberWithInt:ECTileTypeEnd],
+                             @"ECTileRoadH1",[NSNumber numberWithInt:ECTileTypeMovH1],
+                             @"ECTileRoadH2",[NSNumber numberWithInt:ECTileTypeMovH2],
+                             @"ECTileRoadH3",[NSNumber numberWithInt:ECTileTypeMovH3],
+                             @"ECTileRoadL1",[NSNumber numberWithInt:ECTileTypeMovL1],
+                             @"ECTileRoadL2",[NSNumber numberWithInt:ECTileTypeMovL2],
                              nil];
     }
     return self;
@@ -60,20 +65,8 @@ static ECTileUtil* _ectileUtil;
 @implementation ECTileRoad
 - (id)init {
     if ( self = [super init]) {
-        
-        // Set texture
-        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"tile_road.png"];
-        [self setTexture: texture];
-        CGRect rect = CGRectZero;
-		rect.size = texture.contentSize;
-        [self setTextureRect:rect];
-        
         // Set Propertys
-        self.contentSize = CGSizeMake(3*ECTileSize, ECTileSize);
-        self.tileW = self.contentSize.width;
-        self.tileH = self.contentSize.height;
         self.prototype = TileMapWall;
-        self.alowingDirection = ECDirectionRight | ECDirectionLeft;
         
         // Moveble
         self.movebal = YES;
@@ -82,16 +75,98 @@ static ECTileUtil* _ectileUtil;
 }
 @end
 
+@implementation ECTileRoadH1
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        [self setTextureFile:@"blockG11.png" highlight:@"blockG11_on.png"];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
+        self.alowingDirection = ECDirectionUp | ECDirectionDown;
+    }
+    return self;
+}
+@end
+
+@implementation ECTileRoadH2
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        [self setTextureFile:@"blockR12.png" highlight:@"blockR12_on.png"];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(ECTileSize, 2 * ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
+        self.alowingDirection = ECDirectionUp | ECDirectionDown;
+    }
+    return self;
+}
+@end
+
+@implementation ECTileRoadH3
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        [self setTextureFile:@"blockR13.png" highlight:@"blockR13_on.png"];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(ECTileSize, 3 * ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
+        self.alowingDirection = ECDirectionUp | ECDirectionDown;
+    }
+    return self;
+}
+@end
+
+@implementation ECTileRoadL1
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        [self setTextureFile:@"tile_road.png" highlight:@"tile_road_on.png"];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(3*ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
+        self.alowingDirection = ECDirectionRight | ECDirectionLeft;
+    }
+    return self;
+}
+@end
+
+@implementation ECTileRoadL2
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        [self setTextureFile:@"blockY21.png" highlight:@"blockY21_on.png"];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(2*ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
+        self.alowingDirection = ECDirectionRight | ECDirectionLeft;
+    }
+    return self;
+}
+@end
+
+
 @implementation ECTileWall
 - (id)init {
     if ( self = [super init]) {
         
         // Set texture
-        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"wall.png"];
-        [self setTexture: texture];
-        CGRect rect = CGRectZero;
-		rect.size = texture.contentSize;
-        [self setTextureRect:rect];
+        [self setTextureFile:@"wall.png" highlight:@"wall.png"];
         
         // Set Propertys
         self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
@@ -103,11 +178,24 @@ static ECTileUtil* _ectileUtil;
 }
 @end
 
-@implementation ECTileJump
-
+@implementation ECTileStar
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        [self setTextureFile:@"star.png" highlight:@"star.png"];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
+        self.prototype = TileMapStar;
+    }
+    return self;
+}
 @end
 
-@implementation ECTileLadder
+@implementation ECTileTree
 
 @end
 
@@ -116,11 +204,7 @@ static ECTileUtil* _ectileUtil;
     if ( self = [super init]) {
         
         // Set texture
-        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"hole.png"];
-        [self setTexture: texture];
-        CGRect rect = CGRectZero;
-		rect.size = texture.contentSize;
-        [self setTextureRect:rect];
+        [self setTextureFile:@"hole.png" highlight:@"hole.png"];
         
         // Set Propertys
         self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
@@ -137,11 +221,7 @@ static ECTileUtil* _ectileUtil;
     if ( self = [super init]) {
         
         // Set texture
-        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"flower.png"];
-        [self setTexture: texture];
-        CGRect rect = CGRectZero;
-		rect.size = texture.contentSize;
-        [self setTextureRect:rect];
+        [self setTextureFile:@"flower.png" highlight:@"flower.png"];
         
         // Set Propertys
         self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
