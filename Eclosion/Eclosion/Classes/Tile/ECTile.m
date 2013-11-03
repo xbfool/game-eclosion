@@ -15,29 +15,29 @@ static ECTileUtil* _ectileUtil;
 - (id)init {
     if ( self = [super init] ) {
         self.classMapping = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @"ECTileRoad",[NSNumber numberWithInt:ECTileTypeRoad],
-                             @"ECTileWall",[NSNumber numberWithInt:ECTileTypeWall],
-                             @"ECTileStar",[NSNumber numberWithInt:ECTileTypeStar],
-                             @"ECTileTree",[NSNumber numberWithInt:ECTileTypeTree],
-                             @"ECTileTrap",[NSNumber numberWithInt:ECTileTypeTrap],
-                             @"ECTileEnd",[NSNumber numberWithInt:ECTileTypeEnd],
-                             @"ECTileRoadH1",[NSNumber numberWithInt:ECTileTypeMovH1],
-                             @"ECTileRoadH2",[NSNumber numberWithInt:ECTileTypeMovH2],
-                             @"ECTileRoadH3",[NSNumber numberWithInt:ECTileTypeMovH3],
-                             @"ECTileRoadL1",[NSNumber numberWithInt:ECTileTypeMovL1],
-                             @"ECTileRoadL2",[NSNumber numberWithInt:ECTileTypeMovL2],
+                             @"ECTileRoad",@"Road",
+                             @"ECTileWall",@"Wall",
+                             @"ECTileStar",@"Star",
+                             @"ECTileTree",@"Tree",
+                             @"ECTileTrap",@"Trap",
+                             @"ECTileEnd",@"End",
+                             @"ECTileRoadH1",@"MovH1",
+                             @"ECTileRoadH2",@"MovH2",
+                             @"ECTileRoadH3",@"MovH3",
+                             @"ECTileRoadL2",@"MovL2",
+                             @"ECTileRoadL3",@"MovL3",
                              nil];
     }
     return self;
 }
 
-+ (BaseTile *)getTileByIndex:(ECTileType)index {
++ (BaseTile *)getTileByName:(NSString *)name {
     if ( !_ectileUtil ) {
         _ectileUtil = [[ECTileUtil alloc] init];
     }
     
     // Dynamic class
-    NSString *classString = [_ectileUtil.classMapping objectForKey:[NSNumber numberWithInt:index]];
+    NSString *classString = [_ectileUtil.classMapping objectForKey:name];
     if ([classString length] == 0) return nil;
     
     Class tileClass = NSClassFromString(classString);
@@ -126,12 +126,12 @@ static ECTileUtil* _ectileUtil;
 }
 @end
 
-@implementation ECTileRoadL1
+@implementation ECTileRoadL2
 - (id)init {
     if ( self = [super init]) {
         
         // Set texture
-        [self setTextureFile:@"tile_road.png" highlight:@"tile_road_on.png"];
+        [self setTextureFile:@"blockY21.png" highlight:@"blockY21_on.png"];
         
         // Set Propertys
         self.contentSize = CGSizeMake(3*ECTileSize, ECTileSize);
@@ -143,12 +143,12 @@ static ECTileUtil* _ectileUtil;
 }
 @end
 
-@implementation ECTileRoadL2
+@implementation ECTileRoadL3
 - (id)init {
     if ( self = [super init]) {
         
         // Set texture
-        [self setTextureFile:@"blockY21.png" highlight:@"blockY21_on.png"];
+        [self setTextureFile:@"tile_road.png" highlight:@"tile_road_on.png"];
         
         // Set Propertys
         self.contentSize = CGSizeMake(2*ECTileSize, ECTileSize);
