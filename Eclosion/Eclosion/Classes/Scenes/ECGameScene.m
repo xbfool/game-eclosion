@@ -11,6 +11,7 @@
 #import "ECLevelScene.h"
 #import "ECMenuScene.h"
 #import "ECTileMap.h"
+#import "ECLevelManager.h"
 
 @interface ECGameScene()<ECPauseSceneDelegate>
 
@@ -43,7 +44,8 @@
     [self addChild:m];
     
     // Load game
-    _map = [ECTileMap mapBuildWithFile:@"level0"];
+    _map = [ECTileMap mapBuildWithFile:
+            [NSString stringWithFormat:@"level%d",[ECLevelManager manager].currentLevel + 1]];
     _map.position = ccp(22,5);
     [self addChild:_map];
     
@@ -53,8 +55,7 @@
 }
 
 -(void) onExit {
-    [super onExit];
-    [_map release];
+    //[_map release];
 }
 
 -(void) pause {

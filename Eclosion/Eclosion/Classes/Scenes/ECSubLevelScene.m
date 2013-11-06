@@ -1,23 +1,22 @@
 //
-//  ECLevelScene.m
+//  ECSubLevelScene.m
 //  Eclosion
 //
-//  Created by Tsubasa on 13-9-4.
+//  Created by Tsubasa on 13-11-6.
 //  Copyright 2013年 __MyCompanyName__. All rights reserved.
 //
 
-#import "ECLevelScene.h"
-#import "ECMenuScene.h"
-#import "ECGameScene.h"
-#import "ECLevelManager.h"
 #import "ECSubLevelScene.h"
+#import "ECLevelManager.h"
+#import "ECGameScene.h"
+#import "ECLevelScene.h"
 
-@implementation ECLevelScene
 
+@implementation ECSubLevelScene
 +(CCScene *) scene
 {
 	CCScene *scene = [CCScene node];
-	ECLevelScene *layer = [ECLevelScene node];
+	ECSubLevelScene *layer = [ECSubLevelScene node];
 	[scene addChild: layer];
 	return scene;
 }
@@ -45,18 +44,16 @@
 }
 
 -(void) createLevelMenu {
+    
     NSMutableArray *levelsArrya = [NSMutableArray array];
     for ( int row = 0; row < 3; row++ ) {
         for ( int col = 0; col < 3; col++ ) {
-            CC_CREATE_MENUITEM(lev1, @"stagecleared.png", @"stageon.png", beginGame:);
+            CC_CREATE_MENUITEM(lev1, @"cleared.png", @"cleared.png", beginGame:);
             lev1.tag = row * 3 + col;
             lev1.position = ccp(60 + col * 100, 300 - row * 100);
             
             [levelsArrya addObject:lev1];
         }
-        //CC_CREATE_MENUITEM(lev1, @"stagecleared.png", @"stageon.png", beginGame:);
-        //CC_CREATE_MENUITEM(lev2, @"stageunlocked.png", @"stageon.png", beginGame:);
-        //CC_CREATE_MENUITEM(lev3, @"stagelocked.png", @"stagelocked.png", beginGame:);
     }
     
     // Menu
@@ -66,12 +63,14 @@
 }
 
 -(void) back {
-    CC_TRANSLATE_SCENE([ECMenuScene scene]);
+    CC_TRANSLATE_SCENE([ECLevelScene scene]);
 }
 
 -(void) beginGame:(CCMenuItem *)item {
-    [ECLevelManager manager].currentStage = item.tag;
-    CC_TRANSLATE_SCENE([ECSubLevelScene scene]);
+    int stage = [ECLevelManager manager].currentStage;
+    [ECLevelManager manager].currentLevel =  stage * 9 + item.tag;
+    
+    CC_TRANSLATE_SCENE([ECGameScene scene]);
 }
 
 @end

@@ -30,7 +30,7 @@
 - (void)dealloc {
     [_tileMatrix release];
     [_myItems release];
-    [_hero removeFromParentAndCleanup:YES];
+    //[_hero removeFromParentAndCleanup:YES];
     [_hero release];
     [super dealloc];
 }
@@ -423,8 +423,6 @@
         else {
             item.y += item.speed * diry;
         }
-        
-        
     }
     
     if ( diry == 1 ) {
@@ -433,7 +431,7 @@
         
         // 上方有墙
         if (( itemL.prototype == TileMapWall ) || ( itemR.prototype == TileMapWall )) {
-            item.y = MIN((item.tileY), (MAP_ROW - 1)) * ECTileSize + ECTileSize / 2;
+            item.y = item.tileY * ECTileSize + ECTileSize / 2;
         }
         
         // 上方Hero
@@ -493,7 +491,7 @@
         BaseTile * itemD = [self getItemAtPointX:nextX.downR.x Y:nextX.downR.y];
         // 右方有墙
         if (( itemU.prototype == TileMapWall ) || ( itemD.prototype == TileMapWall )) {
-            item.x = MIN((item.tileX),(MAP_COL - 1) ) * ECTileSize + ECTileSize / 2;
+            item.x = item.tileX * ECTileSize + ECTileSize / 2;
         }
         
         // 右方Hero

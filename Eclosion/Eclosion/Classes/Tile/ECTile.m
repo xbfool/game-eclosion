@@ -134,7 +134,7 @@ static ECTileUtil* _ectileUtil;
         [self setTextureFile:@"blockY21.png" highlight:@"blockY21_on.png"];
         
         // Set Propertys
-        self.contentSize = CGSizeMake(3*ECTileSize, ECTileSize);
+        self.contentSize = CGSizeMake(2*ECTileSize, ECTileSize);
         self.tileW = self.contentSize.width;
         self.tileH = self.contentSize.height;
         self.alowingDirection = ECDirectionRight | ECDirectionLeft;
@@ -151,7 +151,7 @@ static ECTileUtil* _ectileUtil;
         [self setTextureFile:@"tile_road.png" highlight:@"tile_road_on.png"];
         
         // Set Propertys
-        self.contentSize = CGSizeMake(2*ECTileSize, ECTileSize);
+        self.contentSize = CGSizeMake(3*ECTileSize, ECTileSize);
         self.tileW = self.contentSize.width;
         self.tileH = self.contentSize.height;
         self.alowingDirection = ECDirectionRight | ECDirectionLeft;
