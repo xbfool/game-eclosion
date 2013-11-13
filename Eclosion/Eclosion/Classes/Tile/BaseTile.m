@@ -18,6 +18,7 @@
         self.anchorPoint = ccp(0.5,0.5);
         self.forceDirection = ECDirectionNone;
         self.movebal = NO;
+        self.walkball = YES;
         self.direction = ECDirectionNone;
         self.speed = ITEM_SPEED;
     }

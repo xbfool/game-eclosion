@@ -70,6 +70,7 @@ static ECTileUtil* _ectileUtil;
         
         // Moveble
         self.movebal = YES;
+        self.walkball = NO;
     }
     return self;
 }
@@ -173,6 +174,7 @@ static ECTileUtil* _ectileUtil;
         self.tileW = self.contentSize.width;
         self.tileH = self.contentSize.height;
         self.prototype = TileMapWall;
+        self.walkball = NO;
     }
     return self;
 }

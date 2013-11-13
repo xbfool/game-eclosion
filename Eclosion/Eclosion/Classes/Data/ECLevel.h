@@ -14,4 +14,5 @@
 @property (nonatomic, assign) int   score;
 @property (nonatomic, assign) BOOL  cleared;
 
++ (ECLevel *)instance;
 @end

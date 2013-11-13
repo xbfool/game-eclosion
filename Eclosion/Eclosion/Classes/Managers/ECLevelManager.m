@@ -19,4 +19,29 @@ static ECLevelManager * _sharedManager;
     return _sharedManager;
 }
 
+- (void)setCurrentLevel:(int)currentLevel {
+    NSAssert(currentLevel < MAX_LEVEL, @"Error! Level index beyond the bounds!");
+    _currentLevel = currentLevel;
+}
+
+- (void)setCurrentStage:(int)currentStage {
+    NSAssert(currentStage < MAX_STAGE, @"Error! Stage index beyond the bounds!");
+    _currentStage = currentStage;
+}
+
+- (id)init {
+    if ( self = [super init] ) {
+        self.clearedLevels = [[NSMutableArray alloc] init];
+        for ( int i = 0; i < MAX_LEVEL; i++ ) {
+            [self.clearedLevels addObject:[ECLevel instance]];
+        }
+    }
+    return self;
+}
+
+- (ECLevel *)getCurrentLevelData {
+    NSAssert([self.clearedLevels count] > self.currentLevel, @"Error! Level index beyond the bounds!");
+    return [self.clearedLevels objectAtIndex:self.currentLevel];
+}
+
 @end

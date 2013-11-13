@@ -51,6 +51,7 @@ typedef enum {
 @property(nonatomic, assign) ECDirection    direction;
 @property(nonatomic, assign) BOOL           animating;
 @property(nonatomic, assign) BOOL           movebal;
+@property(nonatomic, assign) BOOL           walkball;
 @property(nonatomic, assign) int            alowingDirection;
 
 - (void)fpsUpdate:(ccTime)interval;

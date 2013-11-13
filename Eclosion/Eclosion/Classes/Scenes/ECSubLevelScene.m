@@ -68,7 +68,7 @@
 
 -(void) beginGame:(CCMenuItem *)item {
     int stage = [ECLevelManager manager].currentStage;
-    [ECLevelManager manager].currentLevel =  stage * 9 + item.tag;
+    [ECLevelManager manager].currentLevel =  stage * LEVEL_PER_STAGE + item.tag;
     
     CC_TRANSLATE_SCENE([ECGameScene scene]);
 }

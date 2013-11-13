@@ -10,14 +10,22 @@
 
 @implementation ECLevel
 
-- (id)initWithCoder:(NSCoder *)aCoder {
++ (ECLevel *)instance {
+    return [[[ECLevel alloc] init] autorelease];
+}
 
+- (id)initWithCoder:(NSCoder *)aCoder {
+    self = [super init];
+    self.score = [aCoder decodeIntForKey:@"score"];
+    self.levelId = [aCoder decodeIntForKey:@"levelId"];
+    self.cleared = [aCoder decodeBoolForKey:@"cleared"];
+    return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:[NSNumber numberWithInt:self.score]];
-    [aCoder encodeObject:[NSNumber numberWithInt:self.levelId]];
-    [aCoder encodeObject:[NSNumber numberWithBool:self.cleared]];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.score] forKey:@"score"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.levelId] forKey:@"levelId"];
+    [aCoder encodeObject:[NSNumber numberWithBool:self.cleared] forKey:@"cleared"];
 }
 
 @end
