@@ -28,7 +28,7 @@
     
     // Set background
     CC_CREATE_SPRITE_CENTER(background, @"bg_levelselect.png", 0);
-    CC_CREATE_SPRITE(title, @"level selection.png",ccp(WINSIZE.width/2, 100), 0);
+    CC_CREATE_SPRITE(title, @"stage selection.png",ccp(WINSIZE.width/2, 100), 0);
     
     // Back button
     CC_CREATE_MENUITEM(backBtn, @"roundbuttonoff.png", @"roundbuttonon.png", back);

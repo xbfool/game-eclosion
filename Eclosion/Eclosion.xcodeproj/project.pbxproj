@@ -308,6 +308,7 @@
 		DB7FA87F1826A36500372A93 /* star_big-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = DB7FA87D1826A36500372A93 /* star_big-hd.png */; };
 		DB7FA8801826A36500372A93 /* star_big.png in Resources */ = {isa = PBXBuildFile; fileRef = DB7FA87E1826A36500372A93 /* star_big.png */; };
 		DB805841182A97D20018BCA6 /* ECSubLevelScene.m in Sources */ = {isa = PBXBuildFile; fileRef = DB805840182A97D20018BCA6 /* ECSubLevelScene.m */; };
+		DB805844182A9DC90018BCA6 /* ECLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB805843182A9DC90018BCA6 /* ECLevel.m */; };
 		DB825A7D17FBD24E0052DA3C /* level0.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB825A7C17FBD24E0052DA3C /* level0.plist */; };
 		DB825A8017FC02870052DA3C /* ECTile.m in Sources */ = {isa = PBXBuildFile; fileRef = DB825A7F17FC02870052DA3C /* ECTile.m */; };
 		DB825A8517FC029C0052DA3C /* BaseTile.m in Sources */ = {isa = PBXBuildFile; fileRef = DB825A8217FC029C0052DA3C /* BaseTile.m */; };
@@ -776,7 +777,9 @@
 		DB7FA87E1826A36500372A93 /* star_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_big.png; sourceTree = "<group>"; };
 		DB80583F182A97D20018BCA6 /* ECSubLevelScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSubLevelScene.h; sourceTree = "<group>"; };
 		DB805840182A97D20018BCA6 /* ECSubLevelScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSubLevelScene.m; sourceTree = "<group>"; };
-		DB825A7C17FBD24E0052DA3C /* level0.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = level0.plist; sourceTree = "<group>"; };
+		DB805842182A9DC90018BCA6 /* ECLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ECLevel.h; path = Data/ECLevel.h; sourceTree = "<group>"; };
+		DB805843182A9DC90018BCA6 /* ECLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ECLevel.m; path = Data/ECLevel.m; sourceTree = "<group>"; };
+		DB825A7C17FBD24E0052DA3C /* level0.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = level0.plist; sourceTree = "<group>"; };
 		DB825A7E17FC02870052DA3C /* ECTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ECTile.h; path = Tile/ECTile.h; sourceTree = "<group>"; };
 		DB825A7F17FC02870052DA3C /* ECTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ECTile.m; path = Tile/ECTile.m; sourceTree = "<group>"; };
 		DB825A8117FC029C0052DA3C /* BaseTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseTile.h; path = Tile/BaseTile.h; sourceTree = "<group>"; };
@@ -1747,6 +1750,8 @@
 		DB83CEDD17D320B000E79B93 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				DB805842182A9DC90018BCA6 /* ECLevel.h */,
+				DB805843182A9DC90018BCA6 /* ECLevel.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -2453,6 +2458,7 @@
 				DB7F52241827113800AD58B7 /* ECLevelManager.m in Sources */,
 				DB7F52271827115600AD58B7 /* ECScoreManager.m in Sources */,
 				DB805841182A97D20018BCA6 /* ECSubLevelScene.m in Sources */,
+				DB805844182A9DC90018BCA6 /* ECLevel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

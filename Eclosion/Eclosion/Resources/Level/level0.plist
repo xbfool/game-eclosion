@@ -82,17 +82,6 @@
 <key>type</key>
 <string>Wall</string>
 </dict>
-<dict>
-<key>position</key>
-<dict>
-<key>x</key>
-<integer>3</integer>
-<key>y</key>
-<integer>0</integer>
-</dict>
-<key>type</key>
-<string>End</string>
-</dict>
 </array>
 <key>hero</key>
 <dict>

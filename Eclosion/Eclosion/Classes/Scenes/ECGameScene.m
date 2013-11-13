@@ -45,7 +45,7 @@
     
     // Load game
     _map = [ECTileMap mapBuildWithFile:
-            [NSString stringWithFormat:@"level%d",[ECLevelManager manager].currentLevel + 1]];
+            [NSString stringWithFormat:@"level%d",[ECLevelManager manager].currentLevel]];
     _map.position = ccp(22,5);
     [self addChild:_map];
     
