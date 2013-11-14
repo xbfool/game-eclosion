@@ -48,15 +48,12 @@
     NSMutableArray *levelsArrya = [NSMutableArray array];
     for ( int row = 0; row < 3; row++ ) {
         for ( int col = 0; col < 3; col++ ) {
+            if ( row * 3 + col >= MAX_STAGE ) break;
             CC_CREATE_MENUITEM(lev1, @"stagecleared.png", @"stageon.png", beginGame:);
             lev1.tag = row * 3 + col;
             lev1.position = ccp(60 + col * 100, 300 - row * 100);
-            
             [levelsArrya addObject:lev1];
         }
-        //CC_CREATE_MENUITEM(lev1, @"stagecleared.png", @"stageon.png", beginGame:);
-        //CC_CREATE_MENUITEM(lev2, @"stageunlocked.png", @"stageon.png", beginGame:);
-        //CC_CREATE_MENUITEM(lev3, @"stagelocked.png", @"stagelocked.png", beginGame:);
     }
     
     // Menu

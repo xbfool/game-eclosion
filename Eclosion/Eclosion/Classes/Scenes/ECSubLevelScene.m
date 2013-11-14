@@ -48,9 +48,30 @@
     NSMutableArray *levelsArrya = [NSMutableArray array];
     for ( int row = 0; row < 3; row++ ) {
         for ( int col = 0; col < 3; col++ ) {
-            CC_CREATE_MENUITEM(lev1, @"cleared.png", @"cleared.png", beginGame:);
+            // get level data
+            int stage = [[ECLevelManager manager] currentStage];
+            ECLevel *level = [[ECLevelManager manager].levelDataArray
+                              objectAtIndex:stage * LEVEL_PER_STAGE + row * 3 + col];
+            
+            // add level
+            NSString *filename;
+            if ( level.cleared ) {
+                filename = @"cleared.png";
+            } else {
+                filename = @"unlocked.png";
+            }
+            CC_CREATE_MENUITEM(lev1, filename, filename, beginGame:);
             lev1.tag = row * 3 + col;
             lev1.position = ccp(60 + col * 100, 300 - row * 100);
+            
+            // add score
+            float x[3] = {17,29,53};
+            float y[3] = {49,26,17};
+            for ( int i = 0; i < level.score; i++ ) {
+                CCSprite *star = [CCSprite spriteWithFile:@"star_big.png"];
+                star.position = ccp(x[i],y[i]);
+                [lev1 addChild:star];
+            }
             
             [levelsArrya addObject:lev1];
         }

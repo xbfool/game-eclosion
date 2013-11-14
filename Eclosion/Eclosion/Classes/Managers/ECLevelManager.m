@@ -31,17 +31,17 @@ static ECLevelManager * _sharedManager;
 
 - (id)init {
     if ( self = [super init] ) {
-        self.clearedLevels = [[NSMutableArray alloc] init];
+        self.levelDataArray = [[NSMutableArray alloc] init];
         for ( int i = 0; i < MAX_LEVEL; i++ ) {
-            [self.clearedLevels addObject:[ECLevel instance]];
+            [self.levelDataArray addObject:[ECLevel instance]];
         }
     }
     return self;
 }
 
 - (ECLevel *)getCurrentLevelData {
-    NSAssert([self.clearedLevels count] > self.currentLevel, @"Error! Level index beyond the bounds!");
-    return [self.clearedLevels objectAtIndex:self.currentLevel];
+    NSAssert([self.levelDataArray count] > self.currentLevel, @"Error! Level index beyond the bounds!");
+    return [self.levelDataArray objectAtIndex:self.currentLevel];
 }
 
 @end
