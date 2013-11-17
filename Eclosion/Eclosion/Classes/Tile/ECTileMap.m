@@ -24,7 +24,6 @@
     if ( self = [super init ]) {
         _tileMatrix = [[NSMutableArray alloc] init];
         _myItems = [[NSMutableArray alloc] init];
-        memset(_pixelMap, 0, sizeof(int) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
     }
     return self;
 }
@@ -89,12 +88,17 @@
     
     // 拓印Tiles
     memset(_pixelMap, nil, sizeof(CCSprite *) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
+    memset(_pixelItemMap, nil, sizeof(CCSprite *) * MAP_ROW * TILE_SIZE * MAP_COL * TILE_SIZE);
     for ( BaseTile* tile in _myItems ) {
         for ( int x = tile.position.x - tile.tileW/2; x < (tile.position.x + tile.tileW/2); x ++ ) {
             for ( int y = tile.position.y - tile.tileH/2; y < (tile.position.y + tile.tileH/2); y ++ ) {
                 if (( x >= MAP_COL * TILE_SIZE ) || ( x < 0 )) continue;
                 if (( y >= MAP_ROW * TILE_SIZE ) || ( y < 0 )) continue;
-                _pixelMap[x][y] = tile;
+                if ( tile.walkball ) {
+                    _pixelItemMap[x][y] = tile;
+                } else {
+                    _pixelMap[x][y] = tile;
+                }
             }
         }
     }
@@ -181,6 +185,19 @@
     if (( x < 0 ) || ( x >= MAP_COL*TILE_SIZE)) return [ECTileWall node];
     if (( y < 0 ) || ( y >= MAP_ROW*TILE_SIZE)) return [ECTileWall node];
     
+    BaseTile * item = (BaseTile *)_pixelItemMap[x][y];
+    if ( item == nil ) {
+        item = [ECTileBlank node];
+    }
+    return item;
+}
+
+// 获取覆盖某坐标的Obj
+- (BaseTile *)getBlockAtPointX:(int)x Y:(int)y {
+    // 越界
+    if (( x < 0 ) || ( x >= MAP_COL*TILE_SIZE)) return [ECTileWall node];
+    if (( y < 0 ) || ( y >= MAP_ROW*TILE_SIZE)) return [ECTileWall node];
+    
     BaseTile * item = (BaseTile *)_pixelMap[x][y];
     if ( item == nil ) {
         item = [ECTileBlank node];
@@ -193,8 +210,8 @@
 
 - (void)turnHero:(ECHero *)hero x:(float)dirx y:(float)diry  {
     BaseTile * nextY = [self getMyCorners:hero x:0 y:-1];
-    BaseTile * itemL = [self getItemAtPointX:nextY.downL.x Y:nextY.downL.y];
-    BaseTile * itemR = [self getItemAtPointX:nextY.downR.x Y:nextY.downR.y];
+    BaseTile * itemL = [self getBlockAtPointX:nextY.downL.x Y:nextY.downL.y];
+    BaseTile * itemR = [self getBlockAtPointX:nextY.downR.x Y:nextY.downR.y];
     
     // 下方有墙
     if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
@@ -213,8 +230,8 @@
     
     BaseTile *nextX = [self getMyCorners:hero x:dirx y:0];
     if ( dirx == -1 ) {
-        BaseTile * itemU = [self getItemAtPointX:nextX.upL.x Y:nextX.upL.y];
-        BaseTile * itemD = [self getItemAtPointX:nextX.downL.x Y:nextX.downL.y];
+        BaseTile * itemU = [self getBlockAtPointX:nextX.upL.x Y:nextX.upL.y];
+        BaseTile * itemD = [self getBlockAtPointX:nextX.downL.x Y:nextX.downL.y];
         // 左方有墙
         if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
             if ( hero.direction == ECDirectionLeft &&
@@ -225,8 +242,8 @@
     }
     
     if ( dirx == 1 ) {
-        BaseTile * itemU = [self getItemAtPointX:nextX.upR.x Y:nextX.upR.y];
-        BaseTile * itemD = [self getItemAtPointX:nextX.downR.x Y:nextX.downR.y];
+        BaseTile * itemU = [self getBlockAtPointX:nextX.upR.x Y:nextX.upR.y];
+        BaseTile * itemD = [self getBlockAtPointX:nextX.downR.x Y:nextX.downR.y];
         // 右方有墙
         if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
             if ( hero.direction == ECDirectionRight &&
@@ -240,8 +257,8 @@
 - (void)moveHero:(ECHero *)hero x:(float)dirx y:(float)diry  {
     BaseTile *nextY = [self getMyCorners:hero x:0 y:diry * hero.speed];
     if ( diry == -1 ) {
-        BaseTile * itemL = [self getItemAtPointX:nextY.downL.x Y:nextY.downL.y];
-        BaseTile * itemR = [self getItemAtPointX:nextY.downR.x Y:nextY.downR.y];
+        BaseTile * itemL = [self getBlockAtPointX:nextY.downL.x Y:nextY.downL.y];
+        BaseTile * itemR = [self getBlockAtPointX:nextY.downR.x Y:nextY.downR.y];
         
         // 下方有墙
         if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
@@ -265,8 +282,8 @@
     }
     
     if ( diry == 1 ) {
-        BaseTile * itemL = [self getItemAtPointX:nextY.upL.x Y:nextY.upL.y];
-        BaseTile * itemR = [self getItemAtPointX:nextY.upR.x Y:nextY.upR.y];
+        BaseTile * itemL = [self getBlockAtPointX:nextY.upL.x Y:nextY.upL.y];
+        BaseTile * itemR = [self getBlockAtPointX:nextY.upR.x Y:nextY.upR.y];
         
         // 上方有墙
         if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
@@ -291,8 +308,8 @@
     
     BaseTile *nextX = [self getMyCorners:hero x: dirx * hero.speed y:0];
     if ( dirx == -1 ) {
-        BaseTile * itemU = [self getItemAtPointX:nextX.upL.x Y:nextX.upL.y];
-        BaseTile * itemD = [self getItemAtPointX:nextX.downL.x Y:nextX.downL.y];
+        BaseTile * itemU = [self getBlockAtPointX:nextX.upL.x Y:nextX.upL.y];
+        BaseTile * itemD = [self getBlockAtPointX:nextX.downL.x Y:nextX.downL.y];
         
         // 左方有墙
         if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
@@ -316,8 +333,8 @@
     }
     
     if ( dirx == 1 ) {
-        BaseTile * itemU = [self getItemAtPointX:nextX.upR.x Y:nextX.upR.y];
-        BaseTile * itemD = [self getItemAtPointX:nextX.downR.x Y:nextX.downR.y];
+        BaseTile * itemU = [self getBlockAtPointX:nextX.upR.x Y:nextX.upR.y];
+        BaseTile * itemD = [self getBlockAtPointX:nextX.downR.x Y:nextX.downR.y];
         // 右方有墙
         if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
             
@@ -346,8 +363,8 @@
     
     // ====== Down ======
     nextY = [self getMyCorners:hero x:0 y: -1];
-    itemL = [self getItemAtPointX:nextY.downL.x Y:nextY.downL.y];
-    itemR = [self getItemAtPointX:nextY.downR.x Y:nextY.downR.y];
+    itemL = [self getBlockAtPointX:nextY.downL.x Y:nextY.downL.y];
+    itemR = [self getBlockAtPointX:nextY.downR.x Y:nextY.downR.y];
     
     // MovingTile
     if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
@@ -359,8 +376,8 @@
     
     //  ====== Up ====== 
     nextY = [self getMyCorners:hero x:0 y: 1];
-    itemL = [self getItemAtPointX:nextY.upL.x Y:nextY.upL.y];
-    itemR = [self getItemAtPointX:nextY.upR.x Y:nextY.upR.y];
+    itemL = [self getBlockAtPointX:nextY.upL.x Y:nextY.upL.y];
+    itemR = [self getBlockAtPointX:nextY.upR.x Y:nextY.upR.y];
     
     // MovingTile
     if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
@@ -372,8 +389,8 @@
     
     // ====== Left ======
     nextX = [self getMyCorners:hero x: -1 y:0];
-    itemU = [self getItemAtPointX:nextX.upL.x Y:nextX.upL.y];
-    itemD = [self getItemAtPointX:nextX.downL.x Y:nextX.downL.y];
+    itemU = [self getBlockAtPointX:nextX.upL.x Y:nextX.upL.y];
+    itemD = [self getBlockAtPointX:nextX.downL.x Y:nextX.downL.y];
     
     // MovingTile
     if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
@@ -385,8 +402,8 @@
     
     // ====== Right ======
     nextX = [self getMyCorners:hero x: 1 y:0];
-    itemU = [self getItemAtPointX:nextX.upR.x Y:nextX.upR.y];
-    itemD = [self getItemAtPointX:nextX.downR.x Y:nextX.downR.y];
+    itemU = [self getBlockAtPointX:nextX.upR.x Y:nextX.upR.y];
+    itemD = [self getBlockAtPointX:nextX.downR.x Y:nextX.downR.y];
 
     // MovingTile
     if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
@@ -400,8 +417,8 @@
 - (void)moveItem:(BaseTile *)item x:(float)dirx y:(float)diry  {
     BaseTile *nextY = [self getMyCorners:item x:0 y:diry * item.speed];
     if ( diry == -1 ) {
-        BaseTile * itemL = [self getItemAtPointX:nextY.downL.x Y:nextY.downL.y];
-        BaseTile * itemR = [self getItemAtPointX:nextY.downR.x Y:nextY.downR.y];
+        BaseTile * itemL = [self getBlockAtPointX:nextY.downL.x Y:nextY.downL.y];
+        BaseTile * itemR = [self getBlockAtPointX:nextY.downR.x Y:nextY.downR.y];
         
         // 下方有墙
         if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
@@ -411,8 +428,8 @@
         // 下方Hero
         else if (( itemL.prototype == TileMapHero ) || ( itemR.prototype == TileMapHero )) {
             BaseTile * heroY = [self getMyCorners:_hero x:dirx y:diry];
-            BaseTile * heroDL = [self getItemAtPointX:heroY.downL.x Y:heroY.downL.y];
-            BaseTile * heroDR = [self getItemAtPointX:heroY.downR.x Y:heroY.downR.y];
+            BaseTile * heroDL = [self getBlockAtPointX:heroY.downL.x Y:heroY.downL.y];
+            BaseTile * heroDR = [self getBlockAtPointX:heroY.downR.x Y:heroY.downR.y];
             
             // 贴墙的Hero
             if (( heroDL.walkball == NO ) || ( heroDR.walkball == NO )) {
@@ -430,8 +447,8 @@
     }
     
     if ( diry == 1 ) {
-        BaseTile * itemL = [self getItemAtPointX:nextY.upL.x Y:nextY.upL.y];
-        BaseTile * itemR = [self getItemAtPointX:nextY.upR.x Y:nextY.upR.y];
+        BaseTile * itemL = [self getBlockAtPointX:nextY.upL.x Y:nextY.upL.y];
+        BaseTile * itemR = [self getBlockAtPointX:nextY.upR.x Y:nextY.upR.y];
         
         // 上方有墙
         if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
@@ -441,8 +458,8 @@
         // 上方Hero
         else if (( itemL.prototype == TileMapHero ) || ( itemR.prototype == TileMapHero )) {
             BaseTile * heroY = [self getMyCorners:_hero x:dirx y:diry];
-            BaseTile * heroUL = [self getItemAtPointX:heroY.upL.x Y:heroY.upL.y];
-            BaseTile * heroUR = [self getItemAtPointX:heroY.upR.x Y:heroY.upR.y];
+            BaseTile * heroUL = [self getBlockAtPointX:heroY.upL.x Y:heroY.upL.y];
+            BaseTile * heroUR = [self getBlockAtPointX:heroY.upR.x Y:heroY.upR.y];
             
             // 贴墙的Hero
             if (( heroUL.walkball == NO ) || ( heroUR.walkball == NO )) {
@@ -461,8 +478,8 @@
     
     BaseTile *nextX = [self getMyCorners:item x:dirx * item.speed y:0];
     if ( dirx == -1 ) {
-        BaseTile * itemU = [self getItemAtPointX:nextX.upL.x Y:nextX.upL.y];
-        BaseTile * itemD = [self getItemAtPointX:nextX.downL.x Y:nextX.downL.y];
+        BaseTile * itemU = [self getBlockAtPointX:nextX.upL.x Y:nextX.upL.y];
+        BaseTile * itemD = [self getBlockAtPointX:nextX.downL.x Y:nextX.downL.y];
         
         // 左方有墙
         if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
@@ -472,8 +489,8 @@
         // 左方是Hero
         else if (( itemU.prototype == TileMapHero ) || ( itemD.prototype == TileMapHero )) {
             BaseTile * heroX = [self getMyCorners:_hero x:dirx y:diry];
-            BaseTile * heroLU = [self getItemAtPointX:heroX.upL.x Y:heroX.upL.y];
-            BaseTile * heroLD = [self getItemAtPointX:heroX.downL.x Y:heroX.downL.y];
+            BaseTile * heroLU = [self getBlockAtPointX:heroX.upL.x Y:heroX.upL.y];
+            BaseTile * heroLD = [self getBlockAtPointX:heroX.downL.x Y:heroX.downL.y];
             
             // 贴墙的Hero
             if (( heroLU.walkball == NO ) || ( heroLD.walkball == NO )) {
@@ -491,8 +508,8 @@
     }
     
     if ( dirx == 1 ) {
-        BaseTile * itemU = [self getItemAtPointX:nextX.upR.x Y:nextX.upR.y];
-        BaseTile * itemD = [self getItemAtPointX:nextX.downR.x Y:nextX.downR.y];
+        BaseTile * itemU = [self getBlockAtPointX:nextX.upR.x Y:nextX.upR.y];
+        BaseTile * itemD = [self getBlockAtPointX:nextX.downR.x Y:nextX.downR.y];
         // 右方有墙
         if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
             item.x = item.tileX * ECTileSize + ECTileSize / 2;
@@ -501,8 +518,8 @@
         // 右方Hero
         else if (( itemU.prototype == TileMapHero ) || ( itemD.prototype == TileMapHero )) {
             BaseTile * heroX = [self getMyCorners:_hero x:dirx y:diry];
-            BaseTile * heroRU = [self getItemAtPointX:heroX.upR.x Y:heroX.upR.y];
-            BaseTile * heroRD = [self getItemAtPointX:heroX.downR.x Y:heroX.downR.y];
+            BaseTile * heroRU = [self getBlockAtPointX:heroX.upR.x Y:heroX.upR.y];
+            BaseTile * heroRD = [self getBlockAtPointX:heroX.downR.x Y:heroX.downR.y];
             
             // 贴墙的Hero
             if (( heroRU.walkball == NO ) || ( heroRD.walkball == NO )) {
@@ -525,8 +542,8 @@
     BaseTile * nextY = [self getMyCorners:item x:dirx y:diry];
     
     if ( diry == -1 ) {
-        BaseTile * itemL = [self getItemAtPointX:nextY.downL.x Y:nextY.downL.y];
-        BaseTile * itemR = [self getItemAtPointX:nextY.downR.x Y:nextY.downR.y];
+        BaseTile * itemL = [self getBlockAtPointX:nextY.downL.x Y:nextY.downL.y];
+        BaseTile * itemR = [self getBlockAtPointX:nextY.downR.x Y:nextY.downR.y];
         
         // 下方有墙
         if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
@@ -538,8 +555,8 @@
         // 下方是贴墙的Hero
         if (( itemL.prototype == TileMapHero ) || ( itemR.prototype == TileMapHero )) {
             BaseTile * heroY = [self getMyCorners:_hero x:dirx y:diry];
-            BaseTile * heroDL = [self getItemAtPointX:heroY.downL.x Y:heroY.downL.y];
-            BaseTile * heroDR = [self getItemAtPointX:heroY.downR.x Y:heroY.downR.y];
+            BaseTile * heroDL = [self getBlockAtPointX:heroY.downL.x Y:heroY.downL.y];
+            BaseTile * heroDR = [self getBlockAtPointX:heroY.downR.x Y:heroY.downR.y];
             if (( heroDL.walkball == NO ) || ( heroDR.walkball == NO )) {
                 if ( item.forceDirection == ECDirectionDown ) {
                     item.forceDirection = ECDirectionNone;
@@ -549,8 +566,8 @@
     }
     
     if ( diry == 1 ) {
-        BaseTile * itemL = [self getItemAtPointX:nextY.upL.x Y:nextY.upL.y];
-        BaseTile * itemR = [self getItemAtPointX:nextY.upR.x Y:nextY.upR.y];
+        BaseTile * itemL = [self getBlockAtPointX:nextY.upL.x Y:nextY.upL.y];
+        BaseTile * itemR = [self getBlockAtPointX:nextY.upR.x Y:nextY.upR.y];
         
         // 上方有墙
         if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
@@ -562,8 +579,8 @@
         // 上方是贴墙的Hero
         if (( itemL.prototype == TileMapHero ) || ( itemR.prototype == TileMapHero )) {
             BaseTile * heroY = [self getMyCorners:_hero x:dirx y:diry];
-            BaseTile * heroUL = [self getItemAtPointX:heroY.upL.x Y:heroY.upL.y];
-            BaseTile * heroUR = [self getItemAtPointX:heroY.upR.x Y:heroY.upR.y];
+            BaseTile * heroUL = [self getBlockAtPointX:heroY.upL.x Y:heroY.upL.y];
+            BaseTile * heroUR = [self getBlockAtPointX:heroY.upR.x Y:heroY.upR.y];
             if (( heroUL.walkball == NO ) || ( heroUR.walkball == NO )) {
                 if ( item.forceDirection == ECDirectionUp ) {
                     item.forceDirection = ECDirectionNone;
@@ -574,8 +591,8 @@
     
     BaseTile *nextX = [self getMyCorners:item x:dirx y:0];
     if ( dirx == -1 ) {
-        BaseTile * itemU = [self getItemAtPointX:nextX.upL.x Y:nextX.upL.y];
-        BaseTile * itemD = [self getItemAtPointX:nextX.downL.x Y:nextX.downL.y];
+        BaseTile * itemU = [self getBlockAtPointX:nextX.upL.x Y:nextX.upL.y];
+        BaseTile * itemD = [self getBlockAtPointX:nextX.downL.x Y:nextX.downL.y];
         // 左方有墙
         if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
             if ( item.forceDirection == ECDirectionLeft ) {
@@ -586,8 +603,8 @@
         // 左方是贴墙的Hero
         if (( itemU.prototype == TileMapHero ) || ( itemD.prototype == TileMapHero )) {
             BaseTile * heroX = [self getMyCorners:_hero x:dirx y:diry];
-            BaseTile * heroLU = [self getItemAtPointX:heroX.upL.x Y:heroX.upL.y];
-            BaseTile * heroLD = [self getItemAtPointX:heroX.downL.x Y:heroX.downL.y];
+            BaseTile * heroLU = [self getBlockAtPointX:heroX.upL.x Y:heroX.upL.y];
+            BaseTile * heroLD = [self getBlockAtPointX:heroX.downL.x Y:heroX.downL.y];
             if (( heroLU.walkball == NO ) || ( heroLD.walkball == NO )) {
                 if ( item.forceDirection == ECDirectionLeft ) {
                     item.forceDirection = ECDirectionNone;
@@ -597,8 +614,8 @@
     }
     
     if ( dirx == 1 ) {
-        BaseTile * itemU = [self getItemAtPointX:nextX.upR.x Y:nextX.upR.y];
-        BaseTile * itemD = [self getItemAtPointX:nextX.downR.x Y:nextX.downR.y];
+        BaseTile * itemU = [self getBlockAtPointX:nextX.upR.x Y:nextX.upR.y];
+        BaseTile * itemD = [self getBlockAtPointX:nextX.downR.x Y:nextX.downR.y];
         // 右方有墙
         if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
             if ( item.forceDirection == ECDirectionRight ) {
@@ -609,8 +626,8 @@
         // 右方是贴墙的Hero
         if (( itemU.prototype == TileMapHero ) || ( itemD.prototype == TileMapHero )) {
             BaseTile * heroX = [self getMyCorners:_hero x:dirx y:diry];
-            BaseTile * heroRU = [self getItemAtPointX:heroX.upR.x Y:heroX.upR.y];
-            BaseTile * heroRD = [self getItemAtPointX:heroX.downR.x Y:heroX.downR.y];
+            BaseTile * heroRU = [self getBlockAtPointX:heroX.upR.x Y:heroX.upR.y];
+            BaseTile * heroRD = [self getBlockAtPointX:heroX.downR.x Y:heroX.downR.y];
             if (( heroRU.walkball == NO ) || ( heroRD.walkball == NO )) {
                 if ( item.forceDirection == ECDirectionRight ) {
                     item.forceDirection = ECDirectionNone;
@@ -640,22 +657,37 @@
 
 - (void)getItemStar:(BaseTile *)tile {
     if ( ! tile.visible ) return;
-    ECLevel *level = [[ECLevelManager manager] getCurrentLevelData];
-    level.score = level.score + 1;
+    _score ++;
     tile.visible = NO;
 }
 
 - (void)getItemTrap {
     [self.parent pauseSchedulerAndActions];
-    CC_TRANSLATE_SCENE([ECClearScene scene]);
+    [_hero trap];
+    
+    // Waiting animating
+    double delayInSeconds = HERO_ANIM_DUR;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        CC_TRANSLATE_SCENE([ECClearScene scene]);
+    });
 }
 
 - (void)getItemFlower {
     [self.parent pauseSchedulerAndActions];
+    [_hero fly];
+    
     ECLevel *level = [[ECLevelManager manager] getCurrentLevelData];
     level.cleared = YES;
+    level.score = _score;
     [[ECLevelManager manager] save];
-    CC_TRANSLATE_SCENE([ECClearScene scene]);
+    
+    // Waiting animating
+    double delayInSeconds = HERO_ANIM_DUR;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        CC_TRANSLATE_SCENE([ECClearScene scene]);
+    });
     
 }
 

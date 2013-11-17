@@ -14,13 +14,15 @@
 #define RUN_ACTION_TAG 9
 #define PUSH_ACTION_TAG 10
 
-static NSString* _filename[ECHeroActionCount] = { @"BombA",@"BombA",@"BombA"};
+static NSString* _filename[ECHeroActionCount] = { @"BombA",@"animation_fly_",
+    @"animation_trap_", @"animation_zz_", @"animation_shock_"};
 
-static const int _fileCount[ECHeroActionCount] = { 3,3,3};
+static const int _fileCount[ECHeroActionCount] = { 5, 3, 3, 3, 3};
 
-static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
+static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3,0.3,0.3};
 
 @implementation ECHero
+@synthesize direction;
 
 - (id)init {
     if ( self = [super init]) {
@@ -40,18 +42,26 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
 
 - (void)fixUpdate:(ccTime)interval {
     [super fixUpdate:interval];
+
 }
 
 - (void)fpsUpdate:(ccTime)interval {
     [super fpsUpdate:interval];
     
-    switch (self.direction) {
-
-        default:
-            break;
-    }
 }
 
+- (void)setDirection:(ECDirection)aDirection {
+    // Context转向
+    if (( direction == ECDirectionLeft || direction == ECDirectionNone ) && ( aDirection == ECDirectionRight )) {
+        self.scaleX = -1.f;
+    }
+    if (( direction == ECDirectionRight || direction == ECDirectionNone ) && ( aDirection == ECDirectionLeft )) {
+        self.scaleX = 1.f;
+    }
+        
+    // 逻辑转向
+    direction = aDirection;
+}
 
 - (id)getAction:(ECHeroAction)index {
     
@@ -60,6 +70,7 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
                                              frameCount:_fileCount[index]
                                                   delay:_fileDelay[index]];
     CCAnimate *animate = [CCAnimate actionWithAnimation:anim];
+    
     
     // 默认走路动画
     if ( index == ECHeroActionDefault ) {
@@ -82,9 +93,46 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3};
     [self runAction:action];
 }
 
+- (void)trap {
+    [self stopAllActions];
+    self.heroAction = ECHeroActionFailure;
+    id action = [self getAction:self.heroAction];
+    [self runAction:action];
+    
+    id scale = [CCScaleTo actionWithDuration:0.3 scale:2];
+    [self runAction:scale];
+}
+
+- (void)fly {
+    [self stopAllActions];
+    self.heroAction = ECHeroActionSuccess;
+    id action = [self getAction:self.heroAction];
+    [self runAction:action];
+    
+    id scale = [CCScaleTo actionWithDuration:HERO_ANIM_DUR scale:3];
+    [self runAction:scale];
+    
+    id move = [CCMoveTo actionWithDuration:HERO_ANIM_DUR position:ccp(WINSIZE.width/2, WINSIZE.height/2)];
+    [self runAction:move];
+}
+
+- (void)dizz {
+    [self stopAllActions];
+    self.heroAction = ECHeroActionDizz;
+    id action = [self getAction:self.heroAction];
+    [self runAction:action];
+}
+
+- (void)shock {
+    [self stopAllActions];
+    self.heroAction = ECHeroActionShock;
+    id action = [self getAction:self.heroAction];
+    [self runAction:action];
+}
+
 - (void)callback {
-    self.animating = NO;
-    [self run];
+    //self.animating = NO;
+    //[self run];
 }
 
 @end

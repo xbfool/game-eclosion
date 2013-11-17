@@ -10,11 +10,14 @@
 #import "cocos2d.h"
 #import "BaseTile.h"
 
+#define HERO_ANIM_DUR 2
+
 typedef enum {
     ECHeroActionDefault = 0,
-    ECHeroActionJump,
     ECHeroActionSuccess,
     ECHeroActionFailure,
+    ECHeroActionDizz,
+    ECHeroActionShock,
     ECHeroActionCount // MUST be last one
 } ECHeroAction;
 
@@ -26,5 +29,8 @@ typedef enum {
 @property(nonatomic, assign) ECHeroAction    heroAction;
 
 - (void)run;
-
+- (void)trap;
+- (void)fly;
+- (void)dizz;
+- (void)shock;
 @end
