@@ -11,6 +11,7 @@
 static ECLevelManager * _sharedManager;
 
 @implementation ECLevelManager
+@synthesize levelDataArray;
 
 + (ECLevelManager *)manager {
     if ( _sharedManager == nil ) {
@@ -29,12 +30,52 @@ static ECLevelManager * _sharedManager;
     _currentStage = currentStage;
 }
 
+- (void)save {
+    NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentDirectory = [documentDirectories objectAtIndex:0];
+	NSString *myFilePath = [documentDirectory stringByAppendingPathComponent:@"EclosionData.data"];
+    
+	NSMutableData *settingsData = [NSMutableData data];
+	NSKeyedArchiver *encoder =  [[NSKeyedArchiver alloc] initForWritingWithMutableData:settingsData];
+    
+	//Archive each instance variable/object using its name
+	[encoder encodeObject:[NSNumber numberWithInt:self.currentStage] forKey:@"currentStage"];
+	[encoder encodeObject:[NSNumber numberWithInt:self.currentLevel] forKey:@"currentLevel"];
+	[encoder encodeObject:self.levelDataArray forKey:@"levelDataArray"];
+    
+	[encoder finishEncoding];
+	[settingsData writeToFile:myFilePath atomically:YES];
+	[encoder release];
+}
+
 - (id)init {
     if ( self = [super init] ) {
-        self.levelDataArray = [[NSMutableArray alloc] init];
-        for ( int i = 0; i < MAX_LEVEL; i++ ) {
-            [self.levelDataArray addObject:[ECLevel instance]];
-        }
+        //----- READ CLASS FROM FILE -----
+		NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+		NSString *documentDirectory = [documentDirectories objectAtIndex:0];
+		NSString *myFilePath = [documentDirectory stringByAppendingPathComponent:@"EclosionData.data"];
+		NSData *settingsData = [[NSMutableData alloc] initWithContentsOfFile:myFilePath];
+        
+		if (settingsData) {
+			//----- EXISTING DATA EXISTS -----
+			NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:settingsData];
+            
+			//Decode each instance variable/object that is archived
+			self.currentStage = [[decoder decodeObjectForKey:@"currentStage"] intValue];
+			self.currentLevel = [[decoder decodeObjectForKey:@"currentLevel"] intValue];
+			self.levelDataArray = [decoder decodeObjectForKey:@"levelDataArray"];
+            
+			[decoder finishDecoding];
+			[decoder release];
+			[settingsData release];
+		} else {
+			//----- NO DATA EXISTS -----
+            self.levelDataArray = [[NSMutableArray alloc] init];
+            for ( int i = 0; i < MAX_LEVEL; i++ ) {
+                [self.levelDataArray addObject:[ECLevel instance]];
+            }
+            
+		}
     }
     return self;
 }

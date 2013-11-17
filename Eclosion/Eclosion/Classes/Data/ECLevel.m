@@ -23,9 +23,9 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:[NSNumber numberWithInt:self.score] forKey:@"score"];
-    [aCoder encodeObject:[NSNumber numberWithInt:self.levelId] forKey:@"levelId"];
-    [aCoder encodeObject:[NSNumber numberWithBool:self.cleared] forKey:@"cleared"];
+    [aCoder encodeInt:self.score forKey:@"score"];
+    [aCoder encodeInt:self.levelId forKey:@"levelId"];
+    [aCoder encodeBool:self.cleared forKey:@"cleared"];
 }
 
 @end

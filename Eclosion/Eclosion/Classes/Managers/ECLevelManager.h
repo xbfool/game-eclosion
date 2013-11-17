@@ -22,4 +22,5 @@
 
 + (ECLevelManager *)manager;
 - (ECLevel *)getCurrentLevelData;
+- (void)save;
 @end

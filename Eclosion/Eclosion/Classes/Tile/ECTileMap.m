@@ -654,6 +654,7 @@
     [self.parent pauseSchedulerAndActions];
     ECLevel *level = [[ECLevelManager manager] getCurrentLevelData];
     level.cleared = YES;
+    [[ECLevelManager manager] save];
     CC_TRANSLATE_SCENE([ECClearScene scene]);
     
 }
