@@ -59,6 +59,7 @@
 }
 
 -(void) pause {
+    [self pauseSchedulerAndActions];
     if ( !_pauseScene ) {
         _pauseScene = [[ECPauseScene alloc] init];
         _pauseScene.delegate = self;
@@ -77,11 +78,12 @@
 
 #pragma PauseScene Delegate
 -(void) resumeGame {
+    [self resumeSchedulerAndActions];
     [_pauseScene removeFromParentAndCleanup:NO];
 }
 
 -(void) restartGame {
-    [_pauseScene removeFromParentAndCleanup:NO];
+     CC_TRANSLATE_SCENE([ECGameScene scene]);
 }
 
 -(void) gotoLevelScene {
