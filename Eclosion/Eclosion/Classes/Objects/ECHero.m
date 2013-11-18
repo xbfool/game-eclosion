@@ -95,6 +95,7 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3,0.3,0.3};
 
 - (void)trap {
     [self stopAllActions];
+    self.scaleX = 1.f;
     self.heroAction = ECHeroActionFailure;
     id action = [self getAction:self.heroAction];
     [self runAction:action];
@@ -105,6 +106,7 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3,0.3,0.3};
 
 - (void)fly {
     [self stopAllActions];
+    self.scaleX = 1.f;
     self.heroAction = ECHeroActionSuccess;
     id action = [self getAction:self.heroAction];
     [self runAction:action];

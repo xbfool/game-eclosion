@@ -10,7 +10,7 @@
 #import "cocos2d.h"
 #import "BaseTile.h"
 
-#define HERO_ANIM_DUR 2
+#define HERO_ANIM_DUR 1.5
 
 typedef enum {
     ECHeroActionDefault = 0,
