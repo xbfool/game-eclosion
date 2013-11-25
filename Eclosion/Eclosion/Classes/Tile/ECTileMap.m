@@ -416,13 +416,18 @@
 
 - (void)moveItem:(BaseTile *)item x:(float)dirx y:(float)diry  {
     BaseTile *nextY = [self getMyCorners:item x:0 y:diry * item.speed];
+    
+    // 块长度(宽度)不能被2*ECTileSize整除时, 使用tileX(Y)计算坐标时需考虑中间部分.
+    float middleW = (item.tileW % ( 2 * ECTileSize )) / 2 ;
+    float middleH = (item.tileH % ( 2 * ECTileSize )) / 2 ;
+    
     if ( diry == -1 ) {
         BaseTile * itemL = [self getBlockAtPointX:nextY.downL.x Y:nextY.downL.y];
         BaseTile * itemR = [self getBlockAtPointX:nextY.downR.x Y:nextY.downR.y];
         
         // 下方有墙
         if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
-            item.y = item.tileY * ECTileSize + ECTileSize / 2;
+            item.y = item.tileY * ECTileSize + middleH;
         }
         
         // 下方Hero
@@ -433,7 +438,7 @@
             
             // 贴墙的Hero
             if (( heroDL.walkball == NO ) || ( heroDR.walkball == NO )) {
-                item.y = item.tileY * ECTileSize + ECTileSize / 2;
+                item.y = item.tileY * ECTileSize + middleH;
             }
             else {
                 item.y += item.speed * diry;
@@ -452,7 +457,7 @@
         
         // 上方有墙
         if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
-            item.y = item.tileY * ECTileSize + ECTileSize / 2;
+            item.y = item.tileY * ECTileSize + middleH;
         }
         
         // 上方Hero
@@ -463,7 +468,7 @@
             
             // 贴墙的Hero
             if (( heroUL.walkball == NO ) || ( heroUR.walkball == NO )) {
-                item.y = item.tileY * ECTileSize + ECTileSize / 2;
+                item.y = item.tileY * ECTileSize + middleH;
             }
             else {
                 item.y += item.speed * diry;
@@ -483,7 +488,7 @@
         
         // 左方有墙
         if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
-            item.x = item.tileX * ECTileSize + ECTileSize / 2;
+            item.x = item.tileX * ECTileSize + middleW;
         }
         
         // 左方是Hero
@@ -494,7 +499,7 @@
             
             // 贴墙的Hero
             if (( heroLU.walkball == NO ) || ( heroLD.walkball == NO )) {
-                item.x = item.tileX * ECTileSize + ECTileSize / 2;
+                item.x = item.tileX * ECTileSize + middleW;
             }
             else {
                 item.x += item.speed * dirx;
@@ -512,7 +517,7 @@
         BaseTile * itemD = [self getBlockAtPointX:nextX.downR.x Y:nextX.downR.y];
         // 右方有墙
         if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
-            item.x = item.tileX * ECTileSize + ECTileSize / 2;
+            item.x = item.tileX * ECTileSize + middleW;
         }
         
         // 右方Hero
@@ -523,7 +528,7 @@
             
             // 贴墙的Hero
             if (( heroRU.walkball == NO ) || ( heroRD.walkball == NO )) {
-                item.x = item.tileX * ECTileSize + ECTileSize / 2;
+                item.x = item.tileX * ECTileSize + middleW;
             }
             else {
                 item.x += item.speed * dirx;

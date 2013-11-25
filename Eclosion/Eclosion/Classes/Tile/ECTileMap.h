@@ -27,7 +27,6 @@
 }
 
 + (ECTileMap *)mapBuildWithFile:(NSString *)filename;
-- (void)run;
 - (void)fpsUpdate:(ccTime)interval;
 - (void)fixUpdate:(ccTime)interval;
 @end
