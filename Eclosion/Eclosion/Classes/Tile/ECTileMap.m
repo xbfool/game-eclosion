@@ -217,12 +217,13 @@
     if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
         if (( hero.direction != ECDirectionRight ) && (hero.direction != ECDirectionLeft )
             && ( itemL.forceDirection == ECDirectionNone) && ( itemR.forceDirection == ECDirectionNone)) {
-            hero.direction = ECDirectionRight;
+            hero.direction = hero.preDirection;
         }
     }
     // 下方悬空
     else {
         if ( hero.direction != ECDirectionDown ) {
+            hero.preDirection = hero.direction;
             hero.direction = ECDirectionDown;
             return; // 悬空优先级最高.
         }

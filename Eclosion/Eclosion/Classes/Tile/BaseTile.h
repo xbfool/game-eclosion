@@ -49,7 +49,7 @@ typedef enum {
 @property(nonatomic, assign) TileMaptype    prototype;
 @property(nonatomic, assign) ECDirection    forceDirection;
 @property(nonatomic, assign) ECDirection    direction;
-@property(nonatomic, assign) float          gravity;
+@property(nonatomic, assign) ECDirection    preDirection; // 下落之前的方向
 @property(nonatomic, assign) BOOL           animating;
 @property(nonatomic, assign) BOOL           movebal;
 @property(nonatomic, assign) BOOL           walkball;
