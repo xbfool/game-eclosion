@@ -34,12 +34,12 @@ typedef enum {
     CCTexture2D* _highlightTexture;
 }
 
-@property(nonatomic, assign) float          tileW;
-@property(nonatomic, assign) float          tileH;
+@property(nonatomic, assign) int            tileW;
+@property(nonatomic, assign) int            tileH;
 @property(nonatomic, assign) int            tileX;
 @property(nonatomic, assign) int            tileY;
-@property(nonatomic, assign) float          x;
-@property(nonatomic, assign) float          y;
+@property(nonatomic, assign) float          x;  // middle
+@property(nonatomic, assign) float          y;  // middle
 @property(nonatomic, assign) CGPoint        downL;
 @property(nonatomic, assign) CGPoint        downR;
 @property(nonatomic, assign) CGPoint        upL;
@@ -49,6 +49,7 @@ typedef enum {
 @property(nonatomic, assign) TileMaptype    prototype;
 @property(nonatomic, assign) ECDirection    forceDirection;
 @property(nonatomic, assign) ECDirection    direction;
+@property(nonatomic, assign) float          gravity;
 @property(nonatomic, assign) BOOL           animating;
 @property(nonatomic, assign) BOOL           movebal;
 @property(nonatomic, assign) BOOL           walkball;

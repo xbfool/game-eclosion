@@ -52,16 +52,25 @@
 - (void)fixUpdate:(ccTime)interval {
     self.tileX = _x / ECTileSize;
     self.tileY = _y / ECTileSize;
-    
+}
+
+bool CCRectContainsPoint(CGRect rect, CGPoint point) {
+    return ((point.x >= rect.origin.x ) && ( point.x <= ( rect.origin.x + rect.size.width )) &&
+             (point.y >= rect.origin.y ) && ( point.y <= ( rect.origin.y + rect.size.height )));
 }
 
 - (BOOL)containsTouchLocation:(UITouch *)touch
 {
     CGPoint location = [touch locationInView:[touch view]];
     location = [[CCDirector sharedDirector] convertToGL:location];
-    CGRect myRect = CGRectMake(self.position.x, self.position.y, self.contentSize.width, self.contentSize.height);
-                                                                
-    return CGRectContainsPoint(myRect, location);
+    
+    if ( [self.parent isKindOfClass:[CCSprite class]] ) {
+        location.x -= ((CCSprite *)self.parent).position.x;
+        location.y -= ((CCSprite *)self.parent).position.y;
+    }
+    
+    CGRect myRect = CGRectMake(_x - _tileW/2, _y - _tileH/2, self.contentSize.width, self.contentSize.height);
+    return CCRectContainsPoint(myRect, location);
 }
 
 - (void)setForceDirection:(ECDirection)aForceDirection {
