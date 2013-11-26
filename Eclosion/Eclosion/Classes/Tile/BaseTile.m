@@ -9,7 +9,7 @@
 #import "BaseTile.h"
 
 #define RUN_ACTION_TAG 9
-#define ITEM_SPEED 4 // 每帧移动的距离
+#define ITEM_SPEED 6 // 每帧移动的距离
 
 @implementation BaseTile
 

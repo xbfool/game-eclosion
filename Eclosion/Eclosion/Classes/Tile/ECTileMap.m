@@ -108,7 +108,7 @@
     
     // -- 移动Hero
     if ( _hero.direction == ECDirectionDown ) {
-        _hero.speed = 3;
+        _hero.speed = 6;
     } else {
         _hero.speed = 1;
     }
@@ -458,7 +458,7 @@
         
         // 上方有墙
         if (( itemL.walkball == NO ) || ( itemR.walkball == NO )) {
-            item.y = item.tileY * ECTileSize + middleH;
+            item.y = item.tileY * ECTileSize + middleH + ((middleH == 0)?ECTileSize:0);
         }
         
         // 上方Hero
@@ -469,7 +469,7 @@
             
             // 贴墙的Hero
             if (( heroUL.walkball == NO ) || ( heroUR.walkball == NO )) {
-                item.y = item.tileY * ECTileSize + middleH;
+                item.y = item.tileY * ECTileSize + middleH + ((middleH == 0)?ECTileSize:0);
             }
             else {
                 item.y += item.speed * diry;
@@ -518,7 +518,7 @@
         BaseTile * itemD = [self getBlockAtPointX:nextX.downR.x Y:nextX.downR.y];
         // 右方有墙
         if (( itemU.walkball == NO ) || ( itemD.walkball == NO )) {
-            item.x = item.tileX * ECTileSize + middleW;
+            item.x = item.tileX * ECTileSize + middleW + ((middleW == 0)?ECTileSize:0);
         }
         
         // 右方Hero
@@ -529,7 +529,7 @@
             
             // 贴墙的Hero
             if (( heroRU.walkball == NO ) || ( heroRD.walkball == NO )) {
-                item.x = item.tileX * ECTileSize + middleW;
+                item.x = item.tileX * ECTileSize + middleW + ((middleW == 0)?ECTileSize:0);
             }
             else {
                 item.x += item.speed * dirx;
