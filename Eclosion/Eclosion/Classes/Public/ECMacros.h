@@ -15,6 +15,14 @@
 // Winsize
 #define WINSIZE ([[CCDirector sharedDirector] winSize])
 
+// DeviceType
+#define SCREEN_3_5 ( WINSIZE.height == 480 )        // 640 x 960, 320 x 480
+#define SCREEN_4_0 ( WINSIZE.height == 568 )        // 640 x 1136
+#define SCREEN_iPAD ( WINSIZE.height == 960 )       // 640 x 960, 320 x 480
+
+// System version
+#define DEVICETYPE [UIDevice currentDevice].model
+
 // generate a new sprite and add it to current sprite on spicefic position
 #define CC_CREATE_SPRITE(sprite, resourcename, _position_ ,zindex) \
 CCSprite *sprite = [CCSprite spriteWithFile:resourcename]; \

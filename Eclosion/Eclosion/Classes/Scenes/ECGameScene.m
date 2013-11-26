@@ -31,7 +31,13 @@
 	[super onEnter];
     
     // Set background
-    CC_CREATE_SPRITE_CENTER(background, @"bg_game.png", 0);
+    if ( SCREEN_3_5 ) {
+        CC_CREATE_SPRITE_CENTER(background, @"bg_game.png", 0);
+    } else if ( SCREEN_4_0 ) {
+        CC_CREATE_SPRITE_CENTER(background, @"bg_game_4inch.png", 0);
+    } else {
+        CC_CREATE_SPRITE_CENTER(background, @"bg_game.png", 0);
+    }
     
     // Play button
     CC_CREATE_MENUITEM(pauseBtn, @"roundbuttonoff.png", @"roundbuttonon.png", pause);
