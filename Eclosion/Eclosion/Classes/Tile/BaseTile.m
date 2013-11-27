@@ -21,7 +21,7 @@
         self.walkball = YES;
         self.direction = ECDirectionNone;
         self.speed = ITEM_SPEED;
-        self.preDirection = ECDirectionRight;
+        self.preDirection = ECDirectionLeft;
     }
     return self;
 }

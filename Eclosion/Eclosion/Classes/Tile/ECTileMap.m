@@ -68,7 +68,7 @@
     _hero.x = TILE_SIZE * tileX + _hero.tileW/2;
     _hero.y = TILE_SIZE * tileY + _hero.tileH/2;
     _hero.position = ccp(_hero.x, _hero.y);
-    _hero.direction = ECDirectionRight;
+    _hero.direction = ECDirectionLeft;
     [self addChild:_hero];
 }
 
@@ -232,27 +232,28 @@
     BaseTile *leftX = [self getMyCorners:hero x:-1 y:0];
     BaseTile *rightX = [self getMyCorners:hero x:1 y:0];
     
-    // 左方有墙
-    BOOL leftWall = NO; // 用于判断左右是否同时有墙
-    BaseTile * itemLU = [self getBlockAtPointX:leftX.upL.x Y:leftX.upL.y];
-    BaseTile * itemLD = [self getBlockAtPointX:leftX.downL.x Y:leftX.downL.y];
-    if (( itemLU.walkball == NO ) || ( itemLD.walkball == NO )) {
-        if ( hero.direction == ECDirectionLeft &&
-            ( itemLU.forceDirection == ECDirectionNone) && ( itemLD.forceDirection == ECDirectionNone)) {
-            hero.direction = ECDirectionRight;
-        }
-        leftWall = YES;
-    }
-    
     // 右方有墙
+    BOOL rightWall = NO; // 用于判断左右是否同时有墙
     BaseTile * itemRU = [self getBlockAtPointX:rightX.upR.x Y:rightX.upR.y];
     BaseTile * itemRD = [self getBlockAtPointX:rightX.downR.x Y:rightX.downR.y];
     if (( itemRU.walkball == NO ) || ( itemRD.walkball == NO )) {
-        if ( ! leftWall && hero.direction == ECDirectionRight &&
+        if ( ! rightWall && hero.direction == ECDirectionRight &&
             ( itemRU.forceDirection == ECDirectionNone) && ( itemRD.forceDirection == ECDirectionNone)) {
             hero.direction = ECDirectionLeft;
         }
+        rightWall = YES;
     }
+    
+    // 左方有墙
+    BaseTile * itemLU = [self getBlockAtPointX:leftX.upL.x Y:leftX.upL.y];
+    BaseTile * itemLD = [self getBlockAtPointX:leftX.downL.x Y:leftX.downL.y];
+    if (( itemLU.walkball == NO ) || ( itemLD.walkball == NO )) {
+        if ( ! rightWall && hero.direction == ECDirectionLeft &&
+            ( itemLU.forceDirection == ECDirectionNone) && ( itemLD.forceDirection == ECDirectionNone)) {
+            hero.direction = ECDirectionRight;
+        }
+    }
+    
 }
 
 - (void)moveHero:(ECHero *)hero x:(float)dirx y:(float)diry  {
