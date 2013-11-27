@@ -40,6 +40,10 @@
     [self setMyTexture:_texture];
 }
 
+- (void)setSpeed:(float)speed {
+    _speed = MIN(speed, ECTileSize - 1);
+}
+
 - (void)dealloc {
     [_texture release];
     [_highlightTexture release];

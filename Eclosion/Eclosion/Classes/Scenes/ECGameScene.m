@@ -85,7 +85,8 @@
 #pragma PauseScene Delegate
 -(void) resumeGame {
     [self resumeSchedulerAndActions];
-    [_pauseScene removeFromParentAndCleanup:NO];
+    [_pauseScene removeFromParentAndCleanup:YES];
+    _pauseScene = nil;
 }
 
 -(void) restartGame {

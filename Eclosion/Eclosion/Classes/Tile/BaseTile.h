@@ -44,7 +44,8 @@ typedef enum {
 @property(nonatomic, assign) CGPoint        downR;
 @property(nonatomic, assign) CGPoint        upL;
 @property(nonatomic, assign) CGPoint        upR;
-@property(nonatomic, assign) float          speed;
+@property(nonatomic, assign) float          speed; // speed 必须小于TILE_SIZE
+
 
 @property(nonatomic, assign) TileMaptype    prototype;
 @property(nonatomic, assign) ECDirection    forceDirection;
