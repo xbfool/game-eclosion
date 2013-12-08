@@ -679,7 +679,7 @@
             [self getItemTrap:hero];
             break;
         case TileMapEnd:
-            [self getItemFlower:hero];
+            [self getItemFlower:tile byhero:hero];
             break;
         case TileMapStar:
             [self getItemStar:tile];
@@ -707,9 +707,17 @@
     });
 }
 
-- (void)getItemFlower:(ECHero *)hero  {
-    [self.parent pauseSchedulerAndActions];
+- (void)getItemFlower:(BaseTile *)tile byhero:(ECHero *)hero  {
     [hero fly];
+    
+    // remove hero and flower
+    [_myItems removeObject:tile];
+    [_myHeros removeObject:hero];
+    tile.visible = NO;
+    if ( [_myHeros count] > 0 ) return;
+    
+    // end game
+    [self.parent pauseSchedulerAndActions];
     
     ECLevel *level = [[ECLevelManager manager] getCurrentLevelData];
     level.cleared = YES;

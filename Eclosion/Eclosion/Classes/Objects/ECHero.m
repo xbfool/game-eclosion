@@ -133,8 +133,9 @@ static const float _fileDelay[ECHeroActionCount] = {0.3,0.3,0.3,0.3,0.3};
 }
 
 - (void)callback {
-    //self.animating = NO;
-    //[self run];
+    if ( self.heroAction == ECHeroActionSuccess ) {
+        [self removeFromParentAndCleanup:YES];
+    }
 }
 
 @end
