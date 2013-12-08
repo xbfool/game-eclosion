@@ -11,6 +11,7 @@
 #import "ECLevelScene.h"
 #import "ECMenuScene.h"
 #import "ECTileMap.h"
+#import "ECLevelManager.h"
 
 @interface ECGameScene()<ECPauseSceneDelegate>
 
@@ -30,7 +31,13 @@
 	[super onEnter];
     
     // Set background
-    CC_CREATE_SPRITE_CENTER(background, @"bg_game.png", 0);
+    if ( SCREEN_3_5 ) {
+        CC_CREATE_SPRITE_CENTER(background, @"bg_game.png", 0);
+    } else if ( SCREEN_4_0 ) {
+        CC_CREATE_SPRITE_CENTER(background, @"bg_game_4inch.png", 0);
+    } else {
+        CC_CREATE_SPRITE_CENTER(background, @"bg_game.png", 0);
+    }
     
     // Play button
     CC_CREATE_MENUITEM(pauseBtn, @"roundbuttonoff.png", @"roundbuttonon.png", pause);
@@ -42,8 +49,18 @@
     m.position = CGPointZero;
     [self addChild:m];
     
+    // Level
+    CCLabelTTF *label = [CCLabelTTF labelWithString:
+                         [NSString stringWithFormat:@"%d", [ECLevelManager manager].currentLevel + 1]
+                                           fontName:@"MarkerFelt-Thin" fontSize:28];
+    label.anchorPoint = ccp(0.5,0.5);
+    label.position = ccp(28, WINSIZE.height - 38);
+    [self addChild:label];
+    
+    
     // Load game
-    _map = [ECTileMap mapBuildWithFile:@"level0"];
+    _map = [ECTileMap mapBuildWithFile:
+            [NSString stringWithFormat:@"level%d",[ECLevelManager manager].currentLevel]];
     _map.position = ccp(22,5);
     [self addChild:_map];
     
@@ -53,11 +70,12 @@
 }
 
 -(void) onExit {
+    [_map removeAllChildrenWithCleanup:YES];
     [super onExit];
-    [_map release];
 }
 
 -(void) pause {
+    [self pauseSchedulerAndActions];
     if ( !_pauseScene ) {
         _pauseScene = [[ECPauseScene alloc] init];
         _pauseScene.delegate = self;
@@ -76,11 +94,13 @@
 
 #pragma PauseScene Delegate
 -(void) resumeGame {
-    [_pauseScene removeFromParentAndCleanup:NO];
+    [self resumeSchedulerAndActions];
+    [_pauseScene removeFromParentAndCleanup:YES];
+    _pauseScene = nil;
 }
 
 -(void) restartGame {
-    [_pauseScene removeFromParentAndCleanup:NO];
+    CC_TRANSLATE_SCENE([ECGameScene scene]);
 }
 
 -(void) gotoLevelScene {

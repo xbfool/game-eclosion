@@ -15,24 +15,29 @@ static ECTileUtil* _ectileUtil;
 - (id)init {
     if ( self = [super init] ) {
         self.classMapping = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @"ECTileRoad",[NSNumber numberWithInt:ECTileTypeRoad],
-                             @"ECTileWall",[NSNumber numberWithInt:ECTileTypeWall],
-                             @"ECTileJump",[NSNumber numberWithInt:ECTileTypeJump],
-                             @"ECTileLadder",[NSNumber numberWithInt:ECTileTypeLadder],
-                             @"ECTileTrap",[NSNumber numberWithInt:ECTileTypeTrap],
-                             @"ECTileEnd",[NSNumber numberWithInt:ECTileTypeEnd],
+                             @"ECTileRoad",@"Road",
+                             @"ECTileWall",@"Wall",
+                             @"ECTileStar",@"Star",
+                             @"ECTileTree",@"Tree",
+                             @"ECTileTrap",@"Trap",
+                             @"ECTileEnd",@"End",
+                             @"ECTileRoadH1",@"MovH1",
+                             @"ECTileRoadH2",@"MovH2",
+                             @"ECTileRoadH3",@"MovH3",
+                             @"ECTileRoadL2",@"MovL2",
+                             @"ECTileRoadL3",@"MovL3",
                              nil];
     }
     return self;
 }
 
-+ (BaseTile *)getTileByIndex:(ECTileType)index {
++ (BaseTile *)getTileByName:(NSString *)name {
     if ( !_ectileUtil ) {
         _ectileUtil = [[ECTileUtil alloc] init];
     }
     
     // Dynamic class
-    NSString *classString = [_ectileUtil.classMapping objectForKey:[NSNumber numberWithInt:index]];
+    NSString *classString = [_ectileUtil.classMapping objectForKey:name];
     if ([classString length] == 0) return nil;
     
     Class tileClass = NSClassFromString(classString);
@@ -60,54 +65,139 @@ static ECTileUtil* _ectileUtil;
 @implementation ECTileRoad
 - (id)init {
     if ( self = [super init]) {
+        // Set Propertys
+        self.prototype = TileMapWall;
+        
+        // Moveble
+        self.movebal = YES;
+        self.walkball = NO;
+    }
+    return self;
+}
+@end
+
+@implementation ECTileRoadH1
+- (id)init {
+    if ( self = [super init]) {
         
         // Set texture
-        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"tile_road.png"];
-        [self setTexture: texture];
-        CGRect rect = CGRectZero;
-		rect.size = texture.contentSize;
-        [self setTextureRect:rect];
+        [self setTextureFile:@"blockG11.png" highlight:@"blockG11_on.png"];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
+        self.alowingDirection = ECDirectionUp | ECDirectionDown;
+    }
+    return self;
+}
+@end
+
+@implementation ECTileRoadH2
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        [self setTextureFile:@"blockR12.png" highlight:@"blockR12_on.png"];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(ECTileSize, 2 * ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
+        self.alowingDirection = ECDirectionUp | ECDirectionDown;
+    }
+    return self;
+}
+@end
+
+@implementation ECTileRoadH3
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        [self setTextureFile:@"blockR13.png" highlight:@"blockR13_on.png"];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(ECTileSize, 3 * ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
+        self.alowingDirection = ECDirectionUp | ECDirectionDown;
+    }
+    return self;
+}
+@end
+
+@implementation ECTileRoadL2
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        [self setTextureFile:@"blockY21.png" highlight:@"blockY21_on.png"];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(2*ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
+        self.alowingDirection = ECDirectionRight | ECDirectionLeft;
+    }
+    return self;
+}
+@end
+
+@implementation ECTileRoadL3
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        [self setTextureFile:@"tile_road.png" highlight:@"tile_road_on.png"];
         
         // Set Propertys
         self.contentSize = CGSizeMake(3*ECTileSize, ECTileSize);
         self.tileW = self.contentSize.width;
         self.tileH = self.contentSize.height;
-        self.prototype = TileMapWall;
         self.alowingDirection = ECDirectionRight | ECDirectionLeft;
-        
-        // Moveble
-        self.movebal = YES;
     }
     return self;
 }
 @end
+
 
 @implementation ECTileWall
 - (id)init {
     if ( self = [super init]) {
         
         // Set texture
-        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"wall.png"];
-        [self setTexture: texture];
-        CGRect rect = CGRectZero;
-		rect.size = texture.contentSize;
-        [self setTextureRect:rect];
+        [self setTextureFile:@"wall.png" highlight:@"wall.png"];
         
         // Set Propertys
         self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
         self.tileW = self.contentSize.width;
         self.tileH = self.contentSize.height;
         self.prototype = TileMapWall;
+        self.walkball = NO;
     }
     return self;
 }
 @end
 
-@implementation ECTileJump
-
+@implementation ECTileStar
+- (id)init {
+    if ( self = [super init]) {
+        
+        // Set texture
+        [self setTextureFile:@"star.png" highlight:@"star.png"];
+        
+        // Set Propertys
+        self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
+        self.tileW = self.contentSize.width;
+        self.tileH = self.contentSize.height;
+        self.prototype = TileMapStar;
+    }
+    return self;
+}
 @end
 
-@implementation ECTileLadder
+@implementation ECTileTree
 
 @end
 
@@ -116,11 +206,7 @@ static ECTileUtil* _ectileUtil;
     if ( self = [super init]) {
         
         // Set texture
-        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"hole.png"];
-        [self setTexture: texture];
-        CGRect rect = CGRectZero;
-		rect.size = texture.contentSize;
-        [self setTextureRect:rect];
+        [self setTextureFile:@"hole.png" highlight:@"hole.png"];
         
         // Set Propertys
         self.contentSize = CGSizeMake(ECTileSize, ECTileSize);
@@ -137,11 +223,7 @@ static ECTileUtil* _ectileUtil;
     if ( self = [super init]) {
         
         // Set texture
-        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"flower.png"];
-        [self setTexture: texture];
-        CGRect rect = CGRectZero;
-		rect.size = texture.contentSize;
-        [self setTextureRect:rect];
+        [self setTextureFile:@"flower.png" highlight:@"flower.png"];
         
         // Set Propertys
         self.contentSize = CGSizeMake(ECTileSize, ECTileSize);

@@ -10,22 +10,12 @@
 #import "cocos2d.h"
 #import "BaseTile.h"
 
-typedef enum {
-    ECTileTypeRoad     = 0,
-    ECTileTypeWall     = 1,
-    ECTileTypeJump     = 2,
-    ECTileTypeLadder   = 3,
-    ECTileTypeTrap     = 4,
-    ECTileTypeEnd      = 5,
-    ECTileTypeHero     = 6,
-}ECTileType;
-
 @interface ECTileUtil : NSObject {
     
 }
 
 @property(nonatomic,retain) NSDictionary *classMapping;
-+ (BaseTile *)getTileByIndex:(ECTileType)index;
++ (BaseTile *)getTileByName:(NSString *)name;
 
 @end
 
@@ -41,19 +31,49 @@ typedef enum {
 
 @end
 
+@interface ECTileRoadH1 : ECTileRoad {
+    
+}
+
+@end
+
+@interface ECTileRoadH2 : ECTileRoad {
+    
+}
+
+@end
+
+@interface ECTileRoadH3 : ECTileRoad {
+    
+}
+
+@end
+
+@interface ECTileRoadL2 : ECTileRoad {
+    
+}
+
+@end
+
+@interface ECTileRoadL3 : ECTileRoad {
+    
+}
+
+@end
+
 @interface ECTileWall : BaseTile {
     
 }
 
 @end
 
-@interface ECTileJump : BaseTile {
+@interface ECTileStar : BaseTile {
     
 }
 
 @end
 
-@interface ECTileLadder : BaseTile {
+@interface ECTileTree : BaseTile {
     
 }
 
