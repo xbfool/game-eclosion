@@ -34,7 +34,7 @@
     CC_MENUITEM_ADD_ICON(resumeBtn, @"next.png");
     
     ECLevel *level = [[ECLevelManager manager] getCurrentLevelData];
-    if ( ! level.cleared ) {
+    if ( level.cleared != LevelStatusCleared ) {
         resumeBtn.visible = NO;
     }
     

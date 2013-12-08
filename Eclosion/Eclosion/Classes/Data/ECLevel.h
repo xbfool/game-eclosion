@@ -8,11 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    LevelStatusLock     = 0,
+    LevelStatusOpen     = 1,
+    LevelStatusCleared  = 2,
+}LevelStatus;
+
 @interface ECLevel : NSObject
 
 @property (nonatomic, assign) int   levelId;
 @property (nonatomic, assign) int   score;
-@property (nonatomic, assign) BOOL  cleared;
+@property (nonatomic, assign) int  cleared;
 
 + (ECLevel *)instance;
 @end

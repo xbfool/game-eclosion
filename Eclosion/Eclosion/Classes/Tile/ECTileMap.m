@@ -693,6 +693,11 @@
     if ( ! tile.visible ) return;
     _score ++;
     tile.visible = NO;
+    
+    // Update score pannel
+    CCSprite *star = [CCSprite spriteWithFile:@"star_big.png"];
+    star.position = ccp(50 + _score * 32, WINSIZE.height - 19);
+    [self.parent addChild:star];
 }
 
 - (void)getItemTrap:(ECHero *)hero  {
@@ -718,11 +723,7 @@
     
     // end game
     [self.parent pauseSchedulerAndActions];
-    
-    ECLevel *level = [[ECLevelManager manager] getCurrentLevelData];
-    level.cleared = YES;
-    level.score = _score;
-    [[ECLevelManager manager] save];
+    [[ECLevelManager manager] cleareCurrentLevel:_score];
     
     // Waiting animating
     double delayInSeconds = HERO_ANIM_DUR;
@@ -732,7 +733,6 @@
     });
     
 }
-
 
 @end
 

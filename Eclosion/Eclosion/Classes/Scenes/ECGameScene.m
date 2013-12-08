@@ -49,6 +49,15 @@
     m.position = CGPointZero;
     [self addChild:m];
     
+    // Level
+    CCLabelTTF *label = [CCLabelTTF labelWithString:
+                         [NSString stringWithFormat:@"%d", [ECLevelManager manager].currentLevel + 1]
+                                           fontName:@"MarkerFelt-Thin" fontSize:28];
+    label.anchorPoint = ccp(0.5,0.5);
+    label.position = ccp(28, WINSIZE.height - 38);
+    [self addChild:label];
+    
+    
     // Load game
     _map = [ECTileMap mapBuildWithFile:
             [NSString stringWithFormat:@"level%d",[ECLevelManager manager].currentLevel]];

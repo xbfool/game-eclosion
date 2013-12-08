@@ -18,14 +18,14 @@
     self = [super init];
     self.score = [aCoder decodeIntForKey:@"score"];
     self.levelId = [aCoder decodeIntForKey:@"levelId"];
-    self.cleared = [aCoder decodeBoolForKey:@"cleared"];
+    self.cleared = [aCoder decodeIntForKey:@"cleared"];
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeInt:self.score forKey:@"score"];
     [aCoder encodeInt:self.levelId forKey:@"levelId"];
-    [aCoder encodeBool:self.cleared forKey:@"cleared"];
+    [aCoder encodeInt:self.cleared forKey:@"cleared"];
 }
 
 @end

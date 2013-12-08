@@ -24,4 +24,5 @@
 - (ECLevel *)getCurrentLevelData;
 - (int)totalScore;
 - (void)save;
+- (void)cleareCurrentLevel:(int)score;
 @end

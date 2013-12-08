@@ -80,8 +80,6 @@ bool CCRectContainsPoint(CGRect rect, CGPoint point) {
 
 - (void)setForceDirection:(ECDirection)aForceDirection {
     if ( ! _movebal ) return;
-    
-    if ( (_forceDirection != ECDirectionNone) && (aForceDirection != ECDirectionNone) ) return;
 
     if ((aForceDirection == ECDirectionNone ) || (self.alowingDirection & aForceDirection)) {
         _forceDirection = aForceDirection;
@@ -112,11 +110,8 @@ bool CCRectContainsPoint(CGRect rect, CGPoint point) {
 
 - (void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    if (_forceDirection != ECDirectionNone) return;
-    
     CGPoint endPoint = [touch locationInView:[touch view]];
     endPoint = [[CCDirector sharedDirector] convertToGL:endPoint];
-    //self.position = ccp(self.position.x + (cur.x - pre.x), self.position.y + (cur.y - pre.y));
     float x = endPoint.x - _beginPoint.x;
     float y = endPoint.y - _beginPoint.y;
     if ( x*x > y*y ) {
