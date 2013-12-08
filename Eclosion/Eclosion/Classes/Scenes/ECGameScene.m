@@ -90,7 +90,7 @@
 }
 
 -(void) restartGame {
-     CC_TRANSLATE_SCENE([ECGameScene scene]);
+    CC_TRANSLATE_SCENE([ECGameScene scene]);
 }
 
 -(void) gotoLevelScene {

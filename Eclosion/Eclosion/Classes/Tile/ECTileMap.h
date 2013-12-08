@@ -17,10 +17,8 @@
 
 
 @interface ECTileMap : CCSprite {
-    NSMutableArray *_tileMatrix;
-    NSMutableArray *_itemMatrix;
     NSMutableArray *_myItems;
-    ECHero*         _hero;
+    NSMutableArray *_myHeros;
     CCSprite*       _pixelMap[MAP_COL * TILE_SIZE][MAP_ROW* TILE_SIZE];
     CCSprite*       _pixelItemMap[MAP_COL * TILE_SIZE][MAP_ROW* TILE_SIZE];
     int             _score;
