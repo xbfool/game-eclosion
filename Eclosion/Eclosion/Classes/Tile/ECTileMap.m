@@ -28,13 +28,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [self removeAllChildrenWithCleanup:YES];
-    [_myItems release];
-    [_myHeros release];
-    [super dealloc];
-}
-
 - (void)buildMap:(NSString *)filename {
     
     // read file

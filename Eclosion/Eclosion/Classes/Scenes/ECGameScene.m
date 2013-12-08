@@ -70,7 +70,8 @@
 }
 
 -(void) onExit {
-    //[_map release];
+    [_map removeAllChildrenWithCleanup:YES];
+    [super onExit];
 }
 
 -(void) pause {

@@ -97,7 +97,7 @@ bool CCRectContainsPoint(CGRect rect, CGPoint point) {
 
 #pragma Touch Delegate
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
-{
+{  
 	if ([self containsTouchLocation:touch]) {
         _beginPoint = [touch locationInView:[touch view]];
         _beginPoint = [[CCDirector sharedDirector] convertToGL:_beginPoint];
