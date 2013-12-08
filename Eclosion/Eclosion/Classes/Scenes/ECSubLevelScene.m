@@ -41,6 +41,14 @@
     
     // Level Menu
     [self createLevelMenu];
+    
+    // Score
+    ECLevelManager *lm = [ECLevelManager manager];
+    CCLabelTTF *label = [CCLabelTTF labelWithString:
+                         [NSString stringWithFormat:@"%d/%d",[lm totalScore], MAX_LEVEL * 3]
+                                           fontName:@"MarkerFelt-Thin" fontSize:20];
+    label.position = ccp(65, WINSIZE.height - 20);
+    [self addChild:label];
 }
 
 -(void) createLevelMenu {
@@ -63,6 +71,13 @@
             CC_CREATE_MENUITEM(lev1, filename, filename, beginGame:);
             lev1.tag = row * 3 + col;
             lev1.position = ccp(60 + col * 100, 300 - row * 100);
+            
+            // level number
+            CCLabelTTF *label = [CCLabelTTF labelWithString:
+                                 [NSString stringWithFormat:@"%d",stage*LEVEL_PER_STAGE + row * 3 + col + 1 ]
+                                                   fontName:@"MarkerFelt-Thin" fontSize:24];
+            label.position = ccp(50,46);
+            [lev1 addChild:label];
             
             // add score
             float x[3] = {17,29,53};

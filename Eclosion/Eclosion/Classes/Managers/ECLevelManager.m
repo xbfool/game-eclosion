@@ -30,6 +30,15 @@ static ECLevelManager * _sharedManager;
     _currentStage = currentStage;
 }
 
+- (int)totalScore {
+    int score = 0;
+    for ( int i = 0; i < MAX_LEVEL; i++ ) {
+        ECLevel *lev = [self.levelDataArray objectAtIndex:i];
+        score += lev.score;
+    }
+    return score;
+}
+
 - (void)save {
     NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentDirectory = [documentDirectories objectAtIndex:0];

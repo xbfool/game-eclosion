@@ -18,9 +18,10 @@
 
 @property (nonatomic, assign) int currentLevel;                 // ( 0 - MAX_LEVEL - 1 )
 @property (nonatomic, assign) int currentStage;                 // ( 0 - MAX_STAGE - 1 )
-@property (nonatomic, retain) NSMutableArray *levelDataArray;    // store ECLevel
+@property (nonatomic, retain) NSMutableArray *levelDataArray;   // store ECLevel
 
 + (ECLevelManager *)manager;
 - (ECLevel *)getCurrentLevelData;
+- (int)totalScore;
 - (void)save;
 @end
